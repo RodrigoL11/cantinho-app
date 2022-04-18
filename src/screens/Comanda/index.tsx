@@ -1,26 +1,30 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import {
-  View,
-  Text
-} from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+
 import Button from '../../Components/Button';
+import AccordionMenu from '../../Components/AccordionMenu';
 
-export default function Comanda(){
+import { Container } from './styles'
+
+import { list2 } from '../../data'
+
+export default function Comanda({route}: any){
   const navigation = useNavigation()
-
+  const { id } = route.params;
+  
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      }}>
-      <Text>Comanda</Text>
+    <Container>
+            {list2[id].data.map((item, index) => (
+                <AccordionMenu
+                    title={item.name}
+                    items={item.items}
+                    key={index}
+                />
+            ))}
       <Button
-        onPress={() => navigation.navigate("Home")} 
-        title='Go to home'
+        onPress={() => navigation.navigate("Comandas")} 
+        title='Go to comandas'
       />
-    </View>
+    </Container>
   );
 }

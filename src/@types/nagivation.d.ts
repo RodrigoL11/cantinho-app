@@ -1,12 +1,14 @@
-export type FormNavigationProps = {
-  id?: string;
-};
+export type ComandaNavigationProps = {
+  id?: number;
+}
 
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       Home: undefined;
-      Comanda: undefined;
+      Comandas: undefined;
+      Comanda: ComandaNavigationProps;
     }
   }
 }
+

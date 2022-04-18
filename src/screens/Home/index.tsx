@@ -20,8 +20,8 @@ export default function Home(){
       }}>
       <Text>Home</Text>
       <Button
-        onPress={() => navigation.navigate("Comanda")} 
-        title='Go to comanda'
+        onPress={() => navigation.navigate("Comandas")} 
+        title='Go to comandas'
       />
     </View>
   );
