@@ -11,7 +11,7 @@ import { list2 } from '../../data'
 export default function Comanda({route}: any){
   const navigation = useNavigation()
   const { id } = route.params;
-  
+ 
   return (
     <Container>
             {list2[id].data.map((item, index) => (

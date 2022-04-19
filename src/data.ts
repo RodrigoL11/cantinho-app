@@ -41,8 +41,8 @@ export const list2 = [
             {
                 name: "Porções",
                 items: [
-                    { name: "Frios", price: "$10.35", qtd: 0},
-                    { name: "Peixe", price: "$14.00", qtd: 1}
+                    { name: "Frios", price: "$10.35", qtd: 10},
+                    { name: "Peixe", price: "$14.00", qtd: 10}
                 ]
             }
         ]
@@ -64,8 +64,8 @@ export const list = [
     {
         name: "Porções",
         items: [
-            { name: "Frios", price: "$10.35", qtd: 0},
-            { name: "Peixe", price: "$14.00", qtd: 1}
+            { name: "Frios", price: "$10.35", qtd: 10},
+            { name: "Peixe", price: "$14.00", qtd: 10}
         ]
     }
 ];

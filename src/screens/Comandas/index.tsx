@@ -16,8 +16,10 @@ export default function Home() {
     <Container>
       <Text>Comandas</Text>
 
-      {list2.map((item) => (
-        <Comanda onPress={() => {navigation.navigate("Comanda", {
+      {list2.map((item, index) => (
+        <Comanda
+        key={index}
+        onPress={() => {navigation.navigate("Comanda", {
           id: item.id
         })}}>
           <Text>#{item.id}</Text>
