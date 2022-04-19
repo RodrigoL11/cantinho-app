@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useRef } from "react"
 import { TouchableWithoutFeedback } from "react-native"
 
@@ -74,3 +75,46 @@ export default function AccordionMenu({ title, items }: ListItemProps) {
         </>
     )
 }
+=======
+import React, { useState } from "react";
+import { TouchableWithoutFeedback } from "react-native";
+
+import { Container, TitleContainer, Title, Icon, Menu } from "./style";
+
+import Item from "../Item";
+
+export interface ListItem {
+  name: string;
+  price: string;
+  qtd: number;
+}
+
+interface ListItemProps {
+  items: ListItem[];
+  title: string;
+}
+
+export default function AccordionMenu({ title, items }: ListItemProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <TouchableWithoutFeedback onPress={() => setOpen((prev) => !prev)}>
+        <Container>
+          <TitleContainer>
+            <Title>{title}</Title>
+            <Icon name={open ? "caret-up" : "caret-down"} size={24} />
+          </TitleContainer>
+          {open && (
+            <Menu>
+              {items.map((item, index) => (
+                <Item data={item} key={index} />
+              ))}
+            </Menu>
+          )}
+        </Container>
+      </TouchableWithoutFeedback>
+    </>
+  );
+}
+>>>>>>> 509d21e (Botões para add/remover funcionando)

@@ -1,6 +1,9 @@
 import styled from 'styled-components/native';
 import { FontAwesome  } from '@expo/vector-icons';
+<<<<<<< HEAD
 import { Ionicons } from '@expo/vector-icons';
+=======
+>>>>>>> 509d21e (Botões para add/remover funcionando)
 
 export const Container = styled.View`
     width: 80%;
@@ -30,6 +33,7 @@ export const Icon = styled(FontAwesome)`
 export const Menu = styled.View`
     background-color: #ddd;
     padding: 20px 14px 0 14px;
+<<<<<<< HEAD
 `
 
 export const Item = styled.View`
@@ -74,4 +78,6 @@ export const Quantity = styled.TextInput`
     height: 30px;
     border-radius: 999px;
     margin: 0 10px;
+=======
+>>>>>>> 509d21e (Botões para add/remover funcionando)
 `
