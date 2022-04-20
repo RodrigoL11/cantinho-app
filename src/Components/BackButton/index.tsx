@@ -11,7 +11,7 @@ interface ButtonProps extends TouchableOpacityProps{
 export default function BackButton({ title, ...rest }: ButtonProps) {
   return (
     <Container {...rest}>
-      <MaterialIcons name="arrow-back" size={24} color="#000" />
+      <MaterialIcons name="arrow-back" size={24} color="#fff" />
       <Text>{title}</Text>
     </Container>
   );

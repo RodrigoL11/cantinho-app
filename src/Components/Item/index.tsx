@@ -22,7 +22,6 @@ export default function Item({ data }: DataProps) {
   const {name, price} = listData
   let { qtd } = listData
 
-
   function handleUpdateCount(aux: number){
     setListData(state => ({
       ...state,
@@ -32,34 +31,16 @@ export default function Item({ data }: DataProps) {
     data.qtd += aux    
   }
 
-  let counter = 90
-
-  function handlePressIn() {
-    console.log('oi')
-    
-    let intervalId = setInterval(() => {
-      counter = counter - 1;
-      console.log(counter)
-      if(counter === 0) clearInterval(intervalId)
-    }, 1000)
-  }
-
-  function handlePressOut() {
-    console.log('sai')
-  }
-
   return (
     <Container>
       <Name>{name}</Name>
-      <Value>{price}</Value>
+      <Value>R$ {price.toFixed(2)}</Value>
       <QuantityContainer removeClippedSubviews={true}>
         <RemoveButton
           name="remove-circle"
           color="red"
           size={24}
           onPress={() => qtd > 0 ? handleUpdateCount(-1) : 0}
-          // onPressIn={handlePressIn}
-          // onPressOut={handlePressOut}
         />
         <Quantity
           contextMenuHidden={true}

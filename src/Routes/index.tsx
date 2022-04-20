@@ -12,13 +12,14 @@ export function Routes() {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
-      <Screen
-          name="Comandas"
-          component={Comandas}
-        />
         <Screen
           name="Comanda"
           component={Comanda}
+          initialParams={{ id: 0 }}
+        />
+      <Screen
+          name="Comandas"
+          component={Comandas}
         />
         <Screen
           name="Home"

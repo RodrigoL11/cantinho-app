@@ -9,6 +9,6 @@ export const Container = styled.TouchableOpacity`
 
 export const Text = styled.Text`
   font-size: 14px;
-  color: #000;
+  color: #fff;
   margin-left: 5px;
 `;
