@@ -1,33 +1,33 @@
 import styled from 'styled-components/native';
-import { FontAwesome  } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 
 export const Container = styled.View`
     width: 80%;
     margin-bottom: 10px;
+    padding-bottom: 14px;
+    background-color: #00B29B;
+    
+    border-radius: 9px;
 `
 
 export const TitleContainer = styled.View`
+    
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: lightgray;
-    height: 56px;
-    padding-left: 25px;
-    padding-right: 18px;
+    background-color: #00B29B;
+    height: 48px;
+    padding: 0 18px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
 `
 
 export const Title = styled.Text`
     font-size: 14px;
     font-weight: bold;
-    color: gray;
-`
-
-export const Icon = styled(FontAwesome)`
-    
+    color: #fff;
 `
 
 export const Menu = styled.View`
-    background-color: #ddd;
-    padding: 20px 14px 0 14px;
+    background-color: #fff;
+    padding: 10px 14px 0 14px;
 `

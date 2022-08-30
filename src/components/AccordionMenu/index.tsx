@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { TouchableWithoutFeedback } from "react-native";
 
-import { Container, TitleContainer, Title, Icon, Menu } from "./styles";
+import { FontAwesome  } from '@expo/vector-icons';
+
+import { 
+  Container, 
+  TitleContainer, 
+  Title, 
+  Menu 
+} from "./styles";
 
 import Item from "../Item";
 
@@ -32,7 +39,7 @@ export default function AccordionMenu({ title, total, items }: ListItemProps) {
           <TitleContainer>
             <Title>{title}</Title>
             <Title>R${total.toFixed(2)}</Title>
-            <Icon name={open ? "caret-up" : "caret-down"} size={24} />
+            <FontAwesome name={open ? "caret-up" : "caret-down"} size={24} color={'#fff'}/>
           </TitleContainer>
           {open && (
             <Menu>

@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { TouchableWithoutFeedbackProps } from 'react-native';
-
 export const Name = styled.Text`
     font-size: 16px;
     font-weight: normal;
@@ -11,7 +9,7 @@ export const Name = styled.Text`
 export const Container = styled.View`
     flex-direction: row;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 `
 
 export const Value = styled.Text`
@@ -40,7 +38,8 @@ export const AddButton = styled(Ionicons)`
 `
 
 export const Quantity = styled.TextInput`
-    background-color: #fff;
+    border-width: 0.7px;
+    border-color: #000;
     text-align: center;
     width: 30px;
     height: 30px;
