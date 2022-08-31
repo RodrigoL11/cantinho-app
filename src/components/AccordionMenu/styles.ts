@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    width: 80%;
+    width: 90%;
     margin-bottom: 10px;
     padding-bottom: 14px;
     background-color: #00B29B;
@@ -10,7 +10,6 @@ export const Container = styled.View`
 `
 
 export const TitleContainer = styled.View`
-    
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

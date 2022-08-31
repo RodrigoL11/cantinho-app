@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
-import { useAuth } from '../../hooks/auth';
+import { useAuth } from '@hooks/auth';
 import { Entypo } from '@expo/vector-icons';
 
-import Button from '../../components/Button'
+import Button from '@components/Button'
 
 import {
   Container,

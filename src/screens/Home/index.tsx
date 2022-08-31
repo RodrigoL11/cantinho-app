@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../hooks/auth';
+import { useAuth } from '@hooks/auth';
 
-import Button from '../../components/Button'
+import Button from '@components/Button'
 
 import {
   Container,
-  Label
 } from './styles'
 
 export default function Home() {

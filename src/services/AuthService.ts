@@ -1,5 +1,5 @@
-import { AuthData, SignUpPropsData } from '../hooks/auth'
-import { database } from '../config/Firebase'
+import { AuthData, SignUpPropsData } from '@hooks/auth'
+import { database } from '@config/Firebase'
 import { addDoc, collection, DocumentData, getDocs } from 'firebase/firestore'
 
 async function signIn(email: string, password: string): Promise<AuthData> {

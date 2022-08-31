@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Alert, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../hooks/auth'
+import { useAuth } from '@hooks/auth'
 import { AntDesign, Entypo } from '@expo/vector-icons'
+
+import Button from '@components/Button';
 
 import {
     Container,
@@ -13,8 +15,7 @@ import {
     Footer,
     SubTitle,
     LinkText,
-} from '../SignIn/styles'
-import Button from '../../components/Button';
+} from '../SignIn/styles' 
 
 export default function SignUp() {
     const navigator = useNavigation();

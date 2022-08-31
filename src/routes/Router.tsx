@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import {App}  from './AppStack';
 import {Auth} from './AuthStack';
-import { useAuth } from '../hooks/auth';
+import { useAuth } from '@hooks/auth';
 import { View, Text } from 'react-native';
 
 export default function Routes() {

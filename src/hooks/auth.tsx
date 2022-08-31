@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { authService } from '../services/AuthService'
+import { authService } from '@services/AuthService'
 
 export interface AuthData {
     token: string;
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(loadFromStorage, 2000)
+        setTimeout(loadFromStorage, 500)
     }, [])
 
     async function loadFromStorage(){

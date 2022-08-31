@@ -1,34 +1,36 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import AccordionMenu from "../../components/AccordionMenu";
+import AccordionMenu from "@components/AccordionMenu";
+import Header from "@components/Header";
 
-import { 
+import {
   Container,
+  Content
 } from "./styles";
 
 import { list2 } from "../../data";
-import Header from "../../components/Header";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
   const { id } = route.params;
 
   return (
-    <>
-      <Header 
-        title={`Comanda nº ${id}`}
+    <Container>
+      <Header
+        title={`Comanda nº ${id+1}`}
         onPress={navigation.goBack}
       />
-      <Container>
+      <Content>
         {list2[id].data.map((item, index) => (
-          <AccordionMenu 
+          <AccordionMenu
             title={item.name}
-            total={item.total} 
-            items={item.items} 
-            key={index} />
+            total={item.total}
+            items={item.items}
+            key={index} 
+          />
         ))}
-      </Container>
-    </>
+      </Content>
+    </Container>
   );
 }
