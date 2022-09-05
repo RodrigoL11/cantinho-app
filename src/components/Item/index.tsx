@@ -1,57 +1,50 @@
 import React, { useState } from "react";
+import { Ionicons } from '@expo/vector-icons';
+
+import { ListItem } from '../AccordionMenu'
 
 import {
   Name,
   Container,
+  Column,
   Value,
   QuantityContainer,
-  RemoveButton,
-  AddButton,
   Quantity,
 } from "./styles";
 
-import { ListItem } from '../AccordionMenu'
 
 interface DataProps {
   data: ListItem
 }
 
 export default function Item({ data }: DataProps) {
-  const [listData, setListData] = useState(data);
-
-  const {name, price} = listData
-  let { qtd } = listData
-
-  function handleUpdateCount(aux: number){
-    setListData(state => ({
-      ...state,
-      qtd: qtd + aux,
-    }));
-
-    data.qtd += aux    
-  }
+  const { name, price, qtd } = data
+  const [quantity, setQuantity] = useState<number>(qtd);
 
   return (
     <Container>
-      <Name>{name}</Name>
-      <Value>R$ {price.toFixed(2)}</Value>
+      <Column>
+        <Name>{name}</Name>
+        <Value>R$ {price.toFixed(2)}</Value>
+      </Column>
       <QuantityContainer removeClippedSubviews={true}>
-        <RemoveButton
+        <Ionicons
           name="remove-circle"
           color="red"
-          size={24}
-          onPress={() => qtd > 0 ? handleUpdateCount(-1) : 0}
+          size={26}
+          onPress={() => quantity > 0 ? setQuantity(quantity - 1) : 0}
         />
         <Quantity
           contextMenuHidden={true}
-          value={qtd.toString()}
+          value={quantity.toString()}
+          onChangeText={e => setQuantity(Number(e))}
           keyboardType="numeric"
         />
-        <AddButton
+        <Ionicons
           color="green"
           name="add-circle"
-          size={24}
-          onPress={() => handleUpdateCount(1)}
+          size={26}
+          onPress={() => setQuantity(quantity + 1)}
         />
       </QuantityContainer>
     </Container>

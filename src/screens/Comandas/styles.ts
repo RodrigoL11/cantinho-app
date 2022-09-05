@@ -1,11 +1,10 @@
 import styled from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
   flex: 1;
 `
 
 export const Card = styled.TouchableOpacity`
-  
   border-width: 1px;
   border-color: transparent;
   height: 100px;
@@ -14,12 +13,17 @@ export const Card = styled.TouchableOpacity`
   padding: 2px 4px;
 `
 
-export const Content = styled.View`
-  flex: 1;
+export const InputContainer = styled.View`
+  width: 100%;
+  align-items: center;
 `
 
 export const Input = styled.TextInput`
-
+  font-size: 18px;
+  height: 44px;
+  border-bottom-width: 0.4px;
+  border-color: #000;
+  width: 95%;
 `
 
 export const Row = styled.View`

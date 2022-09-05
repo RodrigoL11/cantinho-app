@@ -25,7 +25,6 @@ export default function Comanda({ route }: any) {
         {list2[id].data.map((item, index) => (
           <AccordionMenu
             title={item.name}
-            total={item.total}
             items={item.items}
             key={index} 
           />

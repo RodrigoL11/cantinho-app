@@ -3,18 +3,17 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
     width: 90%;
     margin-bottom: 10px;
-    padding-bottom: 14px;
+    padding-bottom: 10px;
     background-color: #00B29B;
-    
     border-radius: 9px;
 `
 
-export const TitleContainer = styled.View`
+export const TitleContainer = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     background-color: #00B29B;
-    height: 48px;
+    height: 40px;
     padding: 0 18px;
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BackHandler } from "react-native";
+import { BackHandler, Platform } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FlatGrid } from 'react-native-super-grid';
@@ -12,8 +12,8 @@ import { list2 } from "../../data";
 
 import {
   Container,
-  Content,
   Card,
+  InputContainer,
   Input,
   Row,
   Nome,
@@ -26,12 +26,15 @@ import {
 
 export default function Home() {
   const navigation = useNavigation();
-  const amount = list2.length;
   const [search, setSearch] = useState<string>("")
   const [showForms, setShowForms] = useState(false)
+  const [comandas, setComandas] = useState(list2)
+  const amount = comandas.length;
 
-  function handleBackButtonClick(){
-    if(showForms) setShowForms(false);
+  const toogleForms = () => { setShowForms(!showForms) }
+
+  function handleBackButtonClick() {
+    if (showForms) setShowForms(false);
     else navigation.goBack();
 
     return true;
@@ -42,55 +45,56 @@ export default function Home() {
   })
 
   const filteredSearch = search.length > 0
-    ? list2.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+    ? comandas.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
     : [];
 
   return (
-    <Container>
+    <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Header
         title={`Comandas (${amount})`}
         onPress={navigation.goBack}
       />
-      
+      <InputContainer>
         <Input
           placeholder="Buscar..."
           onChangeText={e => setSearch(e)}
           value={search}
         />
-        <FlatGrid
-          itemDimension={100}
-          data={search.length > 0 ? filteredSearch : list2}
-          style={{ flex: 1, marginTop: 10, backgroundColor: '#eee' }}
-          spacing={10}
-          renderItem={({ item, index }) => {
-            return (
-              <Card
-                key={index}
-                onPress={() => { navigation.navigate("Comanda", { id: index }) }}
-                style={item.pedidos > 0 ? { borderColor: 'greenyellow' } : null}
-              >
-                <Row>
-                  <Id>#{item.id}</Id>
-                  <Valor>R$ {item.total.toFixed(2)}</Valor>
-                </Row>
-                <Nome>{item.name}</Nome>
-                <Mesa>Mesa: {item.mesa}</Mesa>
-                {item.pedidos > 0 ? (
-                  <Aviso>
-                    <AvisoLabel>{item.pedidos}</AvisoLabel>
-                  </Aviso>
-                ) : null}
-              </Card>
-            )
-          }}
-        />
-        <ActionButton name="add" size={40} onPress={() => setShowForms(true)} />
+      </InputContainer>
+      <FlatGrid
+        itemDimension={100}
+        data={search.length > 0 ? filteredSearch : comandas}
+        style={{ flex: 1, marginTop: 10 }}
+        spacing={10}
+        renderItem={({ item, index }) => {
+          return (
+            <Card
+              key={index}
+              onLongPress={() => console.log('oii')}
+              onPress={() => { navigation.navigate("Comanda", { id: index }) }}
+              style={item.pedidos > 0 ? { borderColor: 'greenyellow' } : null}
+            >
+              <Row>
+                <Id>#{item.id}</Id>
+                <Valor>R$ {item.total.toFixed(2)}</Valor>
+              </Row>
+              <Nome numberOfLines={2}>{item.name}</Nome>
+              <Mesa>Mesa: {item.mesa}</Mesa>
+              {item.pedidos > 0 ? (
+                <Aviso>
+                  <AvisoLabel>{item.pedidos}</AvisoLabel>
+                </Aviso>
+              ) : null}
+            </Card>
+          )
+        }}
+      />
+      <ActionButton name="add" size={40} onPress={toogleForms} />
 
-        {showForms
-          ? <FormsComanda />
-          : null
-        }
-      
+      {showForms
+        ? <FormsComanda comandas={comandas} setComandas={setComandas} toogleVisibility={toogleForms} />
+        : null
+      }
     </Container>
   );
 }

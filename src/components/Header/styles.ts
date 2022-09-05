@@ -1,8 +1,8 @@
 import styled from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
     width: 100%;
-    height: 10%;
+    height: 80px;
     padding-top: 25px;
     background-color: #dadada;
     flex-direction: row;

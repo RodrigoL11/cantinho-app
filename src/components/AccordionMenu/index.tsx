@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { TouchableWithoutFeedback } from "react-native";
 
-import { FontAwesome  } from '@expo/vector-icons';
+import { Ionicons  } from '@expo/vector-icons';
 
 import { 
   Container, 
@@ -21,25 +20,16 @@ export interface ListItem {
 interface ListItemProps {
   items: ListItem[];
   title: string;
-  total: number;
 }
 
-export default function AccordionMenu({ title, total, items }: ListItemProps) {
+export default function AccordionMenu({ title, items }: ListItemProps) {
   const [open, setOpen] = useState(false);
-
-  items.map((item) => {
-    const { price, qtd } = item
-    total += price * qtd
-  })
   
   return (
-    <>
-      <TouchableWithoutFeedback onPress={() => setOpen((prev) => !prev)}>
         <Container>
-          <TitleContainer>
+          <TitleContainer activeOpacity={1} onPress={() => setOpen((prev) => !prev)} style={open == false ? {top: 4} : null}>
             <Title>{title}</Title>
-            <Title>R${total.toFixed(2)}</Title>
-            <FontAwesome name={open ? "caret-up" : "caret-down"} size={24} color={'#fff'}/>
+            <Ionicons name={open ? "md-chevron-up-sharp" : "md-chevron-down-sharp"} size={24} color={'#fff'}/>
           </TitleContainer>
           {open && (
             <Menu>
@@ -49,7 +39,5 @@ export default function AccordionMenu({ title, total, items }: ListItemProps) {
             </Menu>
           )}
         </Container>
-      </TouchableWithoutFeedback>
-    </>
   );
 }
