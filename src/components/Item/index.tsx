@@ -39,12 +39,13 @@ export default function Item({ data }: DataProps) {
           value={quantity.toString()}
           onChangeText={e => setQuantity(Number(e))}
           keyboardType="numeric"
+          maxLength={2}
         />
         <Ionicons
           color="green"
           name="add-circle"
           size={26}
-          onPress={() => setQuantity(quantity + 1)}
+          onPress={() => quantity < 99 ? setQuantity(quantity + 1) : 0}
         />
       </QuantityContainer>
     </Container>

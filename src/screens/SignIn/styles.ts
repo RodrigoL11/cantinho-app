@@ -1,58 +1,47 @@
-import styled from 'styled-components/native'
-
-export const Title = styled.Text`
-    font-size: 24px;
-    margin-bottom: 45px;
-    color: #fff;
-`
+import styled from "styled-components/native";
 
 export const Container = styled.View`
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    background-color: ${({theme}) => theme.colors.background};
+  flex: 1;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+export const TitleContainer = styled.View`
+  width: 90%;
+  margin-top: 50px;
+  margin-bottom: 20px;
 `
+
+export const Title = styled.Text`
+  font-size: 32px;
+  color: #fff;
+  text-align: left;
+`;
 
 export const Input = styled.TextInput`
-    width: 70%;
-    padding: 10px;
-    background-color: #fff;
-    color: #424242;
-    margin-bottom: 30px;
-    border-radius: 10px;
-`
+  width: 90%;
+  padding: 10px;
+  background-color: #fff;
+  color: #424242;
+  margin-bottom: 30px;
+  border-radius: 7px;
+`;
 
 export const InputContainer = styled.View`
-    width: 70%;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
-    margin-bottom: 30px;
-    border-radius: 10px;
-`
+  width: 90%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 30px;
+  border-radius: 7px;
+`;
 
 export const InputPassword = styled.TextInput`
-    flex: 1;
-    padding: 10px;
-    background-color: #fff;
-    color: #424242;
-    border-radius: 10px;
-`
+  flex: 1;
+  padding: 10px;
+  background-color: #fff;
+  color: #424242;
+  border-radius: 7px;
+`;
 
-export const Footer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-`
-
-export const SubTitle = styled.Text`
-    font-size: 15px;
-    color: #fff;
-`
-
-export const LinkText = styled.Text`
-    color: ${({theme}) => theme.colors.color_button};
-    font-size: 16px;
-    font-weight: bold;
-`

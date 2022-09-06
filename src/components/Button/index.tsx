@@ -12,7 +12,7 @@ interface Props{
 
 export default function Button({title, onPress}: Props){
     return(
-        <Container onPress={onPress}>
+        <Container activeOpacity={0.55} onPress={onPress}>
             <Title>{title}</Title>
         </Container>
     );

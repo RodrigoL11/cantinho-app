@@ -11,15 +11,11 @@ import {
   Input,
   InputPassword,
   Title,
-  Footer,
-  SubTitle,
-  LinkText,
   InputContainer,
 } from './styles'
 
 export default function SignIn() {
   const { signIn } = useAuth();
-  const navigator = useNavigation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [secureText, setSecureText] = useState<boolean>(true);
@@ -47,12 +43,6 @@ export default function SignIn() {
         })}
         title="Sign In"
       />
-      <Footer>
-        <SubTitle>New to App? </SubTitle>
-        <TouchableOpacity onPress={() => navigator.navigate("SignUp")}>
-          <LinkText>Create an account.</LinkText>
-        </TouchableOpacity>
-      </Footer>
     </Container>
   );
 }

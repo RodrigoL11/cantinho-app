@@ -1,91 +1,82 @@
-import React, { useState } from 'react';
-import { Alert, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '@hooks/auth'
-import { AntDesign, Entypo } from '@expo/vector-icons'
-
-import Button from '@components/Button';
-
+import React, { useState } from "react";
 import {
-    Container,
-    Title,
-    InputContainer,
-    InputPassword,
-    Input,
-    Footer,
-    SubTitle,
-    LinkText,
-} from '../SignIn/styles' 
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { useAuth } from "@hooks/auth";
+
+import Button from "@components/Button";
+import Input from "@components/Input";
+
+import { Container, Title } from "./styles";
 
 export default function SignUp() {
-    const navigator = useNavigation();
-    const { signUp } = useAuth();
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [secureText, setSecureText] = useState<boolean>(true);
+  const { signUp } = useAuth();
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [secureText, setSecureText] = useState<boolean>(true);
 
-    async function handleRegistration() {
-        if (password != confirmPassword) 
-            Alert.alert("Senhas não coincidem", 'Tente novamente');
-        else {
+  async function handleRegistration() {
+    if (password != confirmPassword)
+      Alert.alert("Senhas não coincidem", "Tente novamente");
+    else {
+      const data = {
+        email: email.trim(),
+        id: 0,
+        name: name,
+        password: password,
+        token: "user",
+      };
 
-            const data = {
-                email: email.trim(),
-                id: 0,
-                name: name,
-                password: password,
-                token: 'user',
-            }
-
-            signUp(data).catch((error) => { Alert.alert(error.message, 'Tente novamente') })
-        }
+      signUp(data).catch((error) => {
+        Alert.alert(error.message, "Tente novamente");
+      });
     }
+  }
 
-    return (
-            <Container>
-                <Title>Sign Up to App</Title>
-                <Input
-                    value={name}
-                    onChangeText={setName}
-                    placeholder="Nome"
-                />
-                <Input
-                    value={email}
-                    onChangeText={setEmail}
-                    placeholder="Email"
-                />
-                <InputContainer>
-                    <InputPassword 
-                        value={password}
-                        secureTextEntry={secureText}                        
-                        onChangeText={value => {
-                            setPassword(value.replace(/\s/g, ''))
-                        }}
-                        placeholder="Password"
-                    />
-                    <Entypo onPress={() => setSecureText(!secureText)} style={{paddingRight: 10}} name={secureText ? 'eye-with-line' : 'eye'} size={20} color="#727272" />
-                </InputContainer>
-                <Input
-                    value={confirmPassword}
-                    secureTextEntry={secureText}
-                    onChangeText={value => {
-                        setConfirmPassword(value.replace(/\s/g, ''))
-                    }}
-                    placeholder="Confirm password"
-                />
-                <Button 
-                    onPress={handleRegistration}
-                    title="Sign Up"    
-                />                
-                <Footer>
-                    <SubTitle>Already have an account? </SubTitle>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigator.goBack()}>
-                        <LinkText>Sign In</LinkText>
-                        <AntDesign name="arrowright" size={20} color="#58a6ff" />
-                    </TouchableOpacity>
-                </Footer>
-            </Container>
-    );
+  return (
+    <Container>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView behavior="position" enabled>
+          <Title>
+            Criar novo{'\n'}usuário
+          </Title>
+          <Input
+            icon="user"
+            value={name}
+            placeholder="Nome"
+            onChangeText={setName}
+          />
+          <Input
+            icon="mail"
+            value={email}
+            placeholder="E-mail"
+            onChangeText={setEmail}
+          />
+          <Input
+            icon="lock"
+            value={password}
+            placeholder="Senha"
+            type="password"
+            onChangeText={setPassword}
+            secureTextEntry={secureText}
+            isVisible={secureText}
+            setVisible={setSecureText}
+          />
+          <Input
+            icon="lock"
+            value={confirmPassword}
+            placeholder="Confirme a senha"
+            onChangeText={setConfirmPassword}
+            secureTextEntry={secureText}
+          />
+          <Button onPress={handleRegistration} title="Cadastrar" />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </Container>
+  );
 }
