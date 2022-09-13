@@ -10,6 +10,7 @@ export declare global {
       SignUp: undefined;
       Comandas: undefined;
       Comanda: ComandaNavigationProps;
+      Users: undefined;
     }
   }
 }

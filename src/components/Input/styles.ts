@@ -1,6 +1,5 @@
-import { TextInput } from "react-native";
 import styled, { css } from "styled-components/native";
-
+import MaskInput from 'react-native-mask-input';
 interface Props {
   isFocused: boolean;
 }
@@ -8,6 +7,7 @@ interface Props {
 export const Container = styled.View`
   flex-direction: row;
   margin-bottom: 8px;
+  height: 56px;
 `;
 
 export const IconContainer = styled.View<Props>`
@@ -26,7 +26,7 @@ export const IconContainer = styled.View<Props>`
     `};
 `;
 
-export const InputText = styled(TextInput)<Props>`
+export const InputText = styled(MaskInput)<Props>`
   flex: 1;
   background-color: #ffffff;
   color: #7a7a80;

@@ -1,10 +1,12 @@
 export default {
     colors: {
-      background: "#010409e7",
+      background: "#f4f5f6",
 
-      bg_button: "#21262d",
-      border_button: "rgba(240,246,252,0.2)",
-      color_button: "#50a4eb",
+      button_bg: "#DC1637",
+      button_border: "rgba(240,246,252,0.2)",
+      button_color: "#fff",
+
+      title_color: "#47474D",
 
       bg_card: "#0d1117",
       border_card: "#2c3239",

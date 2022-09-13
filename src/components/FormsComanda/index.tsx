@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '@components/Button';
 
@@ -21,12 +21,26 @@ interface Props {
     toogleVisibility: () => void;
     setComandas: (data: any) => void;
     comandas: any;
+    index?: number;
 }
 
-export default function FormsComanda({ toogleVisibility, comandas, setComandas }: Props) {
-    const [nome, setNome] = useState<string>('');
-    const [mesa, setMesa] = useState('1');
+export default function FormsComanda({ toogleVisibility, comandas, setComandas, index }: Props) {
+    const [nome, setNome] = useState<string>(index != undefined? comandas[index].name : '');
+    const [mesa, setMesa] = useState(index != undefined? comandas[index].mesa.toString() : '1');
     const [error, setError] = useState('');
+
+    const editComanda = () => {
+        if (nome === '') setError('Precisa inserir o nome')
+        else if (mesa === '') setError('Precisa inserir o número da mesa')
+        else if(index != undefined){
+            let newArr = comandas;
+            newArr[index].name = nome;
+            newArr[index].mesa = Number(mesa);
+
+            setComandas(newArr)
+            toogleVisibility();
+        }
+    }
 
     const createComanda = () => {
         if (nome === '') setError('Precisa inserir o nome')
@@ -64,13 +78,13 @@ export default function FormsComanda({ toogleVisibility, comandas, setComandas }
         }
     }
 
-    if(error != '') Alert.alert("Erro", error);
+    if (error != '') Alert.alert("Erro", error);
 
     return (
         <Container >
             <Background onPress={toogleVisibility} activeOpacity={0.0} />
             <Card>
-                <Title>Criar comanda</Title>
+                <Title>{index != undefined ? 'Editar comanda' : 'Criar comanda'}</Title>
                 <Row>
                     <Column size={80}>
                         <Label>Nome</Label>
@@ -90,9 +104,9 @@ export default function FormsComanda({ toogleVisibility, comandas, setComandas }
                     </Column>
                 </Row>
                 <ButtonContainer
-                    onPress={createComanda}
+                    onPress={index != undefined ? () => {editComanda()} : () => {createComanda()}}
                 >
-                    <ButtonTitle>Criar</ButtonTitle>
+                    <ButtonTitle>{index != undefined ? 'Editar' : 'Criar'}</ButtonTitle>
                 </ButtonContainer>
             </Card>
         </Container>

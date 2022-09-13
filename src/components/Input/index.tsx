@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { TextInputProps } from "react-native";
+import { MaskInputProps } from 'react-native-mask-input';
 import React, { useState } from "react";
 
 import {
@@ -9,8 +9,8 @@ import {
   SecurityContainer,
 } from "./styles";
 
-export type InputProps = TextInputProps & {
-  icon: keyof typeof Feather.glyphMap;
+export type InputProps = MaskInputProps & {
+  icon?: keyof typeof Feather.glyphMap;
   value?: string;
   type?: string;
   isVisible?: boolean;
@@ -32,13 +32,13 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
 
   return (
     <Container>
-      <IconContainer isFocused={isFocused}>
+      {icon ? (<IconContainer isFocused={isFocused}>
         <Feather
           name={icon}
           size={24}
           color={isFocused || isFilled ? "#DC1637" : "#AEAEB3"}
         />
-      </IconContainer>
+      </IconContainer>) : null}
 
       <InputText
         onFocus={handleInputFocus}
@@ -49,14 +49,14 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
       />
 
       {(type === "password" && setVisible) ? (
-        <SecurityContainer 
-          activeOpacity={1} 
+        <SecurityContainer
+          activeOpacity={1}
           isFocused={isFocused}
           onPress={() => setVisible(!isVisible)}
         >
-          <Feather 
-            name={isVisible ? "eye" : "eye-off"} 
-            size={24} 
+          <Feather
+            name={isVisible ? "eye" : "eye-off"}
+            size={24}
           />
         </SecurityContainer>
       ) : null}

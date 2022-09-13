@@ -5,11 +5,11 @@ export const Container = styled.TouchableOpacity`
   padding: 19px;
   align-items: center;
   justify-content: center;
-  background-color: #DC1637;
+  background-color: ${({ theme }) => theme.colors.button_bg};
   margin-bottom: 8px;
 `
 
 export const Title = styled.Text`
     font-size: 15px;
-  color: #FFFFFF;
+  color: ${({ theme }) => theme.colors.button_color};
 `

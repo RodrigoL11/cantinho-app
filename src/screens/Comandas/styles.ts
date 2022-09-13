@@ -21,8 +21,9 @@ export const InputContainer = styled.View`
 export const Input = styled.TextInput`
   font-size: 18px;
   height: 44px;
-  border-bottom-width: 0.4px;
-  border-color: #000;
+  border-bottom-width: 1px;
+  border-color: #999;
+  color: #666;
   width: 95%;
 `
 
@@ -38,6 +39,7 @@ export const Id = styled.Text`
 
 export const Nome = styled.Text`
   text-align: center;
+  top: -4px;
 `
 
 export const Valor = styled.Text`
@@ -63,5 +65,17 @@ export const AvisoLabel = styled.Text`
   color: #fff;
   font-weight: bold;
   font-size: 10px;
+`
+
+export const OptionContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+`
+
+export const OptionLabel = styled.Text`
+  margin-left: 7px;
+  line-height: 18px;
+  font-size: 13px;
+  font-weight: 300;
 `
 

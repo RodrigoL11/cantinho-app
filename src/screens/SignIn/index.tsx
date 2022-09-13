@@ -1,17 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useAuth } from '@hooks/auth';
-import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 import Button from '@components/Button'
+import Input from '@components/Input'
 
 import {
   Container,
-  Input,
-  InputPassword,
   Title,
-  InputContainer,
 } from './styles'
 
 export default function SignIn() {
@@ -22,27 +19,31 @@ export default function SignIn() {
 
   return (
     <Container>
-      <Title>Sign in to App</Title>
+      <Title>Acessar conta</Title>
       <Input
+        icon="mail"
         value={email}
         onChangeText={value => setEmail(value)}
         placeholder={"Email"}
       />
-      <InputContainer>
-        <InputPassword
-          value={password}
-          secureTextEntry={secureText}
-          onChangeText={value => setPassword(value)}
-          placeholder={"Password"}  
-        />
-        <Entypo onPress={() => setSecureText(!secureText)} style={{paddingRight: 10}} name={secureText ? 'eye-with-line' : 'eye'} size={20} color="#727272" />
-      </InputContainer>
-      <Button 
-        onPress={() => signIn(email, password).catch((error) => {
-          Alert.alert(error.message, 'Tente novamente')
-        })}
-        title="Sign In"
+      <Input
+        icon="lock"
+        value={password}
+        placeholder="Senha"
+        type="password"
+        onChangeText={setPassword}
+        secureTextEntry={secureText}
+        isVisible={secureText}
+        setVisible={setSecureText}
       />
+      <View style={{marginTop: 16}}>
+        <Button
+          onPress={() => signIn(email, password).catch((error) => {
+            Alert.alert(error.message, 'Tente novamente')
+          })}
+          title="Entrar"
+        />
+      </View>
     </Container>
   );
 }

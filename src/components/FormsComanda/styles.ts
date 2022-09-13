@@ -59,13 +59,13 @@ export const Title = styled.Text`
 export const ButtonContainer = styled.TouchableOpacity`
     width: 80%;
     height: 42px;
-    background-color: #dadada;
+    background-color: ${({ theme }) => theme.colors.button_bg};
     align-items: center;
     justify-content: center;
     margin-top: 28px;
 `
 
 export const ButtonTitle = styled.Text`
-    color: #fff;
+    color: ${({ theme }) => theme.colors.button_color};
     font-weight: bold;
 `
