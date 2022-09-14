@@ -1,24 +1,20 @@
-import { AuthData, SignUpPropsData } from '@hooks/auth'
-import { database } from '@config/Firebase'
-import { addDoc, collection, DocumentData, getDocs } from 'firebase/firestore'
+import { AuthData } from '@hooks/auth'
+import api from './api'
+import { IUser } from '@interfaces/main'
 
 async function signIn(email: string, password: string): Promise<AuthData> {
-    const users: DocumentData[] = []
-
-    const querySnapshot = await getDocs(collection(database, "Users"));
-    querySnapshot.forEach((doc) => {
-        users.push(doc.data())
-    });
+    const response = await api.get('users');
+    const { results } = response.data;
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const user = users.find(element => element.email.trim().toLowerCase() === email.trim().toLowerCase());
+            const user = results.find((element: IUser) => element.email.trim().toLowerCase() === email.trim().toLowerCase());
 
-            if (user?.password === password.trim()) {
+            if (user?.senha === password.trim()) {
                 resolve({
                     token: user.token,
                     email: user.email,
-                    name: user.name,
+                    name: user.nome,
                 })
             } else {
                 reject(new Error('Credenciais Inválidas'));
@@ -27,82 +23,126 @@ async function signIn(email: string, password: string): Promise<AuthData> {
     });
 }
 
-const formats = {
-    email: {
-        regx: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-        msg: "Email inválido!"
-    },
-    name: {
-        regx: /^[A-Za-z]+$/,
-        msg: "Nome só aceita letras!"
-    },
-    password: [
-        {
-            regx: /[0-9]/,
-            msg: "Senha precisa de um número no mínimo."
-        },
-        {
-            regx: /[A-Z]/,
-            msg: "Senha precisa de uma letra em caixa alta no mínimo."
-        },
-        {
-            regx: /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/,
-            msg: "Senha precisa de um caractere especial no mínimo."
-        },
-    ]
+function isValidCPF(cpf: any) {
+    cpf = cpf.replace(/[^\d]+/g, '')
+    if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false
+    cpf = cpf.split('').map((el: any) => +el)
+    const rest = (count: number) => (cpf.slice(0, count - 12)
+        .reduce((soma: number, el: number, index: number) => (soma + el * (count - index)), 0) * 10) % 11 % 10
+    return rest(10) === cpf[9] && rest(11) === cpf[10]
 }
 
-async function formValidation(data: SignUpPropsData) {
-    let errorMsg: string = '';
-    const fName = data.name.replace(/\s/g, '')
-    const fEmail = data.email.trim().toLowerCase()
-    const fPassword = data.password.trim()
-
-    //VERIFICANDO SE HÁ UM EMAIL IGUAL
-    const querySnapshot = await getDocs(collection(database, "Users"));
-    querySnapshot.forEach((doc) => {
-        if (fEmail === doc.data().email.trim().toLocaleLowerCase()) errorMsg = "E-mail já cadastrado"
-    });
+async function formValidation(data: IUser) {
+    const name = data.nome
+    const password = data.password
+    const login = data.login
+    const email = data.email.toLowerCase()
+    const cpf = data.cpf
+    const DDI = data.DDI
+    const DDD = data.DDD
+    const num_telefone = data.num_telefone
+    const logradouro = data.logradouro
+    const num_endereco = data.num_endereco
+    const bairro = data.bairro
+    const cep = data.cep
+    const cidade = data.cidade
+    const estado = data.estado
 
     //VERIFICANDO SE HÁ UM CAMPO EM BRANCO
-    Object.entries(data).forEach(([key, value]) => {
-        if (!value && key !== 'id' && !errorMsg) errorMsg = `Campo ${key} em branco!`
-    });
+    const ordem = [ {nome: name}, {cpf: cpf}, {email: email}, {"número de telefone": num_telefone}, {logradouro: logradouro},
+                    {bairro: bairro}, {"número do endereço": num_endereco}, {cidade: cidade}, {estado: estado}, {cep: cep}, 
+                    {login: login}, {senha: password} ] 
 
+    let msgVazio = ""
+
+    ordem.forEach((obj) => {
+        const key = Object.keys(obj)[0]
+        const value = obj[key as keyof typeof obj]
+        
+        if (!value && !msgVazio) msgVazio = `Campo ${key} em branco!`
+    });
+    
+    if (msgVazio != "") return msgVazio;
+    
+    //VALIDANDO CPF
+    if (!isValidCPF(cpf)) return "CPF inválido!"
+    
+    //REGEX PARA O EMAIL
+    if (!email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) return "Formato de E-mail inválido";
+
+    //VALIDANDO DDI
+    if (DDI.length < 1 || DDI.length > 3) return "DDI inválido!"
+
+    //VALIDANDO DDD
+    if (DDD.length !== 2) return "DDD inválido"
+    
+    //VALIDANDO NÚMERO DE TELEFONE
+    if (num_telefone.length !== 9) return "Número de telefone inválido"
+    
+    //VALIDANDO LOGRADOURO
+    if (logradouro.length > 50) return "Logradouro pode ter no máximo 50 caracteres"
+    
+    //VALIDANDO BAIRRO
+    if (bairro.length > 50) return "Bairro pode ter no máximo 50 caracteres"
+
+    //VALIDANDO NÚMERO ENDEREÇO
+    if (num_endereco.length > 5) return "Número de endereço pode ter no máximo 5 caracteres"
+
+    //VALIDANDO CEP
+    if (cep.length !== 8) return "CEP inválido"
+    
+    //VALIDANDO CIDADE
+    if (cidade.length > 50) return "Cidade pode ter no máximo 50 caracteres"
+    
+    //VALIDANDO ESTADO
+    if (estado.length > 50) return "Estado pode ter no máximo 50 caracteres"
+    
     //REGEX PARA O NOME
     //SE O NOME NÃO CONTER SOMENTE LETRAS E NÃO TIVER NENHUM ERRO ANTERIOR ELE ALTERA A MSG DE ERRO
-    !fName.match(formats["name"].regx) && !errorMsg ? errorMsg = formats["name"].msg : 0;
-
+    if (!name.match(/^[A-Za-z]+$/)) return "Nome só aceita letras!"
+    
     //VERIFICANDO TAMANHO DO NOME
-    fName.length < 3 && !errorMsg ? errorMsg = "Nome precisa ter no mínimo 3 letras!" : 0;
-    fName.length > 15 && !errorMsg ? errorMsg = "Nome pode ter no máximo 15 letras!" : 0;
-
-    //REGEX PARA O EMAIL
-    !fEmail.match(formats["email"].regx) && !errorMsg ? errorMsg = formats["email"].msg : 0;
-
+    if (name.length < 3) return "Nome precisa ter no mínimo 3 letras!";
+    if (name.length > 50) return "Nome pode ter no máximo 50 letras!";
+    
+    //VERIFICANDO TAMANHO DO LOGIN
+    if (login.length < 3) return "Login precisa ter no mínimo 3 letras!";
+    if (login.length > 15) return "Login pode ter no máximo 15 caracteres!";
+    
     //VERIFICANDO TAMANHO DA SENHA
-    fPassword.length < 8 && !errorMsg ? errorMsg = "Senha precisa ter 8 digítos no mínimo." : 0;
-    fPassword.length > 15 && !errorMsg ? errorMsg = "Senha pode ter 15 digítos no máximo." : 0;
-
+    if (password.length < 8) return "Senha precisa ter 8 digítos no mínimo.";
+    if (password.length > 15) return "Senha pode ter 15 digítos no máximo.";
+    
     //REGEX PARA A SENHA
-    for (let i = 0; i < formats["password"].length; i++)
-        if(!fPassword.match(formats["password"][i].regx) && !errorMsg) errorMsg = formats["password"][i].msg
+    if (!password.match(/[0-9]/)) return "Senha precisa de um número no mínimo.";
+    if (!password.match(/[A-Z]/)) return "Senha precisa de uma letra em caixa alta no mínimo.";
+    if (!password.match(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/)) return "Senha precisa de um caractere especial no mínimo.";
 
-    return errorMsg;
+    const response = await api.get('users/wholeData');
+    const { results } = response.data;
+    
+    //VERIFICANDO SE HÁ UM EMAIL IGUAL
+    results.forEach((doc: IUser) => {
+        if (email === doc.email.trim().toLocaleLowerCase()) return "E-mail já cadastrado"
+        if (login === doc.login.trim().toLocaleLowerCase()) return "Login já cadastrado"
+        if (cpf === doc.cpf.trim().toLocaleLowerCase()) return "Já existe um usuário com este CPF!"
+    });
 }
 
-async function signUp(data: SignUpPropsData): Promise<AuthData> {
+async function signUp(data: IUser): Promise<AuthData> {
+    //Removendo possíveis espaços nos finais de 
+    Object.keys(data).forEach((key) => data[key as keyof IUser].trim())
     const errorMsg = await formValidation(data);
 
     return new Promise(async (resolve, reject) => {
-        if (!errorMsg) {
-            const docRef = await addDoc(collection(database, 'Users'), data);
-            console.log("Document written with ID: ", docRef.id);
+        if (errorMsg == undefined) {
+            // const docRef = await addDoc(collection(database, 'Users'), data);
+            console.log("Document written with ID: ", 1);
 
             resolve({
                 token: data.token,
                 email: data.email,
-                name: data.name,
+                name: data.nome,
             })
         } else {
             reject(new Error(errorMsg));

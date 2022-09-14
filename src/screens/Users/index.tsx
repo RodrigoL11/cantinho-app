@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
+import api from '@services/api'
+import { IUser } from '@interfaces/main'
 
 import Header from '@components/Header'
 import ActionButton from '@components/ActionButton'
@@ -18,49 +20,26 @@ import {
 } from './styles'
 import { Alert } from 'react-native';
 
-const data = [
-  {
-    admin: true,
-    nome: 'Rodrigo Lemes',
-    CPF: '43977171844',
-    login: 'fp.rodrigo',
-    telefone: '(16) 99197-7783',
-    email: 'rodrigo@gmail.com',
-    senha: '123',
-    nascimento: '11/09/2001',
-    endereco: {
-      rua: 'Rua Laurindo Fernandes Balieiro',
-      num: '299',
-      bairro: 'Gumercindo 2',
-      cidade: 'Pitangueiras',
-      estado: 'São Paulo',
-      CEP: '14750000'
-    }
-  },
-  {
-    admin: false,
-    nome: 'Rodrigo Lemes',
-    CPF: '43977171844',
-    login: 'fp.rodrigo',
-    telefone: '(16) 99197-7783',
-    email: 'rodrigo@gmail.com',
-    senha: '123',
-    nascimento: '11/09/2001',
-    endereco: {
-      rua: 'Rua Laurindo Fernandes Balieiro',
-      num: '299',
-      bairro: 'Gumercindo 2',
-      cidade: 'Pitangueiras',
-      estado: 'São Paulo',
-      CEP: '14750000'
-    }
-  },
-
-]
-
 export default function Users() {
   const navigation = useNavigation();
-  const [users, setUsers] = useState(data)
+  const [users, setUsers] = useState<IUser[]>([])
+
+  const loadData = async () => {
+    try {
+        const response = await api.get('users/wholeData');
+
+        const { results } = response.data;
+        
+        setUsers(results)
+    } catch(err) {
+        // adicionar tratamento da exceção
+        console.error(err);
+    }
+};
+
+  React.useEffect(() => {
+    loadData();
+  }, []);
 
   const deleteUser = (id: number) => {
     const delUser = users[id]
@@ -90,7 +69,7 @@ export default function Users() {
             <Row>
               <Nome>{user.nome}</Nome>
               <Label style={{ color: '#ccc' }}> | </Label>
-              <Label>{user.telefone}</Label>
+              <Label>+{user.DDI} ({user.DDD}) {user.num_telefone}</Label>
               <Options>
                 <Feather name="edit-2" size={18} />
                 <Feather onPress={() => deleteUser(index)} name="trash-2" size={18} />
@@ -102,16 +81,16 @@ export default function Users() {
               <Label>{user.email}</Label>
             </Row>
             <Row>
-              <Label>{user.endereco.rua}, </Label>
-              <Label>{user.endereco.num}, </Label>
-              <Label>{user.endereco.bairro}</Label>
+              <Label>{user.logradouro}, </Label>
+              <Label>{user.num_endereco}, </Label>
+              <Label>{user.bairro}</Label>
             </Row>
             <Row>
-              <Label>{user.endereco.cidade}, </Label>
-              <Label>{user.endereco.estado}, </Label>
-              <Label>{user.endereco.CEP}</Label>
+              <Label>{user.cidade}, </Label>
+              <Label>{user.estado}, </Label>
+              <Label>{user.cep}</Label>
             </Row>
-            {user.admin ? (
+            {user.token == "admin" ? (
               <Admin>
                 <AdminLabel>Admin</AdminLabel>
               </Admin>) : null}

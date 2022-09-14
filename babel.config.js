@@ -14,6 +14,7 @@ module.exports = function (api) {
             '@services': './src/services',
             '@routes': './src/routes',
             '@config': './src/config',
+            '@interfaces': './src/interfaces',
           }
         }
       ],

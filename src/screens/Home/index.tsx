@@ -7,7 +7,8 @@ import Button from '@components/Button'
 import {
   Container,
 } from './styles'
-import { Alert, BackHandler } from 'react-native';
+import { Alert } from 'react-native';
+
 
 export default function Home() {
   const navigator = useNavigation();
@@ -25,7 +26,7 @@ export default function Home() {
         },
         {
           text: "Cancelar",
-          onPress: () => {return}
+          onPress: () => null
         }
       ]
     )

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import {
   Alert,
   Keyboard,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+
 import { useAuth } from "@hooks/auth";
 
 import Button from "@components/Button";
@@ -39,21 +39,31 @@ export default function SignUp() {
   async function handleRegistration() {
     console.log(phone, CEP);
 
-    // if (password != confirmPassword)
-    //   Alert.alert("Senhas não coincidem", "Tente novamente");
-    // else {
-    //   const data = {
-    //     email: email.trim(),
-    //     id: 0,
-    //     name: name,
-    //     password: password,
-    //     token: "user",
-    //   };
+    if (password != confirmPassword)
+      Alert.alert("Senhas não coincidem", "Tente novamente");
+    else {
+      const data = {
+        nome: name,
+        password: password,
+        login: login,
+        email: email.trim(),
+        token: "user",
+        cpf: CPF,
+        DDI: '+55',
+        DDD: '16',
+        num_telefone: phone,
+        logradouro: address,
+        num_endereco: houseNumber,
+        bairro: district,
+        cep: CEP,
+        cidade: city,
+        estado: state,
+      };
 
-    //   signUp(data).catch((error) => {
-    //     Alert.alert(error.message, "Tente novamente");
-    //   });
-    // }
+      signUp(data).catch((error) => {
+        Alert.alert(error.message, "Tente novamente");
+      });
+    }
   }
 
   return (
@@ -122,6 +132,14 @@ export default function SignUp() {
             </Row>
 
             <Input
+              icon="map-pin"
+              value={CEP}
+              placeholder="CEP"
+              keyboardType="numeric"
+              onChangeText={(masked, unmasked) => setCEP(unmasked)}
+              mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+            />
+            <Input
               icon="map"
               value={city}
               placeholder="Cidade"
@@ -132,14 +150,6 @@ export default function SignUp() {
               value={state}
               placeholder="Estado"
               onChangeText={setState}
-            />
-            <Input
-              icon="map-pin"
-              value={CEP}
-              placeholder="CEP"
-              keyboardType="numeric"
-              onChangeText={(masked, unmasked) => setCEP(unmasked)}
-              mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
             />
 
             <Section>Dados da conta</Section>

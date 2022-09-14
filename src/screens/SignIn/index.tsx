@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View } from 'react-native';
 import { useAuth } from '@hooks/auth';
-import { useNavigation } from '@react-navigation/native';
 
 import Button from '@components/Button'
 import Input from '@components/Input'
@@ -19,31 +18,35 @@ export default function SignIn() {
 
   return (
     <Container>
-      <Title>Acessar conta</Title>
-      <Input
-        icon="mail"
-        value={email}
-        onChangeText={value => setEmail(value)}
-        placeholder={"Email"}
-      />
-      <Input
-        icon="lock"
-        value={password}
-        placeholder="Senha"
-        type="password"
-        onChangeText={setPassword}
-        secureTextEntry={secureText}
-        isVisible={secureText}
-        setVisible={setSecureText}
-      />
-      <View style={{marginTop: 16}}>
-        <Button
-          onPress={() => signIn(email, password).catch((error) => {
-            Alert.alert(error.message, 'Tente novamente')
-          })}
-          title="Entrar"
-        />
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView behavior='position' enabled>
+          <Title>Acessar conta</Title>
+          <Input
+            icon="mail"
+            value={email}
+            onChangeText={value => setEmail(value)}
+            placeholder={"Email"}
+          />
+          <Input
+            icon="lock"
+            value={password}
+            placeholder="Senha"
+            type="password"
+            onChangeText={setPassword}
+            secureTextEntry={secureText}
+            isVisible={secureText}
+            setVisible={setSecureText}
+          />
+          <View style={{ marginTop: 16 }}>
+            <Button
+              onPress={() => signIn(email, password).catch((error) => {
+                Alert.alert(error.message, 'Tente novamente')
+              })}
+              title="Entrar"
+            />
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </Container>
   );
 }

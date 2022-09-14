@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authService } from '@services/AuthService'
+import { IUser } from '@interfaces/main'
 
 export interface AuthData {
     token: string;
@@ -8,18 +9,11 @@ export interface AuthData {
     name: string;
 }
 
-export interface SignUpPropsData{
-    email: string;
-    name: string;
-    password: string;
-    token: string;
-}
-
 interface AuthContextData {
     authData?: AuthData;
     signIn: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
-    signUp: (data: SignUpPropsData) => Promise<void>
+    signUp: (data: IUser) => Promise<void>
     loading: boolean;
 }
 
@@ -47,7 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         AsyncStorage.setItem("@AuthData", JSON.stringify(auth));
     }
 
-    async function signUp(data: SignUpPropsData){
+    async function signUp(data: IUser){
         const auth = await authService.signUp(data);
         setAuth(auth);
         AsyncStorage.setItem("@AuthData", JSON.stringify(auth));
