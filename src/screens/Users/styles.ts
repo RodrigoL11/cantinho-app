@@ -5,15 +5,19 @@ export const Container = styled.View`
     background-color: ${({ theme }) => theme.colors.background};
 `
 
+export const Content = styled.ScrollView`
+    padding: 15px;
+`
+
 export const Card = styled.View`
-    padding: 14px;
+    padding: 10px 14px;
     background-color: #fff;
     margin-bottom: 14px;
 `
 
 export const Nome = styled.Text`
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 `
 
 export const Label = styled.Text`
@@ -45,8 +49,8 @@ export const AdminLabel = styled.Text`
 `
 
 export const Options = styled.View`
-width: 45px;
-justify-content: space-between;
+    width: 45px;
+    justify-content: space-between;
     position: absolute;
     flex-direction: row;
     right: 0;

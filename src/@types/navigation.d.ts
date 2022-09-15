@@ -1,5 +1,9 @@
-export type ComandaNavigationProps = {
-  id?: number;
+export type UserProps = {
+  id: number;
+}
+
+export type ComandaProps = {
+  id: number;
 }
 
 export declare global {
@@ -9,8 +13,9 @@ export declare global {
       SignIn: undefined;
       SignUp: undefined;
       Comandas: undefined;
-      Comanda: ComandaNavigationProps;
+      Comanda: ComandaProps;
       Users: undefined;
+      User: UserProps;
     }
   }
 }

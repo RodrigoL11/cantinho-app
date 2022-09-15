@@ -108,7 +108,7 @@ export default function Home() {
             <Card
               key={index}
               onLongPress={() => console.log('oii')}
-              onPress={() => { navigation.navigate("Comanda", { id: index }) }}
+              onPress={() => { navigation.navigate("Comanda", { id: 1 }) }}
               style={item.pedidos > 0 ? { borderColor: 'greenyellow' } : null}
             >              
               <Row>

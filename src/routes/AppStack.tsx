@@ -6,6 +6,7 @@ import SignUp from '@screens/SignUp';
 import Comandas from '@screens/Comandas';
 import Comanda from '@screens/Comanda';
 import Users from '@screens/Users';
+import User from '@screens/User';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -32,6 +33,10 @@ export function App() {
         <Screen 
           name="Users"
           component={Users}
+        />
+        <Screen
+          name="User"
+          component={User}
         />
       </Navigator>
   );

@@ -4,6 +4,7 @@ import { authService } from '@services/AuthService'
 import { IUser } from '@interfaces/main'
 
 export interface AuthData {
+    id: number,
     token: string;
     email: string;
     name: string;

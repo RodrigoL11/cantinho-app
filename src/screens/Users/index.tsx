@@ -11,6 +11,7 @@ import ActionButton from '@components/ActionButton'
 import {
   Card,
   Container,
+  Content,
   Label,
   Row,
   Nome,
@@ -20,22 +21,26 @@ import {
 } from './styles'
 import { Alert } from 'react-native';
 
+interface User extends IUser{
+  id: number;
+}
+
 export default function Users() {
   const navigation = useNavigation();
-  const [users, setUsers] = useState<IUser[]>([])
+  const [users, setUsers] = useState<User[]>([])
 
   const loadData = async () => {
     try {
-        const response = await api.get('users/wholeData');
+      const response = await api.get('users');
 
-        const { results } = response.data;
-        
-        setUsers(results)
-    } catch(err) {
-        // adicionar tratamento da exceção
-        console.error(err);
+      const { results } = response.data;
+
+      setUsers(results)
+    } catch (err) {
+      // adicionar tratamento da exceção
+      console.error(err);
     }
-};
+  };
 
   React.useEffect(() => {
     loadData();
@@ -43,7 +48,7 @@ export default function Users() {
 
   const deleteUser = (id: number) => {
     const delUser = users[id]
-    
+
     Alert.alert(
       "Deletar usuário",
       `Tem certeza que deseja excluir o usuário ${delUser.nome}?`,
@@ -63,41 +68,29 @@ export default function Users() {
   return (
     <Container>
       <Header title="Usuários" onPress={navigation.goBack} />
-      {users.map((user, index) => {
-        return (
-          <Card key={index}>
-            <Row>
-              <Nome>{user.nome}</Nome>
-              <Label style={{ color: '#ccc' }}> | </Label>
-              <Label>+{user.DDI} ({user.DDD}) {user.num_telefone}</Label>
-              <Options>
-                <Feather name="edit-2" size={18} />
-                <Feather onPress={() => deleteUser(index)} name="trash-2" size={18} />
-              </Options>
-            </Row>
-            <Row>
-              <Label>{user.login}</Label>
-              <Label style={{ color: '#ccc' }}> | </Label>
+      <Content>
+        {users.map((user, index) => {
+          return (
+            <Card key={index}>
+              <Row>
+                <Nome>{user.nome}</Nome>
+                <Label style={{ color: '#ccc' }}> | </Label>
+                <Label>{user.login}</Label>
+                <Options>
+                  <Feather onPress={() => navigation.navigate('User', {id: user.id})} name="edit-2" size={18} />
+                  <Feather onPress={() => deleteUser(index)} name="trash-2" size={18} />
+                </Options>
+              </Row>
               <Label>{user.email}</Label>
-            </Row>
-            <Row>
-              <Label>{user.logradouro}, </Label>
-              <Label>{user.num_endereco}, </Label>
-              <Label>{user.bairro}</Label>
-            </Row>
-            <Row>
-              <Label>{user.cidade}, </Label>
-              <Label>{user.estado}, </Label>
-              <Label>{user.cep}</Label>
-            </Row>
-            {user.token == "admin" ? (
-              <Admin>
-                <AdminLabel>Admin</AdminLabel>
-              </Admin>) : null}
-
-          </Card>
-        )
-      })}
+              <Label>{user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</Label>
+              {user.token == "admin" ? (
+                <Admin>
+                  <AdminLabel>Admin</AdminLabel>
+                </Admin>) : null}
+            </Card>
+          )
+        })}
+      </Content>
 
       <ActionButton onPress={() => navigation.navigate("SignUp")} size={32} name='add' />
     </Container>

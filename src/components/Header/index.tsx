@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 import {
     Container,
@@ -17,7 +17,7 @@ export default function Header({ title, onPress }:Props){
     return(
         <Container>
             <Icon onPress={onPress}>
-                <Ionicons name="arrow-back-outline" onPress={onPress} size={30} color="#000000" />
+                <Feather name="arrow-left" onPress={onPress} size={30} color="#000000" />
             </Icon>
             <Title>{title}</Title>
         </Container>
