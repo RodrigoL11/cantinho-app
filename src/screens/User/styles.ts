@@ -4,10 +4,13 @@ export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
 `
+export const Content = styled.ScrollView`
+    
+`
 
-export const SectionLabel = styled.Text`
+export const Label = styled.Text`
     padding-left: 20px;
-    color: #555;
+    color: #777;
     font-size: 13px;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -42,7 +45,6 @@ export const AddButtonLabel = styled.Text`
     color: ${({ theme }) => theme.colors.primary_color};
 `
 
-
 export const Emoji = styled.Text`
     text-align: center;
     font-size: 18px;
@@ -58,3 +60,35 @@ export const EmptyNotification = styled.Text`
     letter-spacing: 1.5px;
 `
 
+export const ItemContainer = styled.TouchableOpacity`
+    flex-direction: row;
+    background-color: #fff;
+    padding: 14px 20px;
+    padding-right: 30px;
+    border-bottom-width: 0.5px;
+    border-color: #999;
+    justify-content: space-between;
+    align-items: center;
+`
+
+export const ItemText = styled.Text`
+    color: #777;
+    font-size: 13.5px;
+`
+
+export const IconContainer = styled.View`
+    position: absolute;
+    right: 4.5px;
+`
+
+export const Row = styled.View`
+    flex-direction: row;
+`
+
+export const DataContainer = styled.View`
+`
+
+export const DataLabel = styled.Text`
+    font-size: 13px;
+    color: #777;
+`

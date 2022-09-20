@@ -20,12 +20,12 @@ import {
 
 export default function SignUp() {
   const { signUp } = useAuth();
-  const [login, setLogin] = useState<string>("rodrigo");
-  const [CPF, setCPF] = useState<string>("43977171844");
-  const [name, setName] = useState<string>("Rodrigo Lemes");
-  const [email, setEmail] = useState<string>("r@gmail.com");
-  const [password, setPassword] = useState<string>("123abc@A");
-  const [confirmPassword, setConfirmPassword] = useState<string>("123abc@A");
+  const [login, setLogin] = useState<string>("");
+  const [CPF, setCPF] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [secureText, setSecureText] = useState<boolean>(true);
 
   async function handleRegistration() {
