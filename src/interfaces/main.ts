@@ -8,20 +8,20 @@ export interface IUser {
 }
 
 export interface IPhone {
-    id: number,
+    id?: number,
     DDI: string,
     DDD: string,
     num_telefone: string,
-    uID: number
+    uID?: number
 }
 
 export interface IAddress {
-    id: number,
+    id?: number;
     logradouro: string,
     num_endereco: string,
     bairro: string,
     cep: string,
     cidade: string,
     estado: string,
-    uID: number
+    uID?: number
 }

@@ -20,8 +20,9 @@ import {
   Options,
 } from './styles'
 import { Alert } from 'react-native';
+import axios from 'axios';
 
-interface User extends IUser{
+interface User extends IUser {
   id: number;
 }
 
@@ -55,7 +56,12 @@ export default function Users() {
       [
         {
           text: "Sim",
-          onPress: () => { setUsers(users.filter(user => user !== delUser)) }
+          onPress: async () => {
+            await api.delete(`users/${id}`)
+              .then(response => {
+                setUsers(users.filter(user => user !== delUser))
+              })
+          }
         },
         {
           text: "Cancelar",
@@ -77,7 +83,7 @@ export default function Users() {
                 <Label style={{ color: '#ccc' }}> | </Label>
                 <Label>{user.login}</Label>
                 <Options>
-                  <Feather onPress={() => navigation.navigate('User', {id: user.id})} name="edit-2" size={18} />
+                  <Feather onPress={() => navigation.navigate('User', { id: user.id })} name="edit-2" size={18} />
                   <Feather onPress={() => deleteUser(index)} name="trash-2" size={18} />
                 </Options>
               </Row>

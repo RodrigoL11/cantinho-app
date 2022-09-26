@@ -81,7 +81,7 @@ export default function FormsComanda({ toogleVisibility, comandas, setComandas, 
     if (error != '') Alert.alert("Erro", error);
 
     return (
-        <Container >
+        <Container>
             <Background onPress={toogleVisibility} activeOpacity={0.0} />
             <Card>
                 <Title>{index != undefined ? 'Editar comanda' : 'Criar comanda'}</Title>

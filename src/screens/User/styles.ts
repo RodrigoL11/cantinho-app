@@ -1,11 +1,16 @@
 import styled from 'styled-components/native'
 
+interface AddressProps{
+    last: boolean,
+    height: number,
+}
+
 export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
 `
 export const Content = styled.ScrollView`
-    
+    margin-top: 15px;
 `
 
 export const Label = styled.Text`
@@ -17,7 +22,7 @@ export const Label = styled.Text`
 `
 
 export const Section = styled.View`
-    padding: 20px;
+    padding: 16px 20px;
     background-color: #fff;
     border-bottom-width: 1px;
     border-color: #dadada;
@@ -60,15 +65,21 @@ export const EmptyNotification = styled.Text`
     letter-spacing: 1.5px;
 `
 
+export const Items = styled.View`
+    flex: 1;
+`
+
 export const ItemContainer = styled.TouchableOpacity`
     flex-direction: row;
     background-color: #fff;
     padding: 14px 20px;
     padding-right: 30px;
-    border-bottom-width: 0.5px;
-    border-color: #999;
+    border-bottom-width: 0.55px;
+    border-color: #555;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    height: 48px;
 `
 
 export const ItemText = styled.Text`
@@ -85,7 +96,10 @@ export const Row = styled.View`
     flex-direction: row;
 `
 
-export const DataContainer = styled.View`
+export const DataContainer = styled.TouchableOpacity<AddressProps>`
+    margin: 4px 0;
+    border-bottom-width: ${(props) => props.last ? 0 : 0.5}px;
+    height: ${(props) => props.height}px;
 `
 
 export const DataLabel = styled.Text`

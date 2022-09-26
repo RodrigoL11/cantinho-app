@@ -1,19 +1,20 @@
 import React from 'react';
+import { TouchableOpacityProps } from 'react-native'
 
 import { 
     Container,
     Title
  } from './styles'
 
-interface Props{
+interface Props extends TouchableOpacityProps{
     title: string;
-    onPress: () => void;
+    reverse?: boolean;
 }
 
-export default function Button({title, onPress}: Props){
+export default function Button({title, reverse, ...rest}: Props){
     return(
-        <Container activeOpacity={0.55} onPress={onPress}>
-            <Title>{title}</Title>
+        <Container reverse={reverse} {...rest} activeOpacity={0.55}>
+            <Title reverse={reverse}> {title}</Title>
         </Container>
     );
 }

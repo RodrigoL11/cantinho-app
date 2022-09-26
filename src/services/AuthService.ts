@@ -33,48 +33,6 @@ function isValidCPF(cpf: any) {
     return rest(10) === cpf[9] && rest(11) === cpf[10]
 }
 
-async function phoneValidation(data: IPhone){
-    const DDI = data.DDI
-    const DDD = data.DDD
-    const num_telefone = data.num_telefone
-
-    //VALIDANDO DDI
-    if (DDI.length < 1 || DDI.length > 3) return "DDI inválido!"
-
-    //VALIDANDO DDD
-    if (DDD.length !== 2) return "DDD inválido"
-    
-    //VALIDANDO NÚMERO DE TELEFONE
-    if (num_telefone.length !== 9) return "Número de telefone inválido"
-}
-
-async function addressValidation(data: IAddress){
-    const logradouro = data.logradouro
-    const num_endereco = data.num_endereco
-    const bairro = data.bairro
-    const cep = data.cep
-    const cidade = data.cidade
-    const estado = data.estado
-
-    //VALIDANDO LOGRADOURO
-    if (logradouro.length > 50) return "Logradouro pode ter no máximo 50 caracteres"
-    
-    //VALIDANDO BAIRRO
-    if (bairro.length > 50) return "Bairro pode ter no máximo 50 caracteres"
-
-    //VALIDANDO NÚMERO ENDEREÇO
-    if (num_endereco.length > 5) return "Número de endereço pode ter no máximo 5 caracteres"
-
-    //VALIDANDO CEP
-    if (cep.length !== 8) return "CEP inválido"
-    
-    //VALIDANDO CIDADE
-    if (cidade.length > 50) return "Cidade pode ter no máximo 50 caracteres"
-    
-    //VALIDANDO ESTADO
-    if (estado.length > 50) return "Estado pode ter no máximo 50 caracteres"
-}
-
 async function userValidation(data: IUser) {
     const name = data.nome
     const password = data.password
