@@ -20,7 +20,6 @@ import {
   Options,
 } from './styles'
 import { Alert } from 'react-native';
-import axios from 'axios';
 
 interface User extends IUser {
   id: number;
@@ -49,6 +48,7 @@ export default function Users() {
 
   const deleteUser = (id: number) => {
     const delUser = users[id]
+    const uID = delUser.id
 
     Alert.alert(
       "Deletar usuário",
@@ -57,9 +57,9 @@ export default function Users() {
         {
           text: "Sim",
           onPress: async () => {
-            await api.delete(`users/${id}`)
+            await api.delete(`users/${uID}`)
               .then(response => {
-                setUsers(users.filter(user => user !== delUser))
+                setUsers(users.filter(user => user !== delUser))                
               })
           }
         },

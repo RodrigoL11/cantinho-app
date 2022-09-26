@@ -4,10 +4,10 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  View,
 } from "react-native";
 
 import { useAuth } from "@hooks/auth";
+import { useNavigation } from "@react-navigation/native";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
@@ -27,6 +27,7 @@ export default function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [secureText, setSecureText] = useState<boolean>(true);
+  const navigation = useNavigation();
 
   async function handleRegistration() {
     if (password != confirmPassword)
@@ -41,7 +42,11 @@ export default function SignUp() {
         cpf: CPF,
       };
 
-      signUp(data).catch((error) => {
+      signUp(data)
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch((error) => {
         Alert.alert(error.message, "Tente novamente");
       });
     }
