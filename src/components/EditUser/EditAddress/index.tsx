@@ -120,7 +120,7 @@ export default function EditAddress({ id, toogleForm, setAddress, address }: Pro
       if (address && selectedAddress) {
         Alert.alert(
           "Editar endereço",
-          `Tem certeza que deseja editar o endereço ${selectedAddress.logradouro}?`,
+          `Tem certeza que deseja editar o endereço ${selectedAddress.logradouro} ?`,
           [
             {
               text: "Sim",
@@ -264,8 +264,8 @@ export default function EditAddress({ id, toogleForm, setAddress, address }: Pro
         />
       </Content>
 
-      <Button reverse={true} title="Excluir endereço" onPress={() => deleteAddress()} />
-      <Button title="Salvar" onPress={() => handleSubmit()} />
+      <Button reverse={true} title="Excluir endereço" onPress={deleteAddress} />
+      <Button title="Salvar" onPress={handleSubmit} />
     </Container>
   )
 }

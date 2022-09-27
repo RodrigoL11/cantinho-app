@@ -4,11 +4,21 @@ import CountryPicker, { CountryCode } from "react-native-country-picker-modal";
 import Header from "@components/Header";
 import Button from "@components/Button";
 import { IPhone } from "@interfaces/main";
+import api from "@services/api";
 
-import { Container, Content, Row, Column, Input, Label } from "./styles";
+import {
+  Container,
+  Content,
+  Row,
+  Column,
+  Input,
+  Label,
+  ErrorMessage
+} from "./styles";
+import { View } from "react-native";
 
 interface Props {
-  id: number;
+  uID: number;
   toogleForm: () => void;
   setPhones: Dispatch<SetStateAction<IPhone[]>>;
   phones: IPhone[] | undefined;
@@ -16,16 +26,12 @@ interface Props {
 
 const phoneMask = [/\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
 
-export default function CreatePhone({
-  id,
-  toogleForm,
-  setPhones,
-  phones,
-}: Props) {
+export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
   const [countryCode, setCountryCode] = useState<CountryCode>("BR");
-  const [DDD, setDDD] = useState("55");
+  const [DDD, setDDD] = useState("16");
   const [numero, setNumero] = useState("");
   const [errors, setErrors] = useState({
+    DDI: "",
     DDD: "",
     numero: ""
   });
@@ -102,18 +108,63 @@ export default function CreatePhone({
     "99",
   ];
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    let newErrors = {
+      DDI: "",
+      DDD: "",
+      numero: ""
+    };
 
+    if (DDI.trim().length < 1)
+      newErrors.DDI = "Por favor, insira DDI válido"
+
+    if (DDD.trim().length == 0)
+      newErrors.DDD = "Por favor insira um DDD"
+    else if (!DDDs.includes(DDD.trim()))
+      newErrors.DDD = "Insira um DDD válido"
+
+    if (numero.trim().length === 0)
+      newErrors.numero = "Por favor, insira um número de telefone"
+    else if (numero.trim().length != 9 || numero.trim()[0] !== "9")
+      newErrors.numero = "Insira um número de telefone válido"
+
+    let hasError = false;
+
+    Object.keys(newErrors).forEach(function (key, index) {
+      if (newErrors[key as keyof typeof newErrors] != "")
+        hasError = true;
+    })
+
+    if (!hasError) {
+      const validatedData = {
+        id: undefined,
+        DDI: DDI,
+        DDD: DDD,
+        num_telefone: numero,
+        uID: uID
+      }
+
+      await api.post('phones', {
+        data: validatedData
+      }).then(response => {
+        let newID = response.data.result.insertId;
+        validatedData.id = newID;
+        setPhones(arr => [...arr, validatedData])
+        toogleForm();
+      })
+    } else
+      setErrors(newErrors)
   }
+
   return (
     <Container>
       <Header title="Criar telefone" onPress={toogleForm} />
       <Content>
         <Label>Preencha todos campos</Label>
         <Row>
-          <Column style={{ alignItems: "center" }} width={20}>
+          <Column style={{ alignItems: "center" }} width={23}>
             <CountryPicker
-              theme={{ flagSizeButton: 29, fontSize: 17 }}
+              theme={{ flagSizeButton: 29, fontSize: 14.5 }}
               countryCode={countryCode}
               withCallingCodeButton
               withFilter
@@ -136,17 +187,29 @@ export default function CreatePhone({
               placeholder={"DDD"}
             />
           </Column>
-          <Column style={{ paddingLeft: 5 }} width={70}>
+          <Column style={{ paddingLeft: 5 }} width={67}>
             <Input
               value={numero}
-              onChangeText={setNumero}
+              onChangeText={(masked, unmasked) => setNumero(unmasked)}
               mask={phoneMask}
               placeholder={"Insira seu número"}
             />
           </Column>
         </Row>
-
-        <Button title="Salvar" />
+        {errors.DDI ? (
+          <ErrorMessage>{errors.DDI}</ErrorMessage>
+        ) : null
+        }
+        {errors.DDD ? (
+          <ErrorMessage>{errors.DDD}</ErrorMessage>
+        ) : null
+        }
+        {errors.numero ? (
+          <ErrorMessage>{errors.numero}</ErrorMessage>
+        ) : null
+        }
+        <View style={{marginTop: 20}} />
+        <Button onPress={handleSubmit} title="Salvar" />
       </Content>
     </Container>
   );

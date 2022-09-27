@@ -17,9 +17,7 @@ export const Content = styled.View`
 export const Row = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
+  justify-content: space-between;  
 `
 
 export const Column = styled.View<IColumn>`
@@ -38,4 +36,12 @@ export const Label = styled.Text`
   color: #999;
   margin-bottom: 4px;
   margin-left: 10px;
+`
+
+export const ErrorMessage = styled.Text`
+  width: 100%;
+  padding: 8px;
+  background-color: #fce6e5;
+  color: #ee6d66;  
+  font-size: 12px;
 `

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, Modal } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Modal, TouchableWithoutFeedback } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
@@ -30,6 +30,7 @@ import {
   Row,
   Items
 } from './styles'
+import EditPassword from '@components/EditUser/EditPassword'
 
 interface INoDataText{
   text: string
@@ -69,15 +70,11 @@ const Item = ({ label, text, last, onPress }: ItemProps) => {
   )
 }
 
-export interface User extends IUser {
-  id: number;
-}
-
 export default function User({ route }: any) {
   const { id } = route.params;
   const navigation = useNavigation();
 
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<IUser>();
   const [phones, setPhones] = useState<IPhone[]>([]);
   const [address, setAddress] = useState<IAddress[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -115,10 +112,11 @@ export default function User({ route }: any) {
   }, [])
 
   const types = {
-    'add-address': <CreateAddress address={address} setAddress={setAddress} toogleForm={toogleEditForm} id={id} />,
+    'add-address': <CreateAddress address={address} setAddress={setAddress} toogleForm={toogleEditForm} uID={id} />,
     'edit-address': <EditAddress address={address} setAddress={setAddress} toogleForm={toogleEditForm} id={addressID} />,
-    'add-phone': <CreatePhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} id={id} />,
+    'add-phone': <CreatePhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} uID={id} />,
     'edit-phone': <EditPhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} id={phoneID} />,
+    'edit-password': <EditPassword user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>
   }
 
   return (
@@ -153,7 +151,7 @@ export default function User({ route }: any) {
           <Item label="Alterar senha" last={true}
             onPress={() => {
               toogleEditForm();
-              setType("Senha")
+              setType("edit-password")
             }}
           />
         </Items>
@@ -196,7 +194,7 @@ export default function User({ route }: any) {
           {phones.length == 0 ? (
             <NoDataText text="telefone"/>
           ) : phones.map((item, index) => (
-            <DataContainer height={18} last={phones[phones.length - 1] === item} key={index}
+            <DataContainer height={30} last={phones[phones.length - 1] === item} key={index}
             onPress={() => {              
               setPhoneID(item.id || 1);
               setType("edit-phone");
@@ -223,11 +221,13 @@ export default function User({ route }: any) {
         onRequestClose={toogleEditForm}
         statusBarTranslucent={true}
       >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
           {type in types ? types[type as keyof typeof types] : (
             <EditUser user={user} setUser={setUser} id={user?.id} type={type} onPress={toogleEditForm} />
           )}
         </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </Modal>
     </Container>
   )

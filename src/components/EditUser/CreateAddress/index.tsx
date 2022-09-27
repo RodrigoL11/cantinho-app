@@ -17,7 +17,7 @@ import {
 import api from '@services/api';
 
 interface Props {
-  id: number,
+  uID: number,
   toogleForm: () => void,
   setAddress: Dispatch<SetStateAction<IAddress[]>>,
   address: IAddress[] | undefined,
@@ -53,7 +53,7 @@ const states = {
   'TO': 'Tocantins'
 }
 
-export default function CreateAddress({ id, toogleForm, setAddress, address }: Props) {
+export default function CreateAddress({ uID, toogleForm, setAddress }: Props) {
   const [logradouro, setLogradouro] = useState("");
   const [bairro, setBairro] = useState("");
   const [numero, setNumero] = useState("");
@@ -110,18 +110,16 @@ export default function CreateAddress({ id, toogleForm, setAddress, address }: P
         cep: CEP,
         cidade: cidade,
         estado: estado,
-        uID: id
+        uID: uID
       }
 
       await api.post('address', {
         data: validatedData
       }).then(response => {
-        if (address) {
           let newID = response.data.result.insertId;
           validatedData.id = newID;
-          setAddress(address => [...address, validatedData])
+          setAddress(arr => [...arr, validatedData])
           toogleForm();          
-        }
       })
     } else
       setErrors(newErrors)

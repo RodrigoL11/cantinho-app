@@ -44,6 +44,10 @@ export default function SignUp() {
 
       signUp(data)
       .then(() => {
+        Alert.alert(
+          "Sucesso",
+          "Usuário criado com sucesso!"
+        )
         navigation.goBack();
       })
       .catch((error) => {
