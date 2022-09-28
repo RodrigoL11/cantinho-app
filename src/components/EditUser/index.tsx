@@ -3,7 +3,7 @@ import api from '@services/api'
 
 import Input from '@components/Input'
 import Button from '@components/Button'
-import { TouchableWithoutFeedback, Alert, KeyboardAvoidingView } from 'react-native';
+import { TouchableWithoutFeedback, Alert } from 'react-native';
 
 import {
   Container, Content, Title

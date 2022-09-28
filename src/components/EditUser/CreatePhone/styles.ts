@@ -27,7 +27,7 @@ export const Column = styled.View<IColumn>`
 `
 
 export const Input = styled(MaskedInput)`
-  height: 40px;
+  height: 37px;
   font-size: 15px;
 `
 

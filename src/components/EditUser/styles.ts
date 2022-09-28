@@ -24,3 +24,11 @@ export const Title = styled.Text`
     text-align: center;
     font-size: 20px;
 `
+
+export const ErrorMessage = styled.Text`
+    color: red;
+    font-weight: bold;
+    font-size: 10.5px;
+    top: -5px;
+    letter-spacing: 0.5px;
+`

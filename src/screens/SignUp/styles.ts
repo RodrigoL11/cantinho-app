@@ -4,11 +4,9 @@ interface InputProps{
   size?: number;
 }
 
-export const Container = styled.View`
-  flex: 1;
+export const Container = styled.ScrollView`
   background-color: ${({theme}) => theme.colors.background };
-  padding: 20px;
-  margin-top: 32px;
+  padding: 0px 20px;
 `;
 
 export const Row = styled.View`
@@ -25,7 +23,7 @@ export const Title = styled.Text`
   font-weight: bold;
   color: ${({ theme }) => theme.colors.title_color};
   margin-top: 44px;
-  margin-bottom: 44px;
+  margin-bottom: 34px;
 `;
 
 export const Section = styled.Text`
@@ -37,4 +35,13 @@ export const Section = styled.Text`
   line-height: 25px;
   margin-bottom: 14px;
   margin-top: 8px;
+`
+
+export const ErrorMessage = styled.Text`
+  width: 100%;
+  padding: 8px;
+  background-color: #fce6e5;
+  color: #ee6d66;
+  top: -8px;
+  font-size: 12px;
 `

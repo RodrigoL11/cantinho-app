@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-native';
 
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
@@ -18,8 +19,8 @@ import {
   Admin,
   AdminLabel,
   Options,
+  ContentFooter
 } from './styles'
-import { Alert } from 'react-native';
 
 interface User extends IUser {
   id: number;
@@ -59,7 +60,7 @@ export default function Users() {
           onPress: async () => {
             await api.delete(`users/${uID}`)
               .then(response => {
-                setUsers(users.filter(user => user !== delUser))                
+                setUsers(users.filter(user => user !== delUser))
               })
           }
         },
@@ -96,6 +97,9 @@ export default function Users() {
             </Card>
           )
         })}
+        {users.length > 6 ? (
+          <ContentFooter />
+        ) : null}
       </Content>
 
       <ActionButton onPress={() => navigation.navigate("SignUp")} size={32} name='add' />

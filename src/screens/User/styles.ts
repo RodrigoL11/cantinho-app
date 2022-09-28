@@ -22,10 +22,11 @@ export const Label = styled.Text`
 `
 
 export const Section = styled.View`
-    padding: 16px 20px;
+    padding: 7px 20px;
     background-color: #fff;
     border-bottom-width: 1px;
-    border-color: #dadada;
+    border-color: ${({ theme}) => theme.colors.primary_color};
+    justify-content: center;
 `
 
 export const AddButtonContainer = styled.TouchableOpacity`
@@ -97,7 +98,7 @@ export const Row = styled.View`
 `
 
 export const DataContainer = styled.TouchableOpacity<AddressProps>`
-    margin: 4px 0;
+    justify-content: center;
     border-bottom-width: ${(props) => props.last ? 0 : 0.5}px;
     height: ${(props) => props.height}px;
     border-color: #999;

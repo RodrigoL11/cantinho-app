@@ -26,6 +26,7 @@ export default function EditPassword({ uID, user, setUser, toogleForm }: Props) 
     const [oldPassword, setOldPassword] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [secureText, setSecureText] = useState(true);
     const [errors, setErrors] = useState({
         oldPassword: "",
         password: "",
@@ -72,13 +73,13 @@ export default function EditPassword({ uID, user, setUser, toogleForm }: Props) 
                   {
                     text: "Sim",
                     onPress: async () => {
-                      await api.put(`user/${uID}`, {
+                      await api.put(`users/${uID}`, {
                         column: "senha",
-                        value: password
+                        value: password.trim()
                       })
                         .then(response => {
                           let newObj = user;
-                          newObj.senha = password;
+                          newObj.senha = password.trim();
                           setUser(newObj);                          
                           toogleForm();
                         })
@@ -101,24 +102,30 @@ export default function EditPassword({ uID, user, setUser, toogleForm }: Props) 
             <Content>
                 <Input
                     value={oldPassword}
-                    onChangeText={setOldPassword}
+                    onChangeText={text => setOldPassword(text.replace(/\s/g, ''))}
                     placeholder={"Insira sua senha antiga"}
+                    secureTextEntry={true}
                 />
                 {errors.oldPassword ? (
                     <ErrorMessage>{errors.oldPassword}</ErrorMessage>
                 ) : null}
                 <Input
                     value={password}
-                    onChangeText={setPassword}
+                    onChangeText={text => setPassword(text.replace(/\s/g, ''))}
                     placeholder={"Insira sua nova senha"}
+                    type="password"
+                    secureTextEntry={secureText}
+                    isVisible={secureText}
+                    setVisible={setSecureText}
                 />
                 {errors.password ? (
                     <ErrorMessage>{errors.password}</ErrorMessage>
                 ) : null}
                 <Input
                     value={confirmPassword}
-                    onChangeText={setConfirmPassword}
+                    onChangeText={text => setConfirmPassword(text.replace(/\s/g, ''))}
                     placeholder={"Confirme a nova senha"}
+                    secureTextEntry={secureText}
                 />
                 {errors.confirmPassword ? (
                     <ErrorMessage>{errors.confirmPassword}</ErrorMessage>
@@ -126,6 +133,7 @@ export default function EditPassword({ uID, user, setUser, toogleForm }: Props) 
                 <Button
                     title="Salvar"
                     onPress={handleSubmit}
+                    style={{marginTop: 15}}
                 />
             </Content>
         </Container>

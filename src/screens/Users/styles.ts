@@ -6,13 +6,14 @@ export const Container = styled.View`
 `
 
 export const Content = styled.ScrollView`
-    padding: 15px;
+    flex: 1;
+    padding: 7px 0;
 `
 
 export const Card = styled.View`
     padding: 10px 14px;
     background-color: #fff;
-    margin-bottom: 14px;
+    margin: 7px 15px;
 `
 
 export const Nome = styled.Text`
@@ -54,4 +55,8 @@ export const Options = styled.View`
     position: absolute;
     flex-direction: row;
     right: 0;
+`
+
+export const ContentFooter = styled.View`
+    height: 53px;
 `

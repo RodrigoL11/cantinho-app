@@ -6,11 +6,16 @@ import { useNavigation } from '@react-navigation/native'
 import { IAddress, IPhone, IUser } from '@interfaces/main'
 import api from '@services/api'
 import Header from '@components/Header'
-import EditUser from '@components/EditUser'
+
 import CreateAddress from '@components/EditUser/CreateAddress'
 import EditAddress from '@components/EditUser/EditAddress'
 import CreatePhone from '@components/EditUser/CreatePhone'
 import EditPhone from '@components/EditUser/EditPhone'
+import EditPassword from '@components/EditUser/EditPassword'
+import EditCPF from '@components/EditUser/EditCPF'
+import EditEmail from '@components/EditUser/EditEmail'
+import EditLogin from '@components/EditUser/EditLogin'
+import EditName from '@components/EditUser/EditName'
 
 import {
   AddButton,
@@ -30,7 +35,6 @@ import {
   Row,
   Items
 } from './styles'
-import EditPassword from '@components/EditUser/EditPassword'
 
 interface INoDataText{
   text: string
@@ -116,7 +120,11 @@ export default function User({ route }: any) {
     'edit-address': <EditAddress address={address} setAddress={setAddress} toogleForm={toogleEditForm} id={addressID} />,
     'add-phone': <CreatePhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} uID={id} />,
     'edit-phone': <EditPhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} id={phoneID} />,
-    'edit-password': <EditPassword user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>
+    'edit-password': <EditPassword user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
+    'edit-cpf': <EditCPF user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
+    'edit-name': <EditName user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
+    'edit-email': <EditEmail user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
+    'edit-login': <EditLogin user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>
   }
 
   return (
@@ -127,25 +135,25 @@ export default function User({ route }: any) {
           <Item label="Nome" text={user?.nome}
             onPress={() => {
               toogleEditForm();
-              setType("Nome")
+              setType("edit-name")
             }}
           />
           <Item label="CPF" text={user?.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}
             onPress={() => {
               toogleEditForm();
-              setType("CPF")
+              setType("edit-cpf")
             }}
           />
           <Item label="Login" text={user?.login}
             onPress={() => {
               toogleEditForm();
-              setType("Login")
+              setType("edit-login")
             }}
           />
           <Item label="E-mail" text={user?.email}
             onPress={() => {
               toogleEditForm();
-              setType("E-mail")
+              setType("edit-email")
             }}
           />
           <Item label="Alterar senha" last={true}
@@ -194,13 +202,13 @@ export default function User({ route }: any) {
           {phones.length == 0 ? (
             <NoDataText text="telefone"/>
           ) : phones.map((item, index) => (
-            <DataContainer height={30} last={phones[phones.length - 1] === item} key={index}
+            <DataContainer height={37} last={phones[phones.length - 1] === item} key={index}
             onPress={() => {              
               setPhoneID(item.id || 1);
               setType("edit-phone");
               toogleEditForm();
             }}>
-              <DataLabel>+{item.DDI} ({item.DDD}) {item.num_telefone.replace(/(\d{5})/, "$1-")}</DataLabel>
+              <DataLabel>+{item.DDI} {item.DDI == "55" ? `(${item.DDD})` : item.DDD} {item.DDI === "55" ? item.num_telefone.replace(/(\d{5})/, "$1-") : item.num_telefone}</DataLabel>
             </DataContainer>
           ))}
         </Section>
@@ -223,9 +231,7 @@ export default function User({ route }: any) {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-          {type in types ? types[type as keyof typeof types] : (
-            <EditUser user={user} setUser={setUser} id={user?.id} type={type} onPress={toogleEditForm} />
-          )}
+          {types[type as keyof typeof types]}
         </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </Modal>
