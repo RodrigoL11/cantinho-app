@@ -39,9 +39,9 @@ export const Section = styled.Text`
 
 export const ErrorMessage = styled.Text`
   width: 100%;
-  padding: 8px;
+  padding: 4.5px 8px;
   background-color: #fce6e5;
   color: #ee6d66;
   top: -8px;
-  font-size: 12px;
+  font-size: 11.5px;
 `

@@ -7,6 +7,7 @@ import Comandas from '@screens/Comandas';
 import Comanda from '@screens/Comanda';
 import Users from '@screens/Users';
 import User from '@screens/User';
+import Produtos from '@screens/Produtos';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -37,6 +38,10 @@ export function App() {
         <Screen
           name="User"
           component={User}
+        />
+        <Screen 
+          name="Produtos"
+          component={Produtos}
         />
       </Navigator>
   );

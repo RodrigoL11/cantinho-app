@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 import { useNavigation } from "@react-navigation/native";
@@ -43,8 +43,13 @@ export default function Users() {
     }
   };
 
-  React.useEffect(() => {
-    loadData();
+  useEffect(() => {
+    navigation.addListener(
+      'focus',
+      payload => {
+          loadData();
+      }
+  );
   }, []);
 
   const deleteUser = (id: number) => {
@@ -84,8 +89,8 @@ export default function Users() {
                 <Label style={{ color: '#ccc' }}> | </Label>
                 <Label>{user.login}</Label>
                 <Options>
-                  <Feather onPress={() => navigation.navigate('User', { id: user.id })} name="edit-2" size={18} />
-                  <Feather onPress={() => deleteUser(index)} name="trash-2" size={18} />
+                  <Feather onPress={() => navigation.navigate('User', { id: user.id })} name="edit-2" size={20} />
+                  <Feather onPress={() => deleteUser(index)} name="trash-2" size={20} />
                 </Options>
               </Row>
               <Label>{user.email}</Label>

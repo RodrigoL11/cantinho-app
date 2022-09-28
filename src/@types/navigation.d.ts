@@ -16,6 +16,7 @@ export declare global {
       Comanda: ComandaProps;
       Users: undefined;
       User: UserProps;
+      Produtos: undefined;
     }
   }
 }

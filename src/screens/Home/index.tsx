@@ -81,7 +81,7 @@ export default function Home() {
           </CardIcon>
           <CardTitle>Estoque</CardTitle>
         </Card>
-        <Card activeOpacity={0.45} token={authData?.token} disabled={authData?.token == "user" ? true : false}>
+        <Card activeOpacity={0.45} onPress={() => navigator.navigate("Produtos")} token={authData?.token} disabled={authData?.token == "user" ? true : false}>
           <CardIcon>
             <Feather name="package" size={60} color="#fff" />
           </CardIcon>
