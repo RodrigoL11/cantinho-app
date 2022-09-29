@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import AccordionMenu from "@components/AccordionMenu";
@@ -10,10 +10,22 @@ import {
 } from "./styles";
 
 import { list2 } from "../../data";
+import api from "@services/api";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
   const { id } = route.params;
+
+  const loadData = async () => {
+    const response = await api.get(`pedidos/${id}`)
+    const { results } = response.data;
+
+    console.log(results)
+  }
+
+  useEffect(() => {
+    loadData();
+  }, [])
 
   return (
     <Container>

@@ -61,7 +61,7 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
               const formatedDate = `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(dt.getDate())} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(dt.getSeconds())}`
 
               const validatedData = {
-                id: undefined,
+                id: 0,
                 data_hora_abertura: formatedDate,
                 pedidos_abertos: 0,
                 status: "ativo",

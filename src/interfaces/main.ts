@@ -28,7 +28,7 @@ export interface IAddress {
 }
 
 export interface IComandas {
-    id?: number,
+    id: number,
     data_hora_abertura: string,
     data_hora_finalizada?: string,
     pedidos_abertos: number,

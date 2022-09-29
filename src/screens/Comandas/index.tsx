@@ -115,7 +115,7 @@ export default function Home() {
             <Card
               activeOpacity={0.7}
               key={index}              
-              onPress={() => { navigation.navigate("Comanda", { id: 1 }) }}
+              onPress={() => { navigation.navigate("Comanda", { id: item.id }) }}
               style={item.pedidos_abertos > 0 ? { borderColor: 'greenyellow' } : null}
             >
               <Row>
