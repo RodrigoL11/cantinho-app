@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Alert, BackHandler, Platform } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Keyboard, KeyboardAvoidingView, Modal, Platform, TouchableWithoutFeedback } from "react-native";
 import { Feather } from '@expo/vector-icons'
-
 import { useNavigation } from "@react-navigation/native";
 import { FlatGrid } from 'react-native-super-grid';
+
 import {
   Menu,
   MenuOptions,
@@ -13,10 +13,11 @@ import {
 
 
 import ActionButton from "@components/ActionButton";
-import FormsComanda from "@components/FormsComanda";
 import Header from "@components/Header";
-
-import { list2 } from "../../data";
+import CreateComanda from "@components/FormsComanda/CreateComanda";
+import EditComanda from "@components/FormsComanda/EditComanda";
+import { IComandas } from "@interfaces/main";
+import api from "@services/api";
 
 import {
   Container,
@@ -37,9 +38,31 @@ export default function Home() {
   const navigation = useNavigation();
   const [search, setSearch] = useState<string>("")
   const [showForms, setShowForms] = useState(false)
-  const [comandas, setComandas] = useState(list2)
+  const [comandas, setComandas] = useState<IComandas[]>([])
   const [comandaIndex, setComandaIndex] = useState<number>()
   const amount = comandas.length;
+
+  const loadData = async () => {
+    try {
+      const response = await api.get('comandas');
+
+      const { results } = response.data;
+
+      setComandas(results)
+    } catch (err) {
+      // adicionar tratamento da exceção
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
+    navigation.addListener(
+      'focus',
+      payload => {
+          loadData();
+      }
+  );
+  }, []);
 
   const closeForms = () => {
     setShowForms(false);
@@ -51,7 +74,7 @@ export default function Home() {
 
     Alert.alert(
       "Deletar comanda",
-      `Tem certeza que deseja excluir a comanda ${delComanda.name}?`,
+      `Tem certeza que deseja excluir a comanda ${delComanda.nome_cliente}?`,
       [
         {
           text: "Sim",
@@ -64,25 +87,9 @@ export default function Home() {
       ]
     )
   }
-  
-  // React.useEffect(() => {
-  //   const handleBackButtonClick = () => {
-  //     if (showForms) closeForms()
-  //     else navigation.goBack()
-      
-  //    return true;
-  //   }
-
-  //   const backHandler = BackHandler.addEventListener(
-  //     'hardwareBackPress', 
-  //     handleBackButtonClick
-  //   );
-
-  //   return () => backHandler.remove();
-  // }, [])
 
   const filteredSearch = search.length > 0
-    ? comandas.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+    ? comandas.filter(item => item.nome_cliente.toLowerCase().includes(search.toLowerCase()))
     : [];
 
   return (
@@ -106,18 +113,18 @@ export default function Home() {
         renderItem={({ item, index }) => {
           return (
             <Card
-              key={index}
-              onLongPress={() => console.log('oii')}
+              activeOpacity={0.7}
+              key={index}              
               onPress={() => { navigation.navigate("Comanda", { id: 1 }) }}
-              style={item.pedidos > 0 ? { borderColor: 'greenyellow' } : null}
-            >              
+              style={item.pedidos_abertos > 0 ? { borderColor: 'greenyellow' } : null}
+            >
               <Row>
                 <Id>#{item.id}</Id>
                 <Menu>
-                  <MenuTrigger style={{right: -4}} >
+                  <MenuTrigger style={{ right: -4 }} >
                     <Feather name="more-vertical" color={"#dadada"} size={17} />
                   </MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{padding: 4, maxWidth: 140, marginTop: -2}}>
+                  <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
                     <MenuOption onSelect={() => {
                       setComandaIndex(index);
                       setShowForms(true);
@@ -133,8 +140,8 @@ export default function Home() {
                         <OptionLabel>Excluir</OptionLabel>
                       </OptionContainer>
                     </MenuOption>
-                    <MenuOption disabled={item.pedidos > 0 ? false : true}>
-                    <OptionContainer>
+                    <MenuOption disabled={item.pedidos_abertos > 0 ? false : true}>
+                      <OptionContainer>
                         <Feather name="clipboard" size={13} />
                         <OptionLabel>Ver pedidos</OptionLabel>
                       </OptionContainer>
@@ -142,11 +149,11 @@ export default function Home() {
                   </MenuOptions>
                 </Menu>
               </Row>
-              <Nome numberOfLines={2}>{item.name}</Nome>
-              <Mesa>Mesa: {item.mesa}</Mesa>
-              {item.pedidos > 0 ? (
+              <Nome numberOfLines={2}>{item.nome_cliente}</Nome>
+              <Mesa>Mesa: {item.num_mesa}</Mesa>
+              {item.pedidos_abertos > 0 ? (
                 <Aviso>
-                  <AvisoLabel>{item.pedidos}</AvisoLabel>
+                  <AvisoLabel>{item.pedidos_abertos}</AvisoLabel>
                 </Aviso>
               ) : null}
             </Card>
@@ -155,10 +162,22 @@ export default function Home() {
       />
       <ActionButton name="add" size={40} onPress={() => setShowForms(true)} />
 
-      {showForms
-        ? <FormsComanda index={comandaIndex} comandas={comandas} setComandas={setComandas} toogleVisibility={closeForms} />
-        : null
-      }
+      <Modal
+        transparent={true}
+        visible={showForms}
+        onRequestClose={closeForms}
+        statusBarTranslucent={true}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+            {comandaIndex !== undefined ? (
+              <EditComanda index={comandaIndex} comandas={comandas} setComandas={setComandas} toogleVisibility={closeForms}  />
+            ) : (
+              <CreateComanda setComandas={setComandas} toogleVisibility={closeForms} />
+            )}                        
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </Modal>
     </Container>
   );
 }

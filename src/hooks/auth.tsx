@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authService } from '@services/AuthService'
-import { IUser } from '@interfaces/main'
 
 export interface AuthData {
     id: number,
@@ -13,8 +12,7 @@ export interface AuthData {
 interface AuthContextData {
     authData?: AuthData;
     signIn: (email: string, password: string) => Promise<void>;
-    signOut: () => Promise<void>;
-    signUp: (data: IUser) => Promise<void>
+    signOut: () => Promise<void>;    
     loading: boolean;
 }
 
@@ -40,13 +38,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         const auth = await authService.signIn(email, password);
         setAuth(auth);
         AsyncStorage.setItem("@AuthData", JSON.stringify(auth));
-    }
-
-    async function signUp(data: IUser){
-        const auth = await authService.signUp(data);
-        setAuth(auth);
-        AsyncStorage.setItem("@AuthData", JSON.stringify(auth));
-    }
+    }   
         
     async function signOut(){
         setAuth(undefined);
@@ -54,7 +46,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{authData, loading, signIn, signOut, signUp}}>
+        <AuthContext.Provider value={{authData, loading, signIn, signOut}}>
             {children}
         </AuthContext.Provider>
     );

@@ -22,15 +22,24 @@ interface Props {
 }
 
 export default function EditLogin({ user, setUser, toogleForm, uID }: Props) {
+  let oldLogin = user?.login || "";
   const [text, setText] = useState(user?.login || "");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let errorMsg = ""
 
     if (text.length === 0) errorMsg = "Por favor, insira o login"
     else if (text.length < 3) errorMsg = "Login muito curto. O login pode ter no mínimo 3 caracteres"
     else if (text.length > 50) errorMsg = "Login muito longo. O login pode ter no máximo 50 caracteres"
+    else if (text.trim().toLowerCase() != oldLogin.trim().toLowerCase()){
+      const response = await api.get('users');
+      const { results } = response.data;
+
+      results.forEach((doc: IUser) => {        
+        if (text.trim().toLowerCase() === doc.login) errorMsg = "Já existe um usuário com este login"
+      });
+    }
 
     if (errorMsg === "" && user) {
       setError("")

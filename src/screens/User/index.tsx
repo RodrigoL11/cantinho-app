@@ -96,7 +96,6 @@ export default function User({ route }: any) {
       const userResult = userResponse.data.results;
       setUser(userResult[0]);
 
-
       const phoneResponse = await api.get(`phones/${id}`)
       const phoneResults = phoneResponse.data.results;
       setPhones(phoneResults);

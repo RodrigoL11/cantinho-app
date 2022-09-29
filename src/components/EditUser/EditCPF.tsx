@@ -23,16 +23,25 @@ interface Props {
 }
 
 export default function EditCPF({ user, setUser, toogleForm, uID }: Props) {
+  let oldCpf = user?.cpf;
   const [text, setText] = useState(user?.cpf || "");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let errorMsg = ""
 
     if (text.length === 0) errorMsg = "Por favor, insira um CPF"
     else if (text.length != 11) errorMsg = "CPF precisa ter 11 dígitos"
     else if (!isValidCPF(text)) errorMsg = "CPF inválido"
+    else if (text !== oldCpf){
+      const response = await api.get('users');
+      const { results } = response.data;
 
+      results.forEach((doc: IUser) => {
+        if (text === doc.cpf) errorMsg = "Já existe um usuário com este CPF"
+      });
+    }
+    
     if (errorMsg === "" && user) {
       setError("");
       Alert.alert(

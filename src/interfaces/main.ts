@@ -26,3 +26,14 @@ export interface IAddress {
     estado: string,
     uID?: number
 }
+
+export interface IComandas {
+    id?: number,
+    data_hora_abertura: string,
+    data_hora_finalizada?: string,
+    pedidos_abertos: number,
+    nome_cliente: string,
+    num_mesa: string,
+    status: string,
+    uID?: number,
+}

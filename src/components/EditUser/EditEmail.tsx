@@ -22,16 +22,25 @@ interface Props {
 }
 
 export default function EditEmail({ user, setUser, toogleForm, uID }: Props) {
+  let oldEmail = user?.email || "";
   const [text, setText] = useState(user?.email || "");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let errorMsg = ""
 
     if (text.length === 0) errorMsg = "Por favor, insira o email"
     else if (text.length < 8) errorMsg = "E-mail muito curto. O e-mail pode ter no mínimo 8 caracteres"
     else if (text.length > 50) errorMsg = "E-mail muito longo. O e-mail pode ter no máximo 50 caracteres"
     else if (!text.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) errorMsg = "Formato de E-mail inválido";
+    else if (text.trim().toLowerCase() != oldEmail.trim().toLowerCase()) {
+      const response = await api.get('users');
+      const { results } = response.data;
+
+      results.forEach((doc: IUser) => {        
+        if (text.trim().toLowerCase() === doc.email) errorMsg = "Já existe um usuário com este e-mail"
+      });
+    }
 
     if (errorMsg === "" && user) {
       setError("")

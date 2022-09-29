@@ -22,14 +22,14 @@ export const Card = styled.View`
     background-color: #fff;
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
-    align-items: center;
-    padding: 20px;
     
+    padding: 10px 20px 0px 20px;
+    justify-content: space-between;
 `
 
 export const Label = styled.Text`
     color: #000;
-    text-align: left;
+    font-weight: 400;
 `
 
 export const Column = styled.View<InputProps>`
@@ -53,18 +53,12 @@ export const Input = styled.TextInput`
 export const Title = styled.Text`
     font-size: 23px;
     font-weight: bold;
+    text-align: center;
 `
 
-export const ButtonContainer = styled.TouchableOpacity`
-    width: 80%;
-    height: 42px;
-    background-color: ${({ theme }) => theme.colors.button_bg};
-    align-items: center;
-    justify-content: center;
-    margin-top: 28px;
-`
-
-export const ButtonTitle = styled.Text`
-    color: ${({ theme }) => theme.colors.button_color};
+export const ErrorMessage = styled.Text`
+    color: red;
     font-weight: bold;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
 `
