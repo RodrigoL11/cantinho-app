@@ -2,6 +2,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
+  background-color: ${({theme}) => theme.colors.background};
 `
 
 export const Card = styled.TouchableOpacity`
@@ -14,6 +15,7 @@ export const Card = styled.TouchableOpacity`
 `
 
 export const InputContainer = styled.View`
+  margin-top: 10px;
   width: 100%;
   align-items: center;
 `
@@ -25,6 +27,7 @@ export const Input = styled.TextInput`
   border-color: #999;
   color: #666;
   width: 95%;
+  padding-left: 2px;
 `
 
 export const Row = styled.View`

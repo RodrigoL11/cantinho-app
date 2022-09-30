@@ -17,6 +17,9 @@ export declare global {
       Users: undefined;
       User: UserProps;
       Produtos: undefined;
+      Pedidos: undefined;
+      Relatorios: undefined;
+      Estoque: undefined;
     }
   }
 }

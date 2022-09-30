@@ -11,21 +11,21 @@ import {
   QuantityContainer,
   Quantity,
 } from "./styles";
-
-
-interface DataProps {
-  data: ListItem
+import { IProdutos } from "@interfaces/main";
+interface Props {
+  data: IProdutos
 }
 
-export default function Item({ data }: DataProps) {
-  const { name, price, qtd } = data
-  const [quantity, setQuantity] = useState<number>(qtd);
+export default function Item({ data }: Props) {
+  const { nome, valor_tabela } = data
+
+  const [quantity, setQuantity] = useState<number>(0);
 
   return (
     <Container>
       <Column>
-        <Name>{name}</Name>
-        <Value>R$ {price.toFixed(2)}</Value>
+        <Name>{nome}</Name>
+        <Value>R$ {valor_tabela.toFixed(2)}</Value>
       </Column>
       <QuantityContainer removeClippedSubviews={true}>
         <Ionicons

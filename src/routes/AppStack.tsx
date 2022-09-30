@@ -8,6 +8,9 @@ import Comanda from '@screens/Comanda';
 import Users from '@screens/Users';
 import User from '@screens/User';
 import Produtos from '@screens/Produtos';
+import Pedidos from '@screens/Pedidos';
+import Relatorios from '@screens/Relatorios';
+import Estoque from '@screens/Estoque';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -28,8 +31,7 @@ export function App() {
         />
         <Screen 
           name="Comanda"
-          component={Comanda}
-          initialParams={{ id: 0 }}
+          component={Comanda}         
         />
         <Screen 
           name="Users"
@@ -42,6 +44,18 @@ export function App() {
         <Screen 
           name="Produtos"
           component={Produtos}
+        />
+        <Screen 
+          name="Pedidos"
+          component={Pedidos}
+        />
+        <Screen 
+          name="Relatorios"
+          component={Relatorios}
+        />
+        <Screen 
+          name="Estoque"
+          component={Estoque}
         />
       </Navigator>
   );

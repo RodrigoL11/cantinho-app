@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Ionicons  } from '@expo/vector-icons';
 
@@ -10,6 +10,8 @@ import {
 } from "./styles";
 
 import Item from "../Item";
+import { IProdutos } from "@interfaces/main";
+import api from "@services/api";
 
 export interface ListItem {
   name: string;
@@ -18,13 +20,24 @@ export interface ListItem {
 }
 
 interface ListItemProps {
-  items: ListItem[];
+  cID: number;
   title: string;
 }
 
-export default function AccordionMenu({ title, items }: ListItemProps) {
+export default function AccordionMenu({ title, cID }: ListItemProps) {
   const [open, setOpen] = useState(false);
-  
+  const [produtos, setProdutos] = useState<IProdutos[]>([])
+
+  const loadData = async () => {
+    const response = await api.get(`produtos/categoria_id=${cID}`)
+    const { results } = response.data
+    setProdutos(results)
+  }
+
+  useEffect(() => {
+    loadData();
+  }, [])
+
   return (
         <Container>
           <TitleContainer activeOpacity={1} onPress={() => setOpen((prev) => !prev)} style={open == false ? {top: 4} : null}>
@@ -33,7 +46,7 @@ export default function AccordionMenu({ title, items }: ListItemProps) {
           </TitleContainer>
           {open && (
             <Menu>
-              {items.map((item, index) => (
+              {produtos.map((item, index) => (
                 <Item data={item} key={index} />
               ))}
             </Menu>

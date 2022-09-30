@@ -22,8 +22,7 @@ export const Card = styled.View`
     background-color: #fff;
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
-    
-    padding: 10px 20px 0px 20px;
+    padding: 20px 20px 0px 20px;
     justify-content: space-between;
 `
 
@@ -36,11 +35,10 @@ export const Column = styled.View<InputProps>`
     width: ${(props) => props.size}%;
 `
 
-export const Row = styled.View`
-    margin-top: 18px;
+export const Row = styled.View`    
     flex-direction: row;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-between;    
 `
 
 export const Input = styled.TextInput`
@@ -53,7 +51,7 @@ export const Input = styled.TextInput`
 export const Title = styled.Text`
     font-size: 23px;
     font-weight: bold;
-    text-align: center;
+    text-align: center;    
 `
 
 export const ErrorMessage = styled.Text`

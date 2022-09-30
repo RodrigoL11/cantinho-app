@@ -58,7 +58,7 @@ export default function Home() {
           </CardIcon>
           <CardTitle>Comandas</CardTitle>
         </Card>
-        <Card activeOpacity={0.45}>
+        <Card activeOpacity={0.45} onPress={() => navigator.navigate("Pedidos")}>
           <CardIcon>
             <Feather name="clock" size={60} color="#fff" />
           </CardIcon>
@@ -70,12 +70,13 @@ export default function Home() {
           </CardIcon>
           <CardTitle>Usuários</CardTitle>
         </Card>
-        <Card activeOpacity={0.45}>
+        <Card activeOpacity={0.45} onPress={() => navigator.navigate("Relatorios")}>
           <CardIcon>
             <Feather name="bar-chart" size={60} color="#fff" />
           </CardIcon>
-          <CardTitle>Relátorios</CardTitle></Card>
-        <Card activeOpacity={0.45}>
+          <CardTitle>Relátorios</CardTitle>
+        </Card>
+        <Card activeOpacity={0.45} onPress={() => navigator.navigate("Estoque")}>
           <CardIcon>
             <Feather name="database" size={60} color="#fff" />
           </CardIcon>

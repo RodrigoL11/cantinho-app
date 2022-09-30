@@ -4,7 +4,7 @@ export const Container = styled.View`
     width: 90%;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    background-color: #00B29B;
+    background-color: ${({theme}) => theme.colors.primary_color};
     border-radius: 9px;
 `
 
@@ -12,7 +12,7 @@ export const TitleContainer = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: #00B29B;
+    background-color: ${({theme}) => theme.colors.primary_color};
     height: 40px;
     padding: 0 18px;
     border-top-left-radius: 14px;

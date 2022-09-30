@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import AccordionMenu from "@components/AccordionMenu";
@@ -9,18 +9,20 @@ import {
   Content
 } from "./styles";
 
-import { list2 } from "../../data";
 import api from "@services/api";
+import { ICategories } from "@interfaces/main";
+import ActionButton from "@components/ActionButton";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
   const { id } = route.params;
 
-  const loadData = async () => {
-    const response = await api.get(`pedidos/${id}`)
-    const { results } = response.data;
+  const [categories, setCategories] = useState<ICategories[]>([]);
 
-    console.log(results)
+  const loadData = async () => {
+    const response = await api.get(`categorias`)
+    const { results } = response.data;
+    setCategories(results);    
   }
 
   useEffect(() => {
@@ -34,14 +36,19 @@ export default function Comanda({ route }: any) {
         onPress={navigation.goBack}
       />
       <Content>
-        {list2[id].data.map((item, index) => (
+        {categories.map((item, index) => (
           <AccordionMenu
-            title={item.name}
-            items={item.items}
+            title={item.nome}
+            cID={item.id}
             key={index} 
           />
         ))}
       </Content>
+      <ActionButton 
+        name="save"
+        size={26}
+        onPress={() => {return null}}
+      />
     </Container>
   );
 }

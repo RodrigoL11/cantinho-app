@@ -8,12 +8,12 @@ import {
     Content
 } from './styles'
 
-export default function Pedidos(){
+export default function Relatorios(){
     const navigation = useNavigation(); 
 
     return(
         <Container>
-            <Header title="Pedidos" onPress={() => navigation.goBack()}/>
+            <Header title="Relátorios" onPress={() => navigation.goBack()}/>
             <Content>
                 
             </Content>

@@ -37,3 +37,20 @@ export interface IComandas {
     status: string,
     uID?: number,
 }
+
+export interface ICategories{
+    id: number,
+    nome: string,
+    status: string,
+    tipo: string
+}
+
+export interface IProdutos{
+    id: number,
+    nome: string,
+    preco_custo: number,
+    quantidade_estoque: number,
+    valor_tabela: number,
+    status: string,
+    cID: number
+}
