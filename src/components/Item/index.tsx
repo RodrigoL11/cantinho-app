@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Ionicons } from '@expo/vector-icons';
 
-import { ListItem } from '../AccordionMenu'
-
 import {
   Name,
   Container,
@@ -11,9 +9,9 @@ import {
   QuantityContainer,
   Quantity,
 } from "./styles";
-import { IProdutos } from "@interfaces/main";
+import { IProducts } from "@interfaces/main";
 interface Props {
-  data: IProdutos
+  data: IProducts
 }
 
 export default function Item({ data }: Props) {

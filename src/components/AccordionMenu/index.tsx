@@ -10,7 +10,7 @@ import {
 } from "./styles";
 
 import Item from "../Item";
-import { IProdutos } from "@interfaces/main";
+import { IProducts } from "@interfaces/main";
 import api from "@services/api";
 
 export interface ListItem {
@@ -26,12 +26,12 @@ interface ListItemProps {
 
 export default function AccordionMenu({ title, cID }: ListItemProps) {
   const [open, setOpen] = useState(false);
-  const [produtos, setProdutos] = useState<IProdutos[]>([])
+  const [products, setProducts] = useState<IProducts[]>([])
 
   const loadData = async () => {
     const response = await api.get(`produtos/categoria_id=${cID}`)
     const { results } = response.data
-    setProdutos(results)
+    setProducts(results)
   }
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function AccordionMenu({ title, cID }: ListItemProps) {
           </TitleContainer>
           {open && (
             <Menu>
-              {produtos.map((item, index) => (
+              {products.map((item, index) => (
                 <Item data={item} key={index} />
               ))}
             </Menu>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { Platform, StyleSheet } from 'react-native';
 
 import {
@@ -18,7 +18,7 @@ export default function Header({ title, onPress }: Props) {
     return (
         <Container style={Platform.OS === 'ios' ? styles.boxShadowiOS : styles.boxShadowAndroid}>
             <Icon onPress={onPress}>
-                <Feather name="arrow-left" onPress={onPress} size={30} color="#000000" />
+                <Ionicons name="ios-arrow-back-outline" onPress={onPress} size={25} color="#333" />
             </Icon>
             <Title>{title}</Title>
         </Container>

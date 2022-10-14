@@ -16,14 +16,13 @@ import ActionButton from "@components/ActionButton";
 import Header from "@components/Header";
 import CreateComanda from "@components/FormsComanda/CreateComanda";
 import EditComanda from "@components/FormsComanda/EditComanda";
+import SearchInput from '@components/SearchInput';
 import { IComandas } from "@interfaces/main";
 import api from "@services/api";
 
 import {
   Container,
   Card,
-  InputContainer,
-  Input,
   Row,
   Nome,
   Mesa,
@@ -59,9 +58,9 @@ export default function Home() {
     navigation.addListener(
       'focus',
       payload => {
-          loadData();
+        loadData();
       }
-  );
+    );
   }, []);
 
   const closeForms = () => {
@@ -82,7 +81,7 @@ export default function Home() {
         },
         {
           text: "Cancelar",
-          onPress: () => { return }
+          onPress: () => { return null}
         }
       ]
     )
@@ -98,30 +97,28 @@ export default function Home() {
         title={`Comandas (${amount})`}
         onPress={navigation.goBack}
       />
-      <InputContainer>
-        <Input
-          placeholder="Buscar..."
-          onChangeText={e => setSearch(e)}
-          value={search}
-        />
-      </InputContainer>
+      <SearchInput
+        placeholder="Buscar comanda..."
+        onChangeText={e => setSearch(e)}
+        value={search}
+      />
       <FlatGrid
         itemDimension={100}
         data={search.length > 0 ? filteredSearch : comandas}
-        style={{ flex: 1, marginTop: 10 }}
+        style={{ flex: 1 }}
         spacing={10}
         renderItem={({ item, index }) => {
           return (
             <Card
               activeOpacity={0.7}
-              key={index}              
+              key={index}
               onPress={() => { navigation.navigate("Comanda", { id: item.id }) }}
               style={item.pedidos_abertos > 0 ? { borderColor: 'greenyellow' } : null}
             >
               <Row>
                 <Id>#{item.id}</Id>
                 <Menu>
-                  <MenuTrigger style={{ right: -4 }} >
+                  <MenuTrigger style={{ position: 'absolute' }} >
                     <Feather name="more-vertical" color={"#dadada"} size={17} />
                   </MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
@@ -171,10 +168,10 @@ export default function Home() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
             {comandaIndex !== undefined ? (
-              <EditComanda index={comandaIndex} comandas={comandas} setComandas={setComandas} toogleVisibility={closeForms}  />
+              <EditComanda index={comandaIndex} comandas={comandas} setComandas={setComandas} toogleVisibility={closeForms} />
             ) : (
               <CreateComanda setComandas={setComandas} toogleVisibility={closeForms} />
-            )}                        
+            )}
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </Modal>

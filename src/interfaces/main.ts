@@ -45,7 +45,7 @@ export interface ICategories{
     tipo: string
 }
 
-export interface IProdutos{
+export interface IProducts{
     id: number,
     nome: string,
     preco_custo: number,
@@ -53,4 +53,5 @@ export interface IProdutos{
     valor_tabela: number,
     status: string,
     cID: number
+    categoria_nome?: string,
 }

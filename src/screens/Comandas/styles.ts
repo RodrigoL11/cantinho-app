@@ -14,22 +14,6 @@ export const Card = styled.TouchableOpacity`
   padding: 2px 4px;
 `
 
-export const InputContainer = styled.View`
-  margin-top: 10px;
-  width: 100%;
-  align-items: center;
-`
-
-export const Input = styled.TextInput`
-  font-size: 18px;
-  height: 44px;
-  border-bottom-width: 1px;
-  border-color: #999;
-  color: #666;
-  width: 95%;
-  padding-left: 2px;
-`
-
 export const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;

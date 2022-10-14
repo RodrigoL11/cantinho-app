@@ -27,8 +27,8 @@ function ProdutosTabs() {
     <>
       <Header title='Produtos' onPress={navigation.goBack} />
       <Tab.Navigator>
-        <Tab.Screen name="ProdutosTab" options={{title: 'Produtos'}} component={Produtos} />
-        <Tab.Screen name="CategoriasTab" options={{title: 'Categorias', }} component={Categorias} />
+        <Tab.Screen name="ProdutosTab" component={Produtos} />
+        <Tab.Screen name="CategoriasTab" component={Categorias} />
       </Tab.Navigator>
     </>
   )
