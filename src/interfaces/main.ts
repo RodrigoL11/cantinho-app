@@ -42,7 +42,8 @@ export interface ICategories{
     id: number,
     nome: string,
     status: string,
-    tipo: string
+    tipo: string,
+    NumberOfProducts?: number,
 }
 
 export interface IProducts{

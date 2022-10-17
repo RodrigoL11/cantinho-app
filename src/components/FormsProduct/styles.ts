@@ -18,8 +18,8 @@ export const Row = styled.View`
   flex-direction: row;
 `
 
-export const Column = styled.View<ColumnProps>`
-  width: ${(props) => props.width}%;
+export const Column = styled.View`
+  width: 49%;
 `
 
 export const ErrorMessage = styled.Text`

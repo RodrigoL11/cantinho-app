@@ -11,7 +11,7 @@ interface InputProps extends CurrencyInputProps {
 
 const MoneyInput: React.FC<InputProps> = ({ value, placeholder, label, ...rest }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
+  const [isFilled, setIsFilled] = useState(value != 0 || false);
   
   value = value == null ? 0 : value
 

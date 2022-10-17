@@ -88,7 +88,7 @@ export default function Home() {
   }
 
   const filteredSearch = search.length > 0
-    ? comandas.filter(item => item.nome_cliente.toLowerCase().includes(search.toLowerCase()))
+    ? comandas.filter(item => item.nome_cliente.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
     : [];
 
   return (
@@ -113,13 +113,13 @@ export default function Home() {
               activeOpacity={0.7}
               key={index}
               onPress={() => { navigation.navigate("Comanda", { id: item.id }) }}
-              style={item.pedidos_abertos > 0 ? { borderColor: 'greenyellow' } : null}
+              hasPedidos={item.pedidos_abertos > 0}              
             >
               <Row>
                 <Id>#{item.id}</Id>
                 <Menu>
-                  <MenuTrigger style={{ position: 'absolute' }} >
-                    <Feather name="more-vertical" color={"#dadada"} size={17} />
+                  <MenuTrigger style={{ position: 'absolute', right: -4, top: -2}} >
+                    <Feather name="more-vertical" color={"#a5a5a5"} size={20} />
                   </MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
                     <MenuOption onSelect={() => {

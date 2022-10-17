@@ -150,7 +150,7 @@ export default function EditAddress({ id, toogleForm, setAddress, address }: Pro
 
   const deleteAddress = async () => {
     Alert.alert(
-      "Deletar usuário",
+      "Deletar endereço",
       `Tem certeza que deseja excluir o endereço ${selectedAddress?.logradouro}?`,
       [
         {

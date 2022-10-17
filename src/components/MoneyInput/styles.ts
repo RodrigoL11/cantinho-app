@@ -36,9 +36,11 @@ export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
       font-weight: 600;
     ` : css`
       transform: translateY(0px);
+      font-size: 14px;
       color: #ababab;
   `}
 `;
+
 export const LabeledInput = styled(CurrencyInput)`
   top: 7px;
   flex: 1;

@@ -1,17 +1,28 @@
-import styled from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
+
+interface ICard{
+  hasPedidos: boolean
+}
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
   background-color: ${({theme}) => theme.colors.background};
 `
 
-export const Card = styled.TouchableOpacity`
+export const Card = styled.TouchableOpacity<ICard>`
   border-width: 1px;
   border-color: transparent;
   height: 100px;
   background-color: #fff;
   justify-content: space-between;
   padding: 2px 4px;
+
+  ${(props) => 
+    props.hasPedidos 
+    && css`
+      border-color: ${({theme}) => theme.colors.primary_color}
+    `
+  };
 `
 
 export const Row = styled.View`
@@ -40,7 +51,7 @@ export const Mesa = styled.Text`
 export const Aviso = styled.View`
   align-items: center;
   justify-content: center;
-  background-color: greenyellow;
+  background-color: ${({theme}) => theme.colors.primary_color};
   padding: 3.5px 7px;
   border-top-left-radius: 4px;
   position: absolute;
