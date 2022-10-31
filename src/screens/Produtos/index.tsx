@@ -41,18 +41,23 @@ export default function Produtos() {
   }
 
   useEffect(() => {
-    loadData();
+    navigation.addListener(
+      'focus',
+      payload => {
+        loadData();
+      }
+    );
   }, [])
 
   useEffect(() => {
     navigation.setOptions({
-      title: `Produtos (${products.length})`
+      title: `Produtos (${products.filter(c => c.status != 'inativo').length})`
     })
   }, [products])
 
   const filteredProducts = search.length > 0
     ? products.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
-    : products;  
+    : products;
 
   return (
     <Container>
@@ -76,7 +81,7 @@ export default function Produtos() {
             >
               <Card >
                 <Column>
-                  <Row>                    
+                  <Row>
                     <Name>{item.nome}</Name>
                     <Category> ({item.categoria_nome})</Category>
                   </Row>
@@ -94,8 +99,9 @@ export default function Produtos() {
 
       <ActionButton name="add" size={40} onPress={() => {
         setSelected(undefined);
-        setShow(true)}
-        } />
+        setShow(true)
+      }
+      } />
       <Modal
         visible={show}
         onRequestClose={() => setShow(false)}
@@ -103,8 +109,8 @@ export default function Produtos() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           {selected
-          ? <EditProduct toogleForm={() => setShow(false)} setProducts={setProducts} products={products} pID={selected.id}/>
-          : <CreateProduct toogleForm={() => setShow(false)} setProducts={setProducts}/> }
+            ? <EditProduct toogleForm={() => setShow(false)} setProducts={setProducts} products={products} pID={selected.id} />
+            : <CreateProduct toogleForm={() => setShow(false)} setProducts={setProducts} />}
         </TouchableWithoutFeedback>
 
       </Modal>

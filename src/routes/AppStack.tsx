@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useNavigation } from '@react-navigation/native';
 
 import Home from '@screens/Home';
 import SignUp from '@screens/SignUp';
@@ -14,7 +15,7 @@ import Relatorios from '@screens/Relatorios';
 import Estoque from '@screens/Estoque';
 import Categorias from '@screens/Categorias';
 import Header from '@components/Header';
-import { useNavigation } from '@react-navigation/native';
+import CriarPedido from '@screens/CriarPedido';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -47,6 +48,7 @@ export function App() {
       <Screen name="Pedidos" component={Pedidos} />
       <Screen name="Relatorios" component={Relatorios} />
       <Screen name="Estoque" component={Estoque} />
+      <Screen name="CriarPedido" component={CriarPedido} />
     </Navigator>
   );
 }

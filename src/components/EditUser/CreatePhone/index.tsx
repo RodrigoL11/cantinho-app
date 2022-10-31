@@ -74,7 +74,8 @@ export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
         DDI: DDI,
         DDD: DDD,
         num_telefone: numero,
-        uID: uID
+        uID: uID,
+        status: 'ativo',
       }
 
       await api.post('phones', {

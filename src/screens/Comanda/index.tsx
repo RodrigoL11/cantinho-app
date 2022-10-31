@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import AccordionMenu from "@components/AccordionMenu";
 import Header from "@components/Header";
 
 import {
@@ -10,44 +9,47 @@ import {
 } from "./styles";
 
 import api from "@services/api";
-import { ICategories } from "@interfaces/main";
 import ActionButton from "@components/ActionButton";
+import Orders from "@components/Orders";
+import { IFormatedOrder } from "@interfaces/main";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
-  const { id } = route.params;
+  const { comandaID } = route.params;
+  
+  const [pedidos, setPedidos] = useState<IFormatedOrder[]>([]);
 
-  const [categories, setCategories] = useState<ICategories[]>([]);
-
-  const loadData = async () => {
-    const response = await api.get(`categorias`)
+  const loadData = async () => {    
+    const response = await api.get(`pedidos/comanda_id/${comandaID}`)
     const { results } = response.data;
-    setCategories(results);    
+    setPedidos(results);
   }
 
   useEffect(() => {
-    loadData();
+    navigation.addListener(
+      'focus',
+      payload => {
+        loadData();
+      }
+    );
   }, [])
 
   return (
     <Container>
       <Header
-        title={`Comanda nº ${id+1}`}
+        title={`Comanda nº ${comandaID}`}
         onPress={navigation.goBack}
       />
+
       <Content>
-        {categories.map((item, index) => (
-          <AccordionMenu
-            title={item.nome}
-            cID={item.id}
-            key={index} 
-          />
-        ))}
+        <Orders 
+          orders={pedidos}          
+        />        
       </Content>
       <ActionButton 
-        name="save"
-        size={26}
-        onPress={() => {return null}}
+        name="add"
+        size={40}
+        onPress={() => navigation.navigate("CriarPedido", { comandaID: comandaID })}
       />
     </Container>
   );

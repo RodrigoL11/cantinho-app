@@ -104,9 +104,7 @@ export default function User({ route }: any) {
       const addressResults = addressResponse.data.results;
       setAddress(addressResults);
 
-    } catch (error) {
-
-      console.error(error);
+    } catch (error) {      
     }
   }
 
@@ -200,7 +198,8 @@ export default function User({ route }: any) {
         <Section>
           {phones.length == 0 ? (
             <NoDataText text="telefone"/>
-          ) : phones.map((item, index) => (
+          ) : phones.map((item, index) => 
+            item.status === 'ativo' &&
             <DataContainer height={37} last={phones[phones.length - 1] === item} key={index}
             onPress={() => {              
               setPhoneID(item.id || 1);
@@ -209,7 +208,7 @@ export default function User({ route }: any) {
             }}>
               <DataLabel>+{item.DDI} {item.DDI == "55" ? `(${item.DDD})` : item.DDD} {item.DDI === "55" ? item.num_telefone.replace(/(\d{5})/, "$1-") : item.num_telefone}</DataLabel>
             </DataContainer>
-          ))}
+          )}
         </Section>
         <AddButtonContainer onPress={() => {
           setType("add-phone");

@@ -39,15 +39,22 @@ export default function Categorias() {
         } catch (error) {
             console.error(error);
         }
-    }
+    }    
 
     useEffect(() => {
         loadData();
+        
+        navigation.addListener(
+            'focus',
+            payload => {
+              loadData();
+            }
+          );
     }, [])
 
     useEffect(() => {
         navigation.setOptions({
-            title: `Categorias (${categories.length})`
+            title: `Categorias (${categories.filter(c => c.status != 'inativo').length})`
         })
     }, [categories])
 

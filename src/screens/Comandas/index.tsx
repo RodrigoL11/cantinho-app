@@ -38,8 +38,7 @@ export default function Home() {
   const [search, setSearch] = useState<string>("")
   const [showForms, setShowForms] = useState(false)
   const [comandas, setComandas] = useState<IComandas[]>([])
-  const [comandaIndex, setComandaIndex] = useState<number>()
-  const amount = comandas.length;
+  const [comandaID, setComandaID] = useState<number>()  
 
   const loadData = async () => {
     try {
@@ -49,27 +48,23 @@ export default function Home() {
 
       setComandas(results)
     } catch (err) {
-      // adicionar tratamento da exceção
       console.error(err);
     }
   }
 
   useEffect(() => {
-    navigation.addListener(
-      'focus',
-      payload => {
-        loadData();
-      }
-    );
+    loadData();
   }, []);
 
   const closeForms = () => {
     setShowForms(false);
-    setComandaIndex(undefined);
+    setComandaID(undefined);
   }
 
   const deleteComanda = (id: number) => {
-    const delComanda = comandas[id]
+    const delComanda = comandas.find(c => c.id == id)
+
+    if(!delComanda) return null;
 
     Alert.alert(
       "Deletar comanda",
@@ -77,11 +72,16 @@ export default function Home() {
       [
         {
           text: "Sim",
-          onPress: () => { setComandas(comandas.filter(comanda => comanda !== delComanda)) }
+          onPress: async () => {
+            await api.delete(`comandas/${delComanda.id}`)
+              .then(response => {
+                setComandas(comandas.filter(comanda => comanda !== delComanda))
+              })
+          }
         },
         {
           text: "Cancelar",
-          onPress: () => { return null}
+          onPress: () => { return null }
         }
       ]
     )
@@ -89,12 +89,12 @@ export default function Home() {
 
   const filteredSearch = search.length > 0
     ? comandas.filter(item => item.nome_cliente.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
-    : [];
+    : comandas;
 
   return (
     <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Header
-        title={`Comandas (${amount})`}
+        title={`Comandas (${filteredSearch.length})`}
         onPress={navigation.goBack}
       />
       <SearchInput
@@ -104,7 +104,7 @@ export default function Home() {
       />
       <FlatGrid
         itemDimension={100}
-        data={search.length > 0 ? filteredSearch : comandas}
+        data={filteredSearch}
         style={{ flex: 1 }}
         spacing={10}
         renderItem={({ item, index }) => {
@@ -112,18 +112,18 @@ export default function Home() {
             <Card
               activeOpacity={0.7}
               key={index}
-              onPress={() => { navigation.navigate("Comanda", { id: item.id }) }}
-              hasPedidos={item.pedidos_abertos > 0}              
+              onPress={() => { navigation.navigate("Comanda", { comandaID: item.id }) }}
+              hasPedidos={item.pedidos_abertos > 0}
             >
               <Row>
                 <Id>#{item.id}</Id>
                 <Menu>
-                  <MenuTrigger style={{ position: 'absolute', right: -4, top: -2}} >
+                  <MenuTrigger style={{ position: 'absolute', right: -4, top: 2.5 }} >
                     <Feather name="more-vertical" color={"#a5a5a5"} size={20} />
                   </MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
                     <MenuOption onSelect={() => {
-                      setComandaIndex(index);
+                      setComandaID(item.id);
                       setShowForms(true);
                     }}>
                       <OptionContainer>
@@ -131,7 +131,7 @@ export default function Home() {
                         <OptionLabel>Editar</OptionLabel>
                       </OptionContainer>
                     </MenuOption>
-                    <MenuOption onSelect={() => deleteComanda(index)}>
+                    <MenuOption onSelect={() => deleteComanda(item.id)}>
                       <OptionContainer>
                         <Feather name="trash-2" size={13} />
                         <OptionLabel>Excluir</OptionLabel>
@@ -148,11 +148,11 @@ export default function Home() {
               </Row>
               <Nome numberOfLines={2}>{item.nome_cliente}</Nome>
               <Mesa>Mesa: {item.num_mesa}</Mesa>
-              {item.pedidos_abertos > 0 ? (
+              {item.pedidos_abertos > 0 && 
                 <Aviso>
                   <AvisoLabel>{item.pedidos_abertos}</AvisoLabel>
                 </Aviso>
-              ) : null}
+              }
             </Card>
           )
         }}
@@ -167,8 +167,8 @@ export default function Home() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-            {comandaIndex !== undefined ? (
-              <EditComanda index={comandaIndex} comandas={comandas} setComandas={setComandas} toogleVisibility={closeForms} />
+            {comandaID ? (
+              <EditComanda comandaID={comandaID} comandas={comandas} setComandas={setComandas} toogleVisibility={closeForms} />
             ) : (
               <CreateComanda setComandas={setComandas} toogleVisibility={closeForms} />
             )}

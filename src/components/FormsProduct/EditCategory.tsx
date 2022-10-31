@@ -46,7 +46,7 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
     precoCusto: "",
     valorTabela: "",
     estoque: "",
-    selectedCategory: ""
+    selected: ""
   });
 
   const handleSubmit = async () => {
@@ -55,7 +55,7 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
       precoCusto: "",
       valorTabela: "",
       estoque: "",
-      selectedCategory: ""
+      selected: ""
     }
 
     if (nome.length === 0) _errors.nome = "Por favor, insira um nome"
@@ -63,7 +63,7 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
 
-    if (selected === undefined) _errors.selectedCategory = "Selecione um tipo"
+    if (selected === undefined) _errors.selected = "Selecione um tipo"
 
     let hasError = false;
 
@@ -78,7 +78,7 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
       if (!selected) return
       
       let validatedData: ICategories = {
-        id: -1,
+        id: category.id,        
         tipo: selected.nome,
         nome: nome.trim(),
         status: 'ativo',
@@ -152,7 +152,7 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
           onChange={setSelected}
           itemSelected={selected}
         />
-        {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
+        {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}
       </Content>
       <Button reverse={true} title="Excluir categoria" onPress={handleDelete} />
       <Button title="Salvar" onPress={handleSubmit} />

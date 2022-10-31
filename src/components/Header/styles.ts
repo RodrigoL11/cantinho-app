@@ -8,6 +8,12 @@ export const Container = styled.View`
     flex-direction: row;
     align-items: center;
     box-shadow: 10px 5px 5px black;
+    justify-content: space-between;
+`
+
+export const Row = styled.View`
+    flex-direction: row;
+    align-items: center;
 `
 
 export const Icon = styled.TouchableOpacity`
@@ -17,5 +23,9 @@ export const Icon = styled.TouchableOpacity`
 export const Title = styled.Text`
     margin-left: 5%;
     font-weight: 400;
-    font-size: 19px;
+    font-size: 18px;
+`
+
+export const ExtraIcon = styled.TouchableOpacity`
+    margin-right: 3%;
 `

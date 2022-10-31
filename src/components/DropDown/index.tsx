@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Feather, MaterialIcons } from '@expo/vector-icons'
 
 import {
@@ -41,6 +41,10 @@ export default function DropDown({ onChange, items, placeholder, itemSelected }:
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<any>(itemSelected);
+
+  useEffect(() => {
+    setSelected(itemSelected)
+  }, [itemSelected])
 
   const filteredItems = search.length > 0
     ? items.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))

@@ -33,20 +33,21 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
   const [valorTabela, setValorTabela] = useState<number>(product.valor_tabela);
   const [estoque, setEstoque] = useState<number>(product.quantidade_estoque);
   const [categories, setCategories] = useState<ICategories[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<ICategories>();
+  const [selected, setSelected] = useState<ICategories>();
   const [errors, setErrors] = useState({
     nome: "",
     precoCusto: "",
     valorTabela: "",
     estoque: "",
-    selectedCategory: ""
+    selected: ""
   });
 
   const loadData = async () => {
     try {
       const reponse = await api.get(`categorias`);
       const { results } = reponse.data;
-      setCategories(results);          
+      setSelected(results.find((r: ICategories) => r.id == product.cID));     
+      setCategories(results);
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +63,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
       precoCusto: "",
       valorTabela: "",
       estoque: "",
-      selectedCategory: ""
+      selected: ""
     }
 
     if (nome.length === 0) _errors.nome = "Por favor, insira um nome"
@@ -71,6 +72,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
 
     if (precoCusto == 0) _errors.precoCusto = "Por favor, insira um preço"
+    else if (valorTabela < precoCusto) _errors.valorTabela = "Valor de venda não pode ser menor que o preço de custo"
     else if (!isNumber(precoCusto)) _errors.precoCusto = "Preço não é um número"
     else if (precoCusto < 0) _errors.precoCusto = "Preço não pode ser negativo"
 
@@ -82,7 +84,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
     else if (!isNumber(estoque)) _errors.estoque = "Estoque não é um número"
     else if (estoque < 0) _errors.estoque = "Estoque não pode ser negativo"
 
-    if (selectedCategory === undefined) _errors.selectedCategory = "Selecione uma categoria"
+    if (selected === undefined) _errors.selected = "Selecione uma categoria"
 
     let hasError = false;
 
@@ -94,9 +96,9 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
     setErrors(_errors)
 
     if (!hasError) {
-      if (!selectedCategory) return
+      if (!selected) return
 
-      console.log(selectedCategory)
+      console.log(selected)
 
       let validatedData = {
         id: product.id,
@@ -105,8 +107,8 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
         quantidade_estoque: estoque,
         valor_tabela: valorTabela,
         status: product.status,
-        categoria_nome: selectedCategory.nome || product.categoria_nome,
-        cID: selectedCategory.id
+        categoria_nome: selected.nome || product.categoria_nome,
+        cID: selected.id
       }
 
       Alert.alert(
@@ -213,12 +215,12 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
           </Column>
           <Column>
             <DropDown
-              placeholder={selectedCategory?.nome || product.categoria_nome || "Categoria"}
+              placeholder={selected?.nome || product.categoria_nome || "Categoria"}
               items={categories}
-              onChange={setSelectedCategory}
-              itemSelected={selectedCategory || {id: product.cID, nome: product.categoria_nome}}  
+              onChange={setSelected}
+              itemSelected={selected}  
             />
-            {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
+            {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}
           </Column>
         </Row>
       </Content>

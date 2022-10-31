@@ -35,11 +35,9 @@ export default function Users() {
       const response = await api.get('users');
 
       const { results } = response.data;
-
       setUsers(results)
     } catch (err) {
-      // adicionar tratamento da exceção
-      console.error(err);
+
     }
   };
 
@@ -47,9 +45,9 @@ export default function Users() {
     navigation.addListener(
       'focus',
       payload => {
-          loadData();
+        loadData();
       }
-  );
+    );
   }, []);
 
   const deleteUser = (id: number) => {
@@ -81,27 +79,26 @@ export default function Users() {
     <Container>
       <Header title="Usuários" onPress={navigation.goBack} />
       <Content>
-        {users.map((user, index) => {
-          return (
-            <Card key={index}>
-              <Row>
-                <Nome>{user.nome}</Nome>
-                <Label style={{ color: '#ccc' }}> | </Label>
-                <Label>{user.login}</Label>
-                <Options>
-                  <Feather onPress={() => navigation.navigate('User', { id: user.id })} name="edit-2" size={20} />
-                  <Feather onPress={() => deleteUser(index)} name="trash-2" size={20} />
-                </Options>
-              </Row>
-              <Label>{user.email}</Label>
-              <Label>{user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</Label>
-              {user.token == "admin" ? (
-                <Admin>
-                  <AdminLabel>Admin</AdminLabel>
-                </Admin>) : null}
-            </Card>
-          )
-        })}
+        {users.map((user, index) => (
+          user.status === 'ativo' &&
+          <Card key={index}>
+            <Row>
+              <Nome>{user.nome}</Nome>
+              <Label style={{ color: '#ccc' }}> | </Label>
+              <Label>{user.login}</Label>
+              <Options>
+                <Feather onPress={() => navigation.navigate('User', { id: user.id })} name="edit-2" size={20} />
+                <Feather onPress={() => deleteUser(index)} name="trash-2" size={20} />
+              </Options>
+            </Row>
+            <Label>{user.email}</Label>
+            <Label>{user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</Label>
+            {user.token == "admin" ? (
+              <Admin>
+                <AdminLabel>Admin</AdminLabel>
+              </Admin>) : null}
+          </Card>
+        ))}
         {users.length > 6 ? (
           <ContentFooter />
         ) : null}

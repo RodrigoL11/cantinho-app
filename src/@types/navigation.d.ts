@@ -3,7 +3,7 @@ export type UserProps = {
 }
 
 export type ComandaProps = {
-  id: number;
+  comandaID: number;
 }
 
 export declare global {
@@ -20,6 +20,7 @@ export declare global {
       Pedidos: undefined;
       Relatorios: undefined;
       Estoque: undefined;
+      CriarPedido: ComandaProps;
     }
   }
 }

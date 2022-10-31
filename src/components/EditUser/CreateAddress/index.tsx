@@ -110,7 +110,8 @@ export default function CreateAddress({ uID, toogleForm, setAddress }: Props) {
         cep: CEP,
         cidade: cidade,
         estado: estado,
-        uID: uID
+        uID: uID,
+        status: 'ativo',
       }
 
       await api.post('address', {

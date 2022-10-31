@@ -10,3 +10,7 @@ export const Content = styled.View`
     margin-top: 24px;
     align-items: center;
 `
+
+export const PedidosContainer = styled.View`
+    
+`

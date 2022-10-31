@@ -70,7 +70,8 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
     else if (!isNumber(precoCusto)) _errors.precoCusto = "Preço não é um número"
     else if (precoCusto < 0) _errors.precoCusto = "Preço não pode ser negativo"
 
-    if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela" 
+    if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
+    else if (valorTabela < precoCusto) _errors.valorTabela = "Valor de venda não pode ser menor que o preço de custo" 
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
     else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"
 
@@ -82,7 +83,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
 
     let hasError = false;
 
-    Object.keys(_errors).forEach(function (key, index) {
+    Object.keys(_errors).forEach(function (key) {
       if (_errors[key as keyof typeof _errors] != "")
         hasError = true;
     })

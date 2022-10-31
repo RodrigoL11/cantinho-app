@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Alert } from 'react-native';
 
 import Button from '@components/Button';
@@ -15,17 +15,20 @@ import {
   Input,
   ErrorMessage
 } from './styles'
+import { IComandas } from '@interfaces/main';
 
 //arrumar isso
 interface Props {
   toogleVisibility: () => void;
-  setComandas: (data: any) => void;
-  comandas: any;
-  index: number;
+  setComandas: Dispatch<SetStateAction<IComandas[]>>;
+  comandas: IComandas[];
+  comandaID: number;
 }
 
-export default function EditComanda({ toogleVisibility, comandas, setComandas, index }: Props) {
-  const comanda = comandas[index];
+export default function EditComanda({ toogleVisibility, comandas, setComandas, comandaID }: Props) {
+  const comanda = comandas.find(c => c.id === comandaID);
+
+  if(!comanda) return null;
 
   const [nome, setNome] = useState<string>(comanda.nome_cliente);
   const [mesa, setMesa] = useState(comanda.num_mesa);
@@ -64,6 +67,7 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, i
                 }
               }).then(response => {                
                 let newArr = comandas;
+                let index = comandas.indexOf(comanda);
                 newArr[index].nome_cliente = nome.trim();
                 newArr[index].num_mesa = mesa.trim();
                 setComandas(newArr);
