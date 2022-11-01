@@ -1,7 +1,4 @@
 import styled from 'styled-components/native'
-interface InputProps{
-    size?: number;
-}
 
 export const Container = styled.View`
     width: 100%;
@@ -18,7 +15,7 @@ export const Background = styled.TouchableOpacity`
 
 export const Card = styled.View`
     width: 100%;
-    background-color: #fff;
+    background-color: ${({theme}) => theme.colors.bgCard};
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     padding: 20px;
@@ -26,32 +23,29 @@ export const Card = styled.View`
 
 export const Title = styled.Text`
   font-size: 20px;
-  font-weight: 700;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.bold}; 
   margin-bottom: 20px;
 `
 
 export const Name = styled.Text`
-  color: #333;
   font-size: 16px;
-  font-weight: 500;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.medium}; 
 `
 
 export const Price = styled.Text`
-  color: #333;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.medium};
   font-size: 16px;
-  font-weight: 500;
   margin-bottom: 20px;
 `
 
 export const Stock = styled.Text`
   font-size: 11px;
-  color: #999;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.light};
   margin-bottom: 10px;
-`
-
-export const Label = styled.Text`
-    color: #000;
-    font-weight: 400;
 `
 
 export const Row = styled.View`    
@@ -89,9 +83,12 @@ export const AddButton = styled.TouchableOpacity`
 export const AddButtonLabel = styled.Text`
   color: #fff;
   margin: 0px 7px;
+  font-family: ${({theme}) => theme.fonts.medium};
 `
 
 export const Quantity = styled.TextInput`
   margin: 0px 8px;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.medium};
   text-align: center;
 `

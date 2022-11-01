@@ -11,7 +11,7 @@ export const Content = styled.ScrollView`
 
 export const Card = styled.View`
     flex-direction: row;
-    background-color: #fff;
+    background-color: ${({theme}) => theme.colors.bgCard};
     padding: 8px 15px;
     justify-content: space-between;
     align-items: center;
@@ -19,14 +19,14 @@ export const Card = styled.View`
 
 export const Name = styled.Text`
     color: ${({theme}) => theme.colors.primary_color};
-    font-size: 14px;
-    font-weight: 500;
+    font-family: ${({theme}) => theme.fonts.semiBold};
     line-height: 20px;
     margin-right: 2px;
 `
 
 export const Label = styled.Text`
-    color: #666;    
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};    
 `
 
 export const Row = styled.View`

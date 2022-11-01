@@ -19,7 +19,7 @@ export const Background = styled.TouchableOpacity`
 export const Card = styled.View`
     width: 95%;
     height: 220px;
-    background-color: #fff;
+    background-color: ${({theme}) => theme.colors.bgCard};
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
     padding: 20px 20px 0px 20px;
@@ -27,8 +27,8 @@ export const Card = styled.View`
 `
 
 export const Label = styled.Text`
-    color: #000;
-    font-weight: 400;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const Column = styled.View<InputProps>`
@@ -42,6 +42,8 @@ export const Row = styled.View`
 `
 
 export const Input = styled.TextInput`
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
     height: 32px;
     border-bottom-width: 1px;
     border-color: #dadada;
@@ -50,13 +52,14 @@ export const Input = styled.TextInput`
 
 export const Title = styled.Text`
     font-size: 23px;
-    font-weight: bold;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.bold};
     text-align: center;    
 `
 
 export const ErrorMessage = styled.Text`
-    color: red;
-    font-weight: bold;
+    color: #B00020;
+    font-family: ${({theme}) => theme.fonts.regular};
     font-size: 10.5px;
     letter-spacing: 0.5px;
 `

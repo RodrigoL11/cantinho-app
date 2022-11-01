@@ -13,6 +13,6 @@ export const Container = styled.TouchableOpacity`
 export const Title = styled.Text`
   color: #fff;
   font-size: 13px;
-  font-weight: bold;
+  font-family: ${({theme}) => theme.fonts.bold};
   text-align: center;
 `

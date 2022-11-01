@@ -13,14 +13,14 @@ export const Card = styled.TouchableOpacity<ICard>`
   border-width: 1px;
   border-color: transparent;
   height: 100px;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
   justify-content: space-between;
   padding: 2px 4px;
 
   ${(props) => 
     props.hasPedidos 
     && css`
-      border-color: ${({theme}) => theme.colors.primary_color}
+      border-color: ${({theme}) => theme.colors.primary_color};
     `
   };
 `
@@ -32,20 +32,21 @@ export const Row = styled.View`
 
 export const Id = styled.Text`
   font-size: 10px;
-  color: #dadada;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.light};
 `
 
 export const Nome = styled.Text`
   text-align: center;
   top: -4px;
-`
-
-export const Valor = styled.Text`
-  font-size: 11px;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.medium};
 `
 
 export const Mesa = styled.Text`
   font-size: 11px;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.medium};
 `
 
 export const Aviso = styled.View`
@@ -61,8 +62,8 @@ export const Aviso = styled.View`
 
 export const AvisoLabel = styled.Text`
   color: #fff;
-  font-weight: bold;
   font-size: 10px;
+  font-family: ${({theme}) => theme.fonts.bold};
 `
 
 export const OptionContainer = styled.View`
@@ -74,6 +75,7 @@ export const OptionLabel = styled.Text`
   margin-left: 7px;
   line-height: 18px;
   font-size: 13px;
-  font-weight: 300;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.light};
 `
 

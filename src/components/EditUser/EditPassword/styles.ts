@@ -14,6 +14,7 @@ export const ErrorMessage = styled.Text`
   padding: 8px;
   background-color: #fce6e5;
   color: #ee6d66;
+  font-family: ${({theme}) => theme.fonts.semiBold};
   top: -8px;
   font-size: 12px;
 `

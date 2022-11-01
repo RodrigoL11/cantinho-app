@@ -15,7 +15,7 @@ export const Content = styled.View`
     padding: 15px 20px;
     height: 250px;
     width: 100%;
-    background-color: #fbfbfbfb;
+    background-color: ${({theme}) => theme.colors.bgCard};
     justify-content: space-between;
 `
 
@@ -23,11 +23,13 @@ export const Title = styled.Text`
     margin-top: 10px;
     text-align: center;
     font-size: 20px;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const ErrorMessage = styled.Text`
-    color: red;
-    font-weight: bold;
+    color: #B00020;
+    font-family: ${({theme}) => theme.fonts.semiBold};
     font-size: 10.5px;
     top: -5px;
     letter-spacing: 0.5px;

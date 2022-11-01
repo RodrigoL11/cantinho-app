@@ -15,7 +15,8 @@ export const Content = styled.ScrollView`
 
 export const Label = styled.Text`
     padding-left: 20px;
-    color: #777;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.semiBold};
     font-size: 13px;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -24,9 +25,13 @@ export const Label = styled.Text`
 export const Section = styled.View`
     padding: 7px 20px;
     background-color: #fff;
-    border-bottom-width: 1px;
-    border-color: ${({ theme}) => theme.colors.primary_color};
     justify-content: center;
+`
+
+export const SectionSeparator = styled.View`
+    width: 100%;
+    height: 0.8px;
+    background-color: ${({ theme}) => theme.colors.primary_color};
 `
 
 export const AddButtonContainer = styled.TouchableOpacity`
@@ -49,20 +54,23 @@ export const AddButtonLabel = styled.Text`
     font-size: 13px;
     margin-left: 3%;
     color: ${({ theme }) => theme.colors.primary_color};
+    font-family: ${({ theme }) => theme.fonts.medium};
 `
 
 export const Emoji = styled.Text`
     text-align: center;
     font-size: 18px;
     bottom: -6px;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const EmptyNotification = styled.Text`
     top: -6px;
     font-size: 15px;
-    color: #333;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
     text-align: center;
-    font-weight: 300;
     letter-spacing: 1.5px;
 `
 
@@ -72,7 +80,7 @@ export const Items = styled.View`
 
 export const ItemContainer = styled.TouchableOpacity`
     flex-direction: row;
-    background-color: #fff;
+    background-color: ${({theme}) => theme.colors.bgCard};
     padding: 14px 20px;
     padding-right: 30px;
     border-bottom-width: 0.55px;
@@ -84,7 +92,8 @@ export const ItemContainer = styled.TouchableOpacity`
 `
 
 export const ItemText = styled.Text`
-    color: #777;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
     font-size: 13.5px;
 `
 
@@ -106,5 +115,6 @@ export const DataContainer = styled.TouchableOpacity<AddressProps>`
 
 export const DataLabel = styled.Text`
     font-size: 13px;
-    color: #777;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
 `

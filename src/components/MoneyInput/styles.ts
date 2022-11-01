@@ -44,6 +44,7 @@ export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
 export const LabeledInput = styled(CurrencyInput)`
   top: 7px;
   flex: 1;
-  color: #7a7a80;
-  padding: 0px 15px; 
+  color: ${({theme}) => theme.colors.text_color};
+  padding: 0px 15px;
+  font-family: ${({theme}) => theme.fonts.regular}; 
 `;

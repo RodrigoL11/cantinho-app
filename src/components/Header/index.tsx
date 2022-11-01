@@ -1,15 +1,15 @@
 import React from 'react'
 
 import { Ionicons } from '@expo/vector-icons';
-import { Platform, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { Platform, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import {
   Container,
-  ExtraIcon,
   Icon,
   Row,
   Title
 } from './styles'
+import { useTheme } from 'styled-components';
 
 interface Props {
   title: string;
@@ -19,20 +19,22 @@ interface Props {
 }
 
 export default function Header({ title, onPress, extraIconName, extraOnPress }: Props) {
+  const theme = useTheme();
+
   return (
     <Container style={Platform.OS === 'ios' ? styles.boxShadowiOS : styles.boxShadowAndroid}>
       <Row>
-        <TouchableWithoutFeedback style={{backgroundColor: 'red'}} onPress={onPress}>
+        <TouchableWithoutFeedback onPress={onPress}>
           <Icon>
-            <Ionicons name="ios-arrow-back-outline" onPress={onPress} size={25} color="#333" />
+            <Ionicons name="ios-arrow-back-outline" onPress={onPress} size={24} color={theme.colors.text_color} />
           </Icon>
         </TouchableWithoutFeedback>
         <Title>{title}</Title>
       </Row>
       {extraIconName &&
-        <ExtraIcon>
-          <Ionicons name={extraIconName} onPress={extraOnPress} size={25} color="#333" />
-        </ExtraIcon>
+        <Icon>
+          <Ionicons name={extraIconName} onPress={extraOnPress} size={24} color={theme.colors.text_color} />
+        </Icon>
       }
     </Container>
   );

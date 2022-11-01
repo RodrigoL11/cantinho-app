@@ -57,6 +57,7 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
           <Feather
             name={isVisible ? "eye" : "eye-off"}
             size={24}
+            color={"#AEAEB3"}
           />
         </SecurityContainer>
       ) : null}

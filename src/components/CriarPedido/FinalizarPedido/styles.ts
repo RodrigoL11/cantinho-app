@@ -28,6 +28,7 @@ export const ButtonContainer = styled.TouchableOpacity`
 
 export const ButtonTitle = styled.Text`
   color: #fff;
+  font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const Row = styled.View`
@@ -42,8 +43,8 @@ export const Column = styled.View`
 
 export const Label = styled.Text`
   font-size: 12px;
-  font-weight: 600;
-  color: #333;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.semiBold};
 `
 
 export const Card = styled.View`
@@ -61,18 +62,20 @@ export const Separator = styled.View`
 
 export const Text = styled.Text`
   font-size: 11px;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const TotalLabel = styled.Text`
   font-size: 17px;
-  font-weight: 600;
-  color: #333;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.bold};
 `
 
 export const Total = styled.Text`
   font-size: 17px;
-  font-weight: 600;
-  color: #333;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.bold};
 `
 
 export const AddButtonContainer = styled.TouchableOpacity`
@@ -89,4 +92,5 @@ export const AddButtonContainer = styled.TouchableOpacity`
 
 export const AddButtonTitle = styled.Text`
   color: ${({ theme }) => theme.colors.primary_color};
+  font-family: ${({theme}) => theme.fonts.regular};
 `

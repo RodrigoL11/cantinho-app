@@ -29,8 +29,9 @@ export const IconContainer = styled.View<Props>`
 export const InputText = styled(MaskInput)<Props>`
   flex: 1;
   background-color: #ffffff;
-  color: #7a7a80;
+  color: ${({theme}) => theme.colors.text_color};
   padding: 0 15px;
+  font-family: ${({theme}) => theme.fonts.regular};
 
   ${({ isFocused }) =>
     isFocused &&

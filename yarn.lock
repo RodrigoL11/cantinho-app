@@ -1099,6 +1099,11 @@
   "resolved" "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.7.5.tgz"
   "version" "0.7.5"
 
+"@expo-google-fonts/manrope@^0.2.2":
+  "integrity" "sha512-lveLEh77CUVWdOyvjAkB1DIZSS03WYbUCSvGPmqXfPeYIvnnXnuX68DWjY8eeGti5ALAwc1yYz1I7cqc0/xI9g=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/manrope/-/manrope-0.2.2.tgz"
+  "version" "0.2.2"
+
 "@expo/bunyan@^4.0.0", "@expo/bunyan@4.0.0":
   "integrity" "sha512-Ydf4LidRB/EBI+YrB+cVLqIseiRfjUI/AeHBgjGMtq3GroraDu81OV7zqophRgupngoL3iS3JUMDMnxO7g39qA=="
   "resolved" "https://registry.npmjs.org/@expo/bunyan/-/bunyan-4.0.0.tgz"
@@ -2412,9 +2417,9 @@
     "wonka" "^4.0.14"
 
 "@xmldom/xmldom@~0.7.0":
-  "integrity" "sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A=="
-  "resolved" "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.7.5.tgz"
-  "version" "0.7.5"
+  "integrity" "sha512-PrJx38EfpitFhwmILRl37jAdBlsww6AZ6rRVK4QS7T7RHLhX7mSs647sTmgr9GIxe3qjXdesmomEgbgaokrVFg=="
+  "resolved" "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.7.8.tgz"
+  "version" "0.7.8"
 
 "abort-controller@^3.0.0":
   "integrity" "sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg=="

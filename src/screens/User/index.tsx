@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Modal, TouchableWithoutFeedback } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Modal, TouchableWithoutFeedback, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
@@ -33,21 +33,22 @@ import {
   DataContainer,
   DataLabel,
   Row,
-  Items
+  Items,
+  SectionSeparator
 } from './styles'
 
-interface INoDataText{
+interface INoDataText {
   text: string
 }
 
-const NoDataText = ({text}: INoDataText) => {
+const NoDataText = ({ text }: INoDataText) => {
   return (
-    <>
+    <View>
       <Emoji>⚠️</Emoji>
       <EmptyNotification>
         {'\n'} Não há nenhum {text}{'\n'}cadastrado nesse usuário
       </EmptyNotification>
-    </>
+    </View>
   )
 }
 
@@ -104,7 +105,7 @@ export default function User({ route }: any) {
       const addressResults = addressResponse.data.results;
       setAddress(addressResults);
 
-    } catch (error) {      
+    } catch (error) {
     }
   }
 
@@ -117,11 +118,11 @@ export default function User({ route }: any) {
     'edit-address': <EditAddress address={address} setAddress={setAddress} toogleForm={toogleEditForm} id={addressID} />,
     'add-phone': <CreatePhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} uID={id} />,
     'edit-phone': <EditPhone phones={phones} setPhones={setPhones} toogleForm={toogleEditForm} id={phoneID} />,
-    'edit-password': <EditPassword user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
-    'edit-cpf': <EditCPF user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
-    'edit-name': <EditName user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
-    'edit-email': <EditEmail user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>,
-    'edit-login': <EditLogin user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id}/>
+    'edit-password': <EditPassword user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id} />,
+    'edit-cpf': <EditCPF user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id} />,
+    'edit-name': <EditName user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id} />,
+    'edit-email': <EditEmail user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id} />,
+    'edit-login': <EditLogin user={user} setUser={setUser} toogleForm={toogleEditForm} uID={id} />
   }
 
   return (
@@ -184,6 +185,7 @@ export default function User({ route }: any) {
             </DataContainer>
           ))}
         </Section>
+        <SectionSeparator />
         <AddButtonContainer onPress={() => {
           setType("add-address")
           toogleEditForm();
@@ -197,19 +199,19 @@ export default function User({ route }: any) {
         <Label>Telefone</Label>
         <Section>
           {phones.length == 0 ? (
-            <NoDataText text="telefone"/>
-          ) : phones.map((item, index) => 
-            item.status === 'ativo' &&
+            <NoDataText text="endereço" />
+          ) : phones.map((item, index) =>
             <DataContainer height={37} last={phones[phones.length - 1] === item} key={index}
-            onPress={() => {              
-              setPhoneID(item.id || 1);
-              setType("edit-phone");
-              toogleEditForm();
-            }}>
+              onPress={() => {
+                setPhoneID(item.id || 1);
+                setType("edit-phone");
+                toogleEditForm();
+              }}>
               <DataLabel>+{item.DDI} {item.DDI == "55" ? `(${item.DDD})` : item.DDD} {item.DDI === "55" ? item.num_telefone.replace(/(\d{5})/, "$1-") : item.num_telefone}</DataLabel>
             </DataContainer>
           )}
         </Section>
+        <SectionSeparator />
         <AddButtonContainer onPress={() => {
           setType("add-phone");
           toogleEditForm();
@@ -228,9 +230,9 @@ export default function User({ route }: any) {
         statusBarTranslucent={true}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-          {types[type as keyof typeof types]}
-        </KeyboardAvoidingView>
+          <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+            {types[type as keyof typeof types]}
+          </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </Modal>
     </Container>

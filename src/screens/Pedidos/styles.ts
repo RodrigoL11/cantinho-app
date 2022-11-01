@@ -21,9 +21,9 @@ export const Content = styled.View`
 
 export const Title = styled.Text`
     font-size: 20px;
-    color: #656565;
+    color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.medium};
     padding: 10px 15px;
-    font-weight: 500;
 `
 
 export const Card = styled.View`
@@ -44,8 +44,14 @@ export const DateContainer = styled.View`
     align-items: center;
 `
 
-export const Label = styled.Text`
+export const HighLabel = styled.Text`
+    color: ${({theme}) => theme.colors.text_color[900]};
+    font-family: ${({theme}) => theme.fonts.medium};
+`
 
+export const Label = styled.Text`
+    color: ${({theme}) => theme.colors.text_color[600]};
+    font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const Status = styled.View<IStatus>`
@@ -60,7 +66,7 @@ export const Status = styled.View<IStatus>`
 
 export const StatusLabel = styled.Text`
     color: #fff;
-    font-weight: 500;
+    font-family: ${({theme}) => theme.fonts.bold};
     font-size: 11px;
 `
 
@@ -75,20 +81,22 @@ export const Item = styled.View`
 export const ItemsTitle = styled.Text`
     margin-bottom: 6px;
     font-size: 15px;
-    color: #656565;
-    font-weight: 500;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.medium};
     margin-top: 4px;
 `
 
 export const ItemLabel = styled.Text`
     letter-spacing: 0.5px;
-    font-weight: 400;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
     font-size: 12px;
 `
 
 export const CategoryLabel = styled.Text`
     margin-left: 3px;
-    font-weight: 300;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.light};
     font-size: 10.5px;
 `
 
@@ -110,6 +118,6 @@ export const Button = styled.TouchableOpacity<IButton>`
 
 export const ButtonLabel = styled.Text`
     font-size: 12px;
-    font-weight: bold;
+    font-family: ${({theme}) => theme.fonts.bold};
     color: #fff;
 `

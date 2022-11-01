@@ -7,7 +7,7 @@ interface CategoryProps{
 
 export const Container = styled.View`
   height: 56px;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
   padding: 0 15px;
   flex-direction: row;
   justify-content: space-between;
@@ -28,8 +28,8 @@ export const CategoryContainer = styled.View<CategoryProps>`
   height: 46px;
   justify-content: center;
   padding: 0px 15px;
-  border-bottom-width: ${(props) => props.isLast ? 0 : 1}px;
-  border-color: #dadada;
+  border-bottom-width: ${(props) => props.isLast ? 0 : 0.5}px;
+  border-color: #aaa;
 
   ${(props) =>
       props.isSelected
@@ -42,10 +42,11 @@ export const CategoryContainer = styled.View<CategoryProps>`
 `
 
 export const Title = styled.Text`
-  color: #7a7a80;
+  color: ${({theme}) => theme.colors.text_color};
   font-size: 14px;
+  font-family: ${({theme}) => theme.fonts.semiBold};
 `
 
 export const Content = styled.View`
-  background-color: #FFF;
+  background-color: ${({theme}) => theme.colors.bgCard};
 `

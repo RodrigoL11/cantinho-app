@@ -30,7 +30,8 @@ export const IconContainer = styled.View<Props>`
 export const InputText = styled.TextInput<Props>`  
   flex: 1;
   background-color: #ffffff;
-  color: #7a7a80;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.regular};
   padding: 0 10px;
   
   /* ${({ isFocused }) =>

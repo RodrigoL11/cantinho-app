@@ -1,12 +1,8 @@
 import styled from 'styled-components/native'
 
-interface ColumnProps{
-  width: number
-}
-
 export const Container = styled.View`
     flex: 1;
-    background-color: ${({theme}) => theme.colors.background};
+    background-color: ${({ theme }) => theme.colors.background};
 `
 
 export const Content = styled.View`
@@ -29,4 +25,5 @@ export const ErrorMessage = styled.Text`
   color: #ee6d66;
   top: -8px;
   font-size: 12px;
+  font-family: ${({theme}) => theme.fonts.semiBold};
 `

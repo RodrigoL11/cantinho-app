@@ -21,7 +21,8 @@ import {
   Button,
   ButtonLabel,
   Buttons,
-  DateContainer
+  DateContainer,
+  HighLabel
 } from './styles'
 import api from '@services/api';
 import { IFormatedOrder, IOrders } from '@interfaces/main';
@@ -50,9 +51,9 @@ const sumTotal = (items: any[]) => {
 }
 
 const bgStatus = {
-  'entregue': '#27c24c',
-  'cancelado': '#c23927',
-  'ativo': '#efaa2a'
+  'entregue': '#388E3C',
+  'cancelado': '#D32F2F',
+  'ativo': '#FFC107'
 }
 
 export default function Pedidos() {
@@ -132,7 +133,7 @@ export default function Pedidos() {
           <Row style={{ marginBottom: 8 }}>
             <DateContainer>
               <Feather style={{ marginRight: 4 }} name="clock" size={13} />
-              <Label>{formatDate(new Date(pedido.created_at))}</Label>
+              <HighLabel>{formatDate(new Date(pedido.created_at))}</HighLabel>
             </DateContainer>
             <Label>{sumTotal(pedido.items)}</Label>
           </Row>
@@ -146,8 +147,8 @@ export default function Pedidos() {
             <Items>
               <ItemsTitle>Itens do pedido</ItemsTitle>
               {pedido.items.map((item, index) =>
-                <Item>
-                  <Row key={index}>
+                <Item key={index}>
+                  <Row>
                     <Row>
                       <ItemLabel>{item.quantidade}× {item.produto_nome}</ItemLabel>
                       <CategoryLabel>({item.categoria_nome})</CategoryLabel>

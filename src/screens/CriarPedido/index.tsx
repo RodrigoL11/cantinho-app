@@ -126,21 +126,21 @@ export default function CreateOrder({ route }: any) {
     type == "search-add" ? setType("add") : setShow(!show);
   }
 
-  useEffect(() => {
-    const backAction = () => {
-      if (cartItems.length > 0) {
-        Alert.alert("Atenção", "Há um pedido em andamento, tem certeza que quer voltar?", [
-          {
-            text: "Cancelar",
-            onPress: () => null,
-            style: "cancel"
-          },
-          { text: "SIM", onPress: () => navigation.goBack() }
-        ]);
-        return true;
-      };
-    }
+  const backAction = () => {
+    if (cartItems.length > 0) {
+      Alert.alert("Atenção", "Há um pedido em andamento, tem certeza que quer voltar?", [
+        {
+          text: "Cancelar",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "SIM", onPress: () => navigation.goBack() }
+      ]);
+      return true;
+    };
+  }
 
+  useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction
@@ -153,7 +153,7 @@ export default function CreateOrder({ route }: any) {
     <Container>
       <Header
         title={'Criar pedido'}
-        onPress={navigation.goBack}
+        onPress={backAction}
         extraIconName="search"
         extraOnPress={() => toogleModal("search")}
       />

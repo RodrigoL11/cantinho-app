@@ -20,8 +20,8 @@ export const Column = styled.View<InputProps>`
 
 export const Title = styled.Text`
   font-size: 40px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.title_color};
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.bold};
   margin-top: 44px;
   margin-bottom: 34px;
 `;
@@ -30,7 +30,8 @@ export const Section = styled.Text`
   font-size: 14px;
   height: 32px;
   border-bottom-width: 1.5px;
-  color: #7A7A80;
+  color: ${({theme}) => theme.colors.text_color};
+  font-family: ${({theme}) => theme.fonts.regular};
   border-color: #adadaa;
   line-height: 25px;
   margin-bottom: 14px;
@@ -42,6 +43,7 @@ export const ErrorMessage = styled.Text`
   padding: 4.5px 8px;
   background-color: #fce6e5;
   color: #ee6d66;
+  font-family: ${({theme}) => theme.fonts.semiBold};
   top: -8px;
   font-size: 11.5px;
 `

@@ -19,33 +19,32 @@ export const IconContainer = styled.View`
 export const Row = styled.View`
     flex-direction: row;
     margin-top: 40px;
-    
 `
 
 export const Title = styled.Text`
     line-height: 40px;
     font-size: 21px;
-    font-weight: bold;
-    color: ${({ theme }) => theme.colors.title_color};
+    font-family: ${({theme}) => theme.fonts.bold};
+    color: ${({ theme }) => theme.colors.text_color};
 `
 
 export const Name = styled.Text`
     font-size: 27px;
-    font-weight: bold;
+    font-family: ${({theme}) => theme.fonts.bold};
     color: ${({theme}) => theme.colors.primary_color};
 `
 
 export const Emoji = styled.Text`
-    font-size: 30px;
+    font-size: 27px;
     margin-left: 6px;
     top: -2px;
 `
 
 export const SubTitle = styled.Text`
   font-size: 14px;
-  color: #7A7A80;
-  border-color: #adadaa;
-  line-height: 25px;
+  font-family: ${({theme}) => theme.fonts.light};
+  color: ${({ theme }) => theme.colors.text_color};
+  margin-top: 5px;
   margin-bottom: 34px;
 `
 
@@ -72,7 +71,8 @@ export const CardIcon = styled.View`
 
 export const CardTitle = styled.Text`
     color: #fff;
+    font-family: ${({theme}) => theme.fonts.semiBold};
     text-align: center;
-    font-size: 22px;
+    font-size: 21.5px;
     margin-top: 10px;
 `

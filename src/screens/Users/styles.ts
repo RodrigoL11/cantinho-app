@@ -12,19 +12,23 @@ export const Content = styled.ScrollView`
 
 export const Card = styled.View`
     padding: 10px 14px;
-    background-color: #fff;
+    background-color: ${({theme}) => theme.colors.bgCard};
     margin: 7px 15px;
 `
 
 export const Nome = styled.Text`
     font-size: 14px;
     margin-bottom: 2px;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.bold};
+    
 `
 
 export const Label = styled.Text`
     line-height: 20px;
     font-size: 13px;
-    color: #888;
+    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const Row = styled.View`
@@ -45,7 +49,7 @@ export const Admin = styled.View`
 
 export const AdminLabel = styled.Text`
     font-size: 8px;
-    font-weight: bold;
+    font-family: ${({theme}) => theme.fonts.bold};
     color: #fff;
 `
 
