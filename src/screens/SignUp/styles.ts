@@ -20,7 +20,7 @@ export const Column = styled.View<InputProps>`
 
 export const Title = styled.Text`
   font-size: 40px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.bold};
   margin-top: 44px;
   margin-bottom: 34px;
@@ -30,7 +30,7 @@ export const Section = styled.Text`
   font-size: 14px;
   height: 32px;
   border-bottom-width: 1.5px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
   border-color: #adadaa;
   line-height: 25px;

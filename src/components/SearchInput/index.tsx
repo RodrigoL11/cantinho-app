@@ -1,48 +1,49 @@
-import React, { useState } from "react";
-import { TextInputProps } from 'react-native';
-import { Feather } from "@expo/vector-icons";
+import React from "react";
+import { TextInputProps, TouchableWithoutFeedback } from 'react-native';
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import {
   Container,
   IconContainer,
   InputText,
 } from "./styles";
+import { useTheme } from "styled-components";
 
 type Props = TextInputProps & {
-  value?: string;
+  value?: string
+  filterIcon?: boolean
+  onPress?: () => void
 };
 
-export default function SearchInput({ value, ...rest }: Props) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-
-  function handleInputFocus() {
-    setIsFocused(true);
-  }
-
-  function handleInputBlur() {
-    setIsFocused(false);
-    setIsFilled(!!value);
-  }
+export default function SearchInput({ value, filterIcon, onPress, ...rest }: Props) {
+  const theme = useTheme();
 
   return (
     <Container>
-      <IconContainer isFocused={isFocused}>
+      <IconContainer>
         <Feather
           name="search"
           size={22}
-          color="#777777"
+          color={theme.colors.text_color[600]}
         />
       </IconContainer>
 
       <InputText
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-        isFocused={isFocused}                
-        value={value}
         {...rest}
+        value={value}
       />
 
+      {filterIcon &&
+      <TouchableWithoutFeedback onPress={onPress}>
+      <IconContainer>
+        <MaterialCommunityIcons
+        name="tune"
+        size={24}
+        color={theme.colors.text_color[600]}
+      />
+      </IconContainer>
+      </TouchableWithoutFeedback>
+      }
     </Container>
   );
 }

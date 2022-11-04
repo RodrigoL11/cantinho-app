@@ -29,7 +29,7 @@ export const IconContainer = styled.View<Props>`
 export const InputText = styled(MaskInput)<Props>`
   flex: 1;
   background-color: #ffffff;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   padding: 0 15px;
   font-family: ${({theme}) => theme.fonts.regular};
 

@@ -101,7 +101,7 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, c
               onChangeText={e => setNome(e)}
             />
           </Column>
-          <Column size={11}>
+          <Column size={15}>
             <Label>Mesa</Label>
             <Input
               maxLength={4}

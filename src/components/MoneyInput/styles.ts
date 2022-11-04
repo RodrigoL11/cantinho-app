@@ -38,13 +38,14 @@ export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
       transform: translateY(0px);
       font-size: 14px;
       color: #ababab;
+      font-family: ${({theme}) => theme.fonts.light};
   `}
 `;
 
 export const LabeledInput = styled(CurrencyInput)`
   top: 7px;
   flex: 1;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   padding: 0px 15px;
   font-family: ${({theme}) => theme.fonts.regular}; 
 `;

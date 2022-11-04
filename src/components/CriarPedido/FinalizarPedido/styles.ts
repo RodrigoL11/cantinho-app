@@ -43,7 +43,7 @@ export const Column = styled.View`
 
 export const Label = styled.Text`
   font-size: 12px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[900]};
   font-family: ${({theme}) => theme.fonts.semiBold};
 `
 
@@ -62,19 +62,19 @@ export const Separator = styled.View`
 
 export const Text = styled.Text`
   font-size: 11px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const TotalLabel = styled.Text`
   font-size: 17px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.bold};
 `
 
 export const Total = styled.Text`
   font-size: 17px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.bold};
 `
 

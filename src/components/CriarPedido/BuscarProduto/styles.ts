@@ -19,14 +19,14 @@ export const ProductContainer = styled.View`
 
 export const ProductName = styled.Text`
   letter-spacing: 0.5px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.semiBold};
   font-size: 15px;
   margin-bottom: 4px;
 `
 
 export const ProductPrice = styled.Text`
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
   font-size: 15px;
 `
@@ -43,7 +43,7 @@ export const Empty = styled.View`
 
 export const EmptyTitle = styled.Text`
   font-size: 22px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.semiBold};
   text-align: center;
   margin-bottom: 8px;
@@ -52,20 +52,13 @@ export const EmptyTitle = styled.Text`
 
 export const EmptySubTitle = styled.Text`
   font-size: 14px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.light};
   text-align: center;
 `
 
 export const Row = styled.View`
   flex-direction: row;
-`
-
-export const Stock = styled.Text`
-  font-size: 12px;
-  color: ${({theme}) => theme.colors.text_color};
-  font-family: ${({theme}) => theme.fonts.light};
-  line-height: 20px;
 `
 
 export const Separator = styled.View`

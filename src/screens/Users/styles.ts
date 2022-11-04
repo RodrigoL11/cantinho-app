@@ -19,7 +19,7 @@ export const Card = styled.View`
 export const Nome = styled.Text`
     font-size: 14px;
     margin-bottom: 2px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[800]};
     font-family: ${({theme}) => theme.fonts.bold};
     
 `
@@ -27,7 +27,7 @@ export const Nome = styled.Text`
 export const Label = styled.Text`
     line-height: 20px;
     font-size: 13px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[600]};
     font-family: ${({theme}) => theme.fonts.regular};
 `
 

@@ -32,20 +32,20 @@ export const Row = styled.View`
 
 export const Id = styled.Text`
   font-size: 10px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[600]};
   font-family: ${({theme}) => theme.fonts.light};
 `
 
 export const Nome = styled.Text`
   text-align: center;
   top: -4px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.medium};
 `
 
 export const Mesa = styled.Text`
   font-size: 11px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.medium};
 `
 
@@ -75,7 +75,7 @@ export const OptionLabel = styled.Text`
   margin-left: 7px;
   line-height: 18px;
   font-size: 13px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.light};
 `
 

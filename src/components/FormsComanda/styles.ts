@@ -27,8 +27,8 @@ export const Card = styled.View`
 `
 
 export const Label = styled.Text`
-    color: ${({theme}) => theme.colors.text_color};
-    font-family: ${({theme}) => theme.fonts.regular};
+    color: ${({theme}) => theme.colors.text_color[900]};
+    font-family: ${({theme}) => theme.fonts.semiBold};
 `
 
 export const Column = styled.View<InputProps>`
@@ -42,7 +42,7 @@ export const Row = styled.View`
 `
 
 export const Input = styled.TextInput`
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[700]};
     font-family: ${({theme}) => theme.fonts.regular};
     height: 32px;
     border-bottom-width: 1px;
@@ -52,7 +52,7 @@ export const Input = styled.TextInput`
 
 export const Title = styled.Text`
     font-size: 23px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[900]};
     font-family: ${({theme}) => theme.fonts.bold};
     text-align: center;    
 `

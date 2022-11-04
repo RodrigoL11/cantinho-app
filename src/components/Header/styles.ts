@@ -8,6 +8,7 @@ export const Container = styled.View`
     background-color: ${({theme}) => theme.colors.bgCard};
     box-shadow: 10px 5px 5px black;
     justify-content: space-between;
+    flex-direction: row;
 `
 
 export const Row = styled.View`
@@ -16,11 +17,15 @@ export const Row = styled.View`
 `
 
 export const Icon = styled.TouchableOpacity`
+    height: 24px;
+    width: 24px;
+    align-self: center;
+    top: 1px;
 `
 
 export const Title = styled.Text`
     margin-left: 32px;
-    font-family: ${({theme}) => theme.fonts.medium};
-    color: ${({theme}) => theme.colors.text_color};
+    font-family: ${({theme}) => theme.fonts.semiBold};
+    color: ${({theme}) => theme.colors.text_color[700]};
     font-size: 18px;
 `

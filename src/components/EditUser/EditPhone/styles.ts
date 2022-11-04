@@ -31,14 +31,14 @@ export const Column = styled.View<IColumn>`
 export const Input = styled(MaskedInput)`
   height: 37px;
   font-size: 15px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const Label = styled.Text`
   font-size: 12px;
-  color: ${({theme}) => theme.colors.text_color};
-  font-family: ${({theme}) => theme.fonts.light};
+  color: ${({theme}) => theme.colors.text_color[700]};
+  font-family: ${({theme}) => theme.fonts.regular};
   margin-bottom: 4px;
   margin-left: 10px;
 `

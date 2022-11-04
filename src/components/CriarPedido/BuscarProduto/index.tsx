@@ -11,8 +11,6 @@ import {
   Empty,
   EmptyTitle,
   EmptySubTitle,
-  Row,
-  Stock,
   Separator
 } from './styles'
 import SearchInput from '@components/SearchInput';

@@ -12,7 +12,7 @@ export const Title = styled.Text`
   margin-bottom: 8px;
   font-size: 16px;
   font-family: ${({theme}) => theme.fonts.bold};
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   border-bottom-width: 1px;
   border-color: #333;
   padding-bottom: 5px;
@@ -73,7 +73,7 @@ export const TotalContainer = styled.View`
 export const Total = styled.Text`
   font-size: 16px;
   font-family: ${({theme}) => theme.fonts.bold};
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
 `
 
 export const Empty = styled.Text`

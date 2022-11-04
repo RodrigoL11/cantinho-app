@@ -15,7 +15,7 @@ export const Content = styled.ScrollView`
 
 export const Label = styled.Text`
     padding-left: 20px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[800]};
     font-family: ${({theme}) => theme.fonts.semiBold};
     font-size: 13px;
     margin-top: 20px;
@@ -61,14 +61,14 @@ export const Emoji = styled.Text`
     text-align: center;
     font-size: 18px;
     bottom: -6px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[600]};
     font-family: ${({theme}) => theme.fonts.regular};
 `
 
 export const EmptyNotification = styled.Text`
     top: -6px;
     font-size: 15px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[800]};
     font-family: ${({theme}) => theme.fonts.regular};
     text-align: center;
     letter-spacing: 1.5px;
@@ -92,7 +92,7 @@ export const ItemContainer = styled.TouchableOpacity`
 `
 
 export const ItemText = styled.Text`
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[700]};
     font-family: ${({theme}) => theme.fonts.regular};
     font-size: 13.5px;
 `
@@ -115,6 +115,6 @@ export const DataContainer = styled.TouchableOpacity<AddressProps>`
 
 export const DataLabel = styled.Text`
     font-size: 13px;
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[700]};
     font-family: ${({theme}) => theme.fonts.regular};
 `

@@ -24,18 +24,20 @@ export default function Header({ title, onPress, extraIconName, extraOnPress }: 
   return (
     <Container style={Platform.OS === 'ios' ? styles.boxShadowiOS : styles.boxShadowAndroid}>
       <Row>
-        <TouchableWithoutFeedback onPress={onPress}>
+        <TouchableWithoutFeedback onPress={() => { console.log('oi') }}>
           <Icon>
-            <Ionicons name="ios-arrow-back-outline" onPress={onPress} size={24} color={theme.colors.text_color} />
+            <Ionicons name="ios-arrow-back-outline" onPress={onPress} size={24} color={theme.colors.text_color[600]} />
           </Icon>
         </TouchableWithoutFeedback>
         <Title>{title}</Title>
       </Row>
-      {extraIconName &&
-        <Icon>
-          <Ionicons name={extraIconName} onPress={extraOnPress} size={24} color={theme.colors.text_color} />
-        </Icon>
-      }
+      <Row>
+        {extraIconName &&
+          <Icon>
+            <Ionicons name={extraIconName} onPress={extraOnPress} size={24} color={theme.colors.text_color[600]} />
+          </Icon>
+        }
+      </Row>
     </Container>
   );
 }

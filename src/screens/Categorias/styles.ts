@@ -25,7 +25,7 @@ export const Name = styled.Text`
 `
 
 export const Label = styled.Text`
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[700]};
     font-family: ${({theme}) => theme.fonts.regular};    
 `
 

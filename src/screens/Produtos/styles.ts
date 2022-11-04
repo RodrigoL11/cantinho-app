@@ -25,17 +25,17 @@ export const Name = styled.Text`
 `
 
 export const Category = styled.Text`
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[600]};
     font-family: ${({theme}) => theme.fonts.light};
-    font-size: 11px;
+    font-size: 10.5px;
     letter-spacing: 0.5px;
     line-height: 20px;
 `
 
 export const Label = styled.Text`
-    color: ${({theme}) => theme.colors.text_color};
+    color: ${({theme}) => theme.colors.text_color[800]};
     font-family: ${({theme}) => theme.fonts.regular};
-    font-size: 13px;   
+    font-size: 12px;   
 `
 
 export const Row = styled.View`

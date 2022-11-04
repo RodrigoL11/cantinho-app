@@ -1,8 +1,4 @@
-import styled, {css} from 'styled-components/native'
-
-interface Props {
-  isFocused: boolean;
-}
+import styled from 'styled-components/native'
 
 export const Container = styled.View`
     flex-direction: row;
@@ -11,34 +7,18 @@ export const Container = styled.View`
 
 `
 
-export const IconContainer = styled.View<Props>`
+export const IconContainer = styled.View`
   height: 50px;
   width: 50px;  
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
-
-  /* ${({ isFocused }) =>
-    isFocused &&
-    css`
-      border-width: 1px;
-      border-right-width: 0px;
-      border-color: ${({theme}) => theme.colors.primary_color};
-    `}; */
+  background-color: #ffffff;  
 `;
 
-export const InputText = styled.TextInput<Props>`  
+export const InputText = styled.TextInput`  
   flex: 1;
   background-color: #ffffff;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
-  padding: 0 10px;
-  
-  /* ${({ isFocused }) =>
-    isFocused &&
-    css`
-      border-width: 1px;
-      border-left-width: 0px;      
-      border-color: ${({theme}) => theme.colors.primary_color};
-    `}; */
+  padding: 0 6px;
 `;

@@ -25,7 +25,7 @@ export const Title = styled.Text`
     line-height: 40px;
     font-size: 21px;
     font-family: ${({theme}) => theme.fonts.bold};
-    color: ${({ theme }) => theme.colors.text_color};
+    color: ${({ theme }) => theme.colors.text_color[800]};
 `
 
 export const Name = styled.Text`
@@ -43,7 +43,7 @@ export const Emoji = styled.Text`
 export const SubTitle = styled.Text`
   font-size: 14px;
   font-family: ${({theme}) => theme.fonts.light};
-  color: ${({ theme }) => theme.colors.text_color};
+  color: ${({ theme }) => theme.colors.text_color[700]};
   margin-top: 5px;
   margin-bottom: 34px;
 `

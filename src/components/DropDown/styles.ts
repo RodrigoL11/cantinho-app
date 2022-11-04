@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components/native'
 
 interface CategoryProps{
   isSelected: boolean;
-  isLast: boolean;
+  isFirst: boolean;
 }
 
 export const Container = styled.View`
@@ -17,6 +17,7 @@ export const Container = styled.View`
 
 export const Placeholder = styled.Text`
   color: #ababab;
+  font-family: ${({theme}) => theme.fonts.light};
 `
 
 export const ModalContainer = styled.View`
@@ -28,8 +29,8 @@ export const CategoryContainer = styled.View<CategoryProps>`
   height: 46px;
   justify-content: center;
   padding: 0px 15px;
-  border-bottom-width: ${(props) => props.isLast ? 0 : 0.5}px;
-  border-color: #aaa;
+  border-top-width: ${({isFirst}) => isFirst ? 0 : 0.6}px;
+  border-color: #ccc;
 
   ${(props) =>
       props.isSelected
@@ -42,7 +43,7 @@ export const CategoryContainer = styled.View<CategoryProps>`
 `
 
 export const Title = styled.Text`
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-size: 14px;
   font-family: ${({theme}) => theme.fonts.semiBold};
 `

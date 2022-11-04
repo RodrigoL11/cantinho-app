@@ -106,7 +106,7 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
               onChangeText={e => setNome(e)}
             />
           </Column>
-          <Column size={11}>
+          <Column size={15}>
             <Label>Mesa</Label>
             <Input
               maxLength={4}

@@ -12,7 +12,6 @@ import {
   Row,
   Status,
   StatusLabel,
-  Title,
   Items,
   ItemsTitle,
   ItemLabel,
@@ -22,11 +21,13 @@ import {
   ButtonLabel,
   Buttons,
   DateContainer,
-  HighLabel
+  HighLabel,
+  SpacedRow
 } from './styles'
 import api from '@services/api';
 import { IFormatedOrder, IOrders } from '@interfaces/main';
-import { Alert, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Keyboard, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
+import SearchInput from '@components/SearchInput';
 
 interface Pedidos extends IOrders {
   items: any[]
@@ -61,6 +62,7 @@ export default function Pedidos() {
   const [pedidos, setPedidos] = useState<IFormatedOrder[]>([]);
   const [clicked, setClicked] = useState<number | null>(null);
   const [dataSourceCords, setDataSourceCords] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
   const [ref, setRef] = useState<ScrollView>();
 
   const toogle = (index: number) => {
@@ -68,6 +70,7 @@ export default function Pedidos() {
       return setClicked(null)
     }
 
+    Keyboard.dismiss();
     setClicked(index)
     scrollHandler(index)
   }
@@ -129,40 +132,49 @@ export default function Pedidos() {
           dataSourceCords[index] = layout.y;
           setDataSourceCords(dataSourceCords);
         }}>
-        <Card>
-          <Row style={{ marginBottom: 8 }}>
+        <Card isFirst={filteredSearch[0].id === pedido.id}>
+          <SpacedRow style={{ marginBottom: 8 }}>
             <DateContainer>
               <Feather style={{ marginRight: 4 }} name="clock" size={13} />
               <HighLabel>{formatDate(new Date(pedido.created_at))}</HighLabel>
             </DateContainer>
-            <Label>{sumTotal(pedido.items)}</Label>
-          </Row>
-          <Row>
-            <Label>Nome: {pedido.nome_cliente} - Mesa: {pedido.num_mesa}</Label>
+            <HighLabel>{sumTotal(pedido.items)}</HighLabel>
+          </SpacedRow>
+          <SpacedRow>
+            <View style={{flex: 1}}>
+              <Row>
+                <HighLabel>Nome: </HighLabel>
+                <Label numberOfLines={1}>{pedido.nome_cliente}</Label>
+              </Row>
+              <Row>
+                <HighLabel>Mesa: </HighLabel>
+                <Label>{pedido.num_mesa}</Label>
+              </Row>
+            </View>
             <Status bgColor={bgStatus[pedido.status as keyof typeof bgStatus]}>
               <StatusLabel>{pedido.status.charAt(0).toUpperCase() + pedido.status.slice(1)}</StatusLabel>
             </Status>
-          </Row>
+          </SpacedRow>
           {clicked &&
             <Items>
               <ItemsTitle>Itens do pedido</ItemsTitle>
               {pedido.items.map((item, index) =>
                 <Item key={index}>
-                  <Row>
+                  <SpacedRow>
                     <Row>
                       <ItemLabel>{item.quantidade}× {item.produto_nome}</ItemLabel>
                       <CategoryLabel>({item.categoria_nome})</CategoryLabel>
                     </Row>
                     <ItemLabel>R$ {(item.quantidade * item.valor_tabela).toFixed(2)}</ItemLabel>
-                  </Row>
+                  </SpacedRow>
                 </Item>
               )}
               {pedido.status === 'ativo' ?
                 <Buttons>
-                  <Button bgColor="#c23927" onPress={() => handleSubmit(pedido.id, 'cancelado')}>
+                  <Button bgColor="#D32F2F" onPress={() => handleSubmit(pedido.id, 'cancelado')}>
                     <ButtonLabel>Cancelar</ButtonLabel>
                   </Button>
-                  <Button bgColor="#27c24c" onPress={() => handleSubmit(pedido.id, 'entregue')}>
+                  <Button bgColor="#388E3C" onPress={() => handleSubmit(pedido.id, 'entregue')}>
                     <ButtonLabel>Finalizar</ButtonLabel>
                   </Button>
                 </Buttons> :
@@ -181,6 +193,10 @@ export default function Pedidos() {
       </TouchableWithoutFeedback>
     )
   }
+
+  const filteredSearch = search.length > 0
+    ? pedidos.filter(item => item.nome_cliente.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) || item.num_mesa === search.trim())
+    : pedidos;
 
   const loadData = async () => {
     if (pedidos.length > 0) return null;
@@ -209,17 +225,28 @@ export default function Pedidos() {
   }, [])
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <Container>
       <Header title="Pedidos" onPress={() => navigation.goBack()} />
+      <SearchInput 
+        value={search}
+        onChangeText={text => {
+          setClicked(null);
+          setSearch(text);
+        }}
+        placeholder="Busque um pedido..."
+        filterIcon={true}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        ref={(ref: ScrollView) => setRef(ref)}        
+        ref={(ref: ScrollView) => setRef(ref)}
+        keyboardShouldPersistTaps="always"
       >
         <Content>
-          <Title>Histórico de Pedidos</Title>
-          {pedidos.map((pedido, index) => Order(pedido, index, clicked === index))}
+          {filteredSearch.map((pedido, index) => Order(pedido, index, clicked === index))}
         </Content>
       </ScrollView>
     </Container>
+    </TouchableWithoutFeedback>
   )
 }

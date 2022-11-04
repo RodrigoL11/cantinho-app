@@ -33,7 +33,7 @@ export const ProductSeparator = styled.View`
 
 export const CategoryLabel = styled.Text`
   padding: 15px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[900]};
   font-family: ${({theme}) => theme.fonts.bold};
   font-size: 12px;
 `
@@ -45,14 +45,14 @@ export const ProductContainer = styled.View`
 
 export const ProductName = styled.Text`
   letter-spacing: 0.5px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.semiBold};
   font-size: 15px;
   margin-bottom: 4px;
 `
 
 export const ProductPrice = styled.Text`
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
   font-size: 15px;
 `
@@ -83,7 +83,7 @@ export const CartItemsQuantityContainer = styled.View`
 
 export const CartItemsQuantityLabel = styled.Text`
   font-size: 9px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.bold};
 `
 

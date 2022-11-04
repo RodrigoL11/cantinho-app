@@ -23,27 +23,27 @@ export const Card = styled.View`
 
 export const Title = styled.Text`
   font-size: 20px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[900]};
   font-family: ${({theme}) => theme.fonts.bold}; 
   margin-bottom: 20px;
 `
 
 export const Name = styled.Text`
   font-size: 16px;
-  color: ${({theme}) => theme.colors.text_color};
-  font-family: ${({theme}) => theme.fonts.medium}; 
+  color: ${({theme}) => theme.colors.text_color[700]};
+  font-family: ${({theme}) => theme.fonts.semiBold}; 
 `
 
 export const Price = styled.Text`
-  color: ${({theme}) => theme.colors.text_color};
-  font-family: ${({theme}) => theme.fonts.medium};
+  color: ${({theme}) => theme.colors.text_color[700]};
+  font-family: ${({theme}) => theme.fonts.semiBold};
   font-size: 16px;
   margin-bottom: 20px;
 `
 
 export const Stock = styled.Text`
-  font-size: 11px;
-  color: ${({theme}) => theme.colors.text_color};
+  font-size: 11.5px;
+  color: ${({theme}) => theme.colors.text_color[600]};
   font-family: ${({theme}) => theme.fonts.light};
   margin-bottom: 10px;
 `
@@ -88,7 +88,7 @@ export const AddButtonLabel = styled.Text`
 
 export const Quantity = styled.TextInput`
   margin: 0px 8px;
-  color: ${({theme}) => theme.colors.text_color};
+  color: ${({theme}) => theme.colors.text_color[800]};
   font-family: ${({theme}) => theme.fonts.medium};
   text-align: center;
 `

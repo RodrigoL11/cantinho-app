@@ -126,7 +126,7 @@ export default function CreateOrder({ route }: any) {
     type == "search-add" ? setType("add") : setShow(!show);
   }
 
-  const backAction = () => {
+  const backAction = (headerButton?: boolean) => {
     if (cartItems.length > 0) {
       Alert.alert("Atenção", "Há um pedido em andamento, tem certeza que quer voltar?", [
         {
@@ -137,6 +137,8 @@ export default function CreateOrder({ route }: any) {
         { text: "SIM", onPress: () => navigation.goBack() }
       ]);
       return true;
+    } else if(headerButton){
+      navigation.goBack();
     };
   }
 
@@ -153,7 +155,7 @@ export default function CreateOrder({ route }: any) {
     <Container>
       <Header
         title={'Criar pedido'}
-        onPress={backAction}
+        onPress={() => backAction(true)}
         extraIconName="search"
         extraOnPress={() => toogleModal("search")}
       />

@@ -22,15 +22,15 @@ interface Props {
 
 interface CategoryProps {
   title: string,
-  isLast: boolean,
+  isFirst: boolean,
   isSelected: boolean,
   onPress: (event: any) => void,
 }
 
-const Category = ({ title, isLast, isSelected, onPress }: CategoryProps) => {
+const Category = ({ title, isFirst, isSelected, onPress }: CategoryProps) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <CategoryContainer isSelected={isSelected} isLast={isLast}>
+      <CategoryContainer isSelected={isSelected} isFirst={isFirst}>
         <Title>{title}</Title>
       </CategoryContainer>
     </TouchableWithoutFeedback>
@@ -73,7 +73,7 @@ export default function DropDown({ onChange, items, placeholder, itemSelected }:
                   <Category
                     key={index}
                     title={item.nome as string}
-                    isLast={filteredItems[filteredItems.length - 1] === item}
+                    isFirst={filteredItems[0] === item}
                     isSelected={selected ? selected.id === item.id : false}
                     onPress={() => {
                       setSelected(item)

@@ -23,8 +23,8 @@ export const Title = styled.Text`
     margin-top: 10px;
     text-align: center;
     font-size: 20px;
-    color: ${({theme}) => theme.colors.text_color};
-    font-family: ${({theme}) => theme.fonts.regular};
+    color: ${({theme}) => theme.colors.text_color[900]};
+    font-family: ${({theme}) => theme.fonts.medium};
 `
 
 export const ErrorMessage = styled.Text`
