@@ -22,11 +22,13 @@ import {
   Buttons,
   DateContainer,
   HighLabel,
-  SpacedRow
+  SpacedRow,
+  ListLoading,
+  BackToTopButton
 } from './styles'
 import api from '@services/api';
 import { IFormatedOrder, IOrders } from '@interfaces/main';
-import { Alert, Keyboard, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Alert, Keyboard, NativeScrollEvent, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
 import SearchInput from '@components/SearchInput';
 
 interface Pedidos extends IOrders {
@@ -59,11 +61,16 @@ const bgStatus = {
 
 export default function Pedidos() {
   const navigation = useNavigation();
+  const perPage = 10;
+
   const [pedidos, setPedidos] = useState<IFormatedOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
   const [clicked, setClicked] = useState<number | null>(null);
   const [dataSourceCords, setDataSourceCords] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [ref, setRef] = useState<ScrollView>();
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const toogle = (index: number) => {
     if (clicked == index) {
@@ -88,6 +95,16 @@ export default function Pedidos() {
     } else {
       console.error('Out of Max Index')
     }
+  }
+
+  const handleScrollBackToTop = () => {
+    if (!ref) return null;
+
+    ref.scrollTo({
+      x: 0,
+      y: 0,
+      animated: true
+    })
   }
 
   const handleSubmit = async (id: number, status: string) => {
@@ -141,7 +158,7 @@ export default function Pedidos() {
             <HighLabel>{sumTotal(pedido.items)}</HighLabel>
           </SpacedRow>
           <SpacedRow>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <Row>
                 <HighLabel>Nome: </HighLabel>
                 <Label numberOfLines={1}>{pedido.nome_cliente}</Label>
@@ -194,14 +211,25 @@ export default function Pedidos() {
     )
   }
 
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
+
+  const formatString = (text: string) => { return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() }
+
   const filteredSearch = search.length > 0
-    ? pedidos.filter(item => item.nome_cliente.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) || item.num_mesa === search.trim())
+    ? pedidos.filter(item => formatString(item.nome_cliente).includes(formatString(search)) || item.num_mesa === search.trim())
     : pedidos;
 
   const loadData = async () => {
-    if (pedidos.length > 0) return null;
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     try {
-      const response = await api.get('pedidos')
+      const response = await api.get(`pedidos/limit=${perPage}&offset=${perPage * page}`)
       const { results } = response.data
 
       results.forEach(
@@ -215,9 +243,13 @@ export default function Pedidos() {
           }])
         }
       )
+
+      setPage(page + 1);
     } catch (err) {
       console.error(err)
     }
+
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -226,27 +258,43 @@ export default function Pedidos() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <Container>
-      <Header title="Pedidos" onPress={() => navigation.goBack()} />
-      <SearchInput 
-        value={search}
-        onChangeText={text => {
-          setClicked(null);
-          setSearch(text);
-        }}
-        placeholder="Busque um pedido..."
-        filterIcon={true}
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        ref={(ref: ScrollView) => setRef(ref)}
-        keyboardShouldPersistTaps="always"
-      >
-        <Content>
-          {filteredSearch.map((pedido, index) => Order(pedido, index, clicked === index))}
-        </Content>
-      </ScrollView>
-    </Container>
+      <Container>
+        <Header title="Pedidos" onPress={() => navigation.goBack()} />
+        <SearchInput
+          value={search}
+          onChangeText={text => {
+            setClicked(null);
+            setSearch(text);
+          }}
+          placeholder="Busque um pedido..."
+          filterIcon={true}
+        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          ref={(ref: ScrollView) => setRef(ref)}
+          keyboardShouldPersistTaps="always"
+          onScroll={({ nativeEvent }) => {
+            nativeEvent.contentOffset.y > 100 ? setShowBackToTop(true) : setShowBackToTop(false);
+
+            if (isCloseToBottom(nativeEvent))
+              loadData();            
+          }}
+        >
+          <Content>
+            {filteredSearch.map((pedido, index) => Order(pedido, index, clicked === index))}
+          </Content>
+          {isLoading && !clicked ?
+            <ListLoading>
+              <ActivityIndicator size={25} />
+            </ListLoading>
+            : null}
+        </ScrollView>
+        {showBackToTop && !clicked ?
+          <BackToTopButton activeOpacity={1} onPress={handleScrollBackToTop}>
+            <Feather name="chevron-up" size={24} color="#f4f5f6" />
+          </BackToTopButton>
+          : null}
+      </Container>
     </TouchableWithoutFeedback>
   )
 }

@@ -18,7 +18,7 @@ export const Container = styled.View`
 `
 
 export const Content = styled.View`
-    margin: 15px;
+    margin: 5px 15px 15px 15px;
     background-color: #fff;
     border-radius: 7px;
 `
@@ -123,4 +123,20 @@ export const ButtonLabel = styled.Text`
     font-size: 12px;
     font-family: ${({theme}) => theme.fonts.bold};
     color: #fff;
+`
+
+export const ListLoading = styled.View`
+    padding: 10px;
+`
+
+export const BackToTopButton = styled.TouchableOpacity`
+    height: 44px;
+    width: 44px;
+    border-radius: 999px;
+    background-color: ${({theme}) => theme.colors.primary_color};
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
 `
