@@ -95,3 +95,12 @@ export interface IFormatedOrder extends IOrders {
     produto_nome: string
   }[]
 }
+
+export interface IRegistroEstoque {
+  id: number
+  created_at: Date
+  valor_tabela: number
+  tipo: string
+  produtoID: number
+  quantidade: number
+}

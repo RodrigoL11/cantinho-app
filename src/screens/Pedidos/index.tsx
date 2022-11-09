@@ -77,6 +77,7 @@ export default function Pedidos() {
   const [search, setSearch] = useState("");
   const [ref, setRef] = useState<ScrollView>();
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isFullLoaded, setIsFullLoaded] = useState(false);
 
   const toogle = (index: number) => {
     if (clicked == index) {
@@ -229,15 +230,17 @@ export default function Pedidos() {
     ? pedidos.filter(item => formatString(item.nome_cliente).includes(formatString(search)) || item.num_mesa === search.trim())
     : pedidos;
 
+    
   const loadData = async () => {
-    if (isLoading) return;
+    if (isLoading || isFullLoaded) return;
 
     setIsLoading(true);
-
     try {
       const response = await api.get(`pedidos/limit=${perPage}&offset=${perPage * page}`)
       const { results } = response.data
-
+      
+      if (results.length < perPage) setIsFullLoaded(true); 
+      
       results.forEach(
         async (result: any) => {
           const itemsResponse = await api.get(`pedidos_itens/${result.id}`)
