@@ -113,7 +113,7 @@ export default function Home() {
               activeOpacity={0.7}
               key={index}
               onPress={() => { navigation.navigate("Comanda", { comandaID: item.id }) }}
-              hasPedidos={item.pedidos_abertos > 0}
+              hasPedidos={false}
             >
               <Row>
                 <Id>#{item.id}</Id>
@@ -137,7 +137,7 @@ export default function Home() {
                         <OptionLabel>Excluir</OptionLabel>
                       </OptionContainer>
                     </MenuOption>
-                    <MenuOption disabled={item.pedidos_abertos > 0 ? false : true}>
+                    <MenuOption disabled={true}>
                       <OptionContainer>
                         <Feather name="clipboard" size={13} />
                         <OptionLabel>Ver pedidos</OptionLabel>
@@ -148,11 +148,11 @@ export default function Home() {
               </Row>
               <Nome numberOfLines={2}>{item.nome_cliente}</Nome>
               <Mesa>Mesa: {item.num_mesa}</Mesa>
-              {item.pedidos_abertos > 0 && 
+              {/* {item.pedidos_abertos > 0 && 
                 <Aviso>
                   <AvisoLabel>{item.pedidos_abertos}</AvisoLabel>
                 </Aviso>
-              }
+              } */}
             </Card>
           )
         }}

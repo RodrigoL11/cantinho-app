@@ -6,8 +6,6 @@ import { Feather } from '@expo/vector-icons'
 import api from '@services/api';
 import { ICategories } from '@interfaces/main';
 
-import CreateProduct from '@components/FormsProduct/CreateProduct'
-import EditProduct from '@components/FormsProduct/EditProduct'
 import SearchInput from '@components/SearchInput';
 import ActionButton from '@components/ActionButton';
 
@@ -18,7 +16,6 @@ import {
     Content,
     Label,
     Name,
-    Row
 } from './styles'
 import EditCategory from '@components/FormsProduct/EditCategory';
 import CreateCategory from '@components/FormsProduct/CreateCategory';
@@ -54,7 +51,7 @@ export default function Categorias() {
 
     useEffect(() => {
         navigation.setOptions({
-            title: `Categorias (${categories.filter(c => c.status != 'inativo').length})`
+            title: `Categorias (${categories.filter(c => c.status != 'I').length})`
         })
     }, [categories])
 
@@ -71,7 +68,7 @@ export default function Categorias() {
             />
             <Content>
                 {filteredProducts.map((item, index) => {
-                    return item.status === 'ativo' && (
+                    return item.status === 'A' && (
                         <TouchableHighlight
                             style={{ marginTop: 1, marginBottom: 1 }}
                             activeOpacity={0.8}

@@ -43,18 +43,12 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
   const [selected, setSelected] = useState<{ id: number, nome: string }>(tipos.filter(t => t.nome === category.tipo)[0]);
   const [errors, setErrors] = useState({
     nome: "",
-    precoCusto: "",
-    valorTabela: "",
-    estoque: "",
     selected: ""
   });
 
   const handleSubmit = async () => {
     let _errors = {
       nome: "",
-      precoCusto: "",
-      valorTabela: "",
-      estoque: "",
       selected: ""
     }
 
@@ -81,12 +75,12 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
         id: category.id,        
         tipo: selected.nome,
         nome: nome.trim(),
-        status: 'ativo',
+        status: 'A',
         NumberOfProducts: category.NumberOfProducts
       }
 
       Alert.alert(
-        "Editar produto",
+        "Editar categoria",
         `Tem certeza que deseja editar a categoria ${category.nome} ?`,
         [
           {

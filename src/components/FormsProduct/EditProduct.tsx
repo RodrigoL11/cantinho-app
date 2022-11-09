@@ -29,16 +29,12 @@ interface Props {
 export default function EditProduct({ toogleForm, setProducts, products, pID }: Props) {
   const product = products.filter(p => p.id === pID)[0];
   const [nome, setNome] = useState(product.nome);
-  const [precoCusto, setPrecoCusto] = useState<number>(product.preco_custo);
   const [valorTabela, setValorTabela] = useState<number>(product.valor_tabela);
-  const [estoque, setEstoque] = useState<number>(product.quantidade_estoque);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [selected, setSelected] = useState<ICategories>();
   const [errors, setErrors] = useState({
     nome: "",
-    precoCusto: "",
     valorTabela: "",
-    estoque: "",
     selected: ""
   });
 
@@ -59,30 +55,20 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
 
   const handleSubmit = async () => {
     let _errors = {
-      nome: "",
-      precoCusto: "",
+      nome: "",      
       valorTabela: "",
-      estoque: "",
       selected: ""
     }
 
     if (nome.length === 0) _errors.nome = "Por favor, insira um nome"
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
-    else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
-
-    if (precoCusto == 0) _errors.precoCusto = "Por favor, insira um preço"
-    else if (valorTabela < precoCusto) _errors.valorTabela = "Valor de venda não pode ser menor que o preço de custo"
-    else if (!isNumber(precoCusto)) _errors.precoCusto = "Preço não é um número"
-    else if (precoCusto < 0) _errors.precoCusto = "Preço não pode ser negativo"
+    else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"    
 
     if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
-    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"
-
-    if (estoque == 0) _errors.estoque = "Por favor, insira um estoque"
-    else if (!isNumber(estoque)) _errors.estoque = "Estoque não é um número"
-    else if (estoque < 0) _errors.estoque = "Estoque não pode ser negativo"
+    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"    
+    else if (valorTabela < (product.preco_minimo || 0)) _errors.valorTabela = `Valor inferior ao preço de custo (R$${product.preco_minimo?.toFixed(2)})`
 
     if (selected === undefined) _errors.selected = "Selecione uma categoria"
 
@@ -101,14 +87,11 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
       console.log(selected)
 
       let validatedData = {
-        id: product.id,
-        nome: nome.trim(),
-        preco_custo: precoCusto,
-        quantidade_estoque: estoque,
+        ...product,
+        nome: nome.trim(),        
         valor_tabela: valorTabela,
-        status: product.status,
-        categoria_nome: selected.nome || product.categoria_nome,
-        cID: selected.id
+        categoria_nome: selected.nome || product.categoria_nome,        
+        cID: selected.id,        
       }
 
       Alert.alert(
@@ -164,7 +147,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
 
   return (
     <Container>
-      <Header title="Criar produto" onPress={toogleForm} />
+      <Header title="Editar produto" onPress={toogleForm} />
       <Content>
         <Input
           onChangeText={setNome}
@@ -174,20 +157,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
         {errors.nome ? <ErrorMessage>{errors.nome}</ErrorMessage> : null}
         <Row>
           <Column>
-            <MoneyInput
-              value={precoCusto}
-              onChangeValue={(text: number) => setPrecoCusto(text)}
-              prefix="R$ "
-              delimiter="."
-              separator=","
-              precision={2}
-              placeholder="Preço de custo"
-              label="Preço de custo"
-            />
-            {errors.precoCusto ? <ErrorMessage>{errors.precoCusto}</ErrorMessage> : null}
-          </Column>
-          <Column >
-            <MoneyInput
+          <MoneyInput
               value={valorTabela}
               onChangeValue={(text: number) => setValorTabela(text)}
               prefix="R$ "
@@ -197,32 +167,19 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
               placeholder="Valor de tabela"
               label="Valor de tabela"
             />
-            {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
+            
           </Column>
-        </Row>
-        <Row>
-          <Column>
-            <MoneyInput
-              value={estoque}
-              onChangeValue={(text: number) => setEstoque(text)}
-              delimiter="."
-              separator=","
-              precision={2}
-              placeholder="Em estoque"
-              label="Estoque"
-            />
-            {errors.estoque ? <ErrorMessage>{errors.estoque}</ErrorMessage> : null}
-          </Column>
-          <Column>
-            <DropDown
+          <Column >
+          <DropDown
               placeholder={selected?.nome || product.categoria_nome || "Categoria"}
               items={categories}
               onChange={setSelected}
               itemSelected={selected}  
             />
-            {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}
           </Column>
         </Row>
+        {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
+        {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}        
       </Content>
       <Button title="Excluir produto" reverse={true} onPress={handleDelete} />
       <Button title="Salvar" onPress={handleSubmit} />

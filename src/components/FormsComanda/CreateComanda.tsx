@@ -64,7 +64,7 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
                 id: 0,
                 data_hora_abertura: formatedDate,
                 pedidos_abertos: 0,
-                status: "ativo",
+                status: "A",
                 num_mesa: mesa.trim(),
                 nome_cliente: nome.trim(),
                 uID: authData?.id

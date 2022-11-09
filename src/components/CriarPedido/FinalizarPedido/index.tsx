@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import Header from '@components/Header';
-import { ICartItems } from '@interfaces/main';
+import { ICartItems, IProducts } from '@interfaces/main';
 import { Ionicons } from '@expo/vector-icons'
 
 import {
@@ -27,12 +27,13 @@ import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   setCartItems: Dispatch<SetStateAction<ICartItems[]>>
+  setProducts: Dispatch<SetStateAction<IProducts[]>>
   cartItems: ICartItems[]
   toogleModal: () => void
   comandaID: number
 }
 
-export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, comandaID }: Props) {
+export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, setProducts, comandaID }: Props) {
   const [_cartItems, _setCartItems] = useState<ICartItems[]>(cartItems);
   const { authData } = useAuth();
   const navigation = useNavigation();
@@ -69,7 +70,6 @@ export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, 
         await api.post('pedidos_itens', {
           data: {
             quantidade: item.quantity,
-            preco_custo: product.preco_custo,
             valor_tabela: product.valor_tabela,
             produtoID: product.id,
             pedidoID: pedidoID
@@ -85,9 +85,20 @@ export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, 
   }
 
   function handleRemove(id: number) {
-    let newArr = _cartItems.filter(i => i.product.id !== id);
+    const removedProduct = _cartItems.find(item => item.product.id === id);
+    const newArr = _cartItems.filter(i => i.product.id !== id);
     setCartItems(newArr);
     _setCartItems(newArr);
+
+    setProducts(products => {
+      return products.map(item => {
+        if (item.id === id) {
+          return { ...item, quantidade: item.quantidade + (removedProduct?.quantity || 0) }
+        } else {
+          return item
+        }
+      })
+    })
 
     if (newArr.length === 0)
       toogleModal();

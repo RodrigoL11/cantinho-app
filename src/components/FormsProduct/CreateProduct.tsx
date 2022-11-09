@@ -25,16 +25,12 @@ interface Props {
 
 export default function CreateProduct({ toogleForm, setProducts }: Props) {
   const [nome, setNome] = useState("");
-  const [precoCusto, setPrecoCusto] = useState<number>(0);
   const [valorTabela, setValorTabela] = useState<number>(0);
-  const [estoque, setEstoque] = useState<number>(0);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<ICategories>();
   const [errors, setErrors] = useState({
     nome: "",
-    precoCusto: "",
     valorTabela: "",
-    estoque: "",
     selectedCategory: ""
   });
 
@@ -55,9 +51,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
   const handleSubmit = async () => {
     let _errors = {
       nome: "",
-      precoCusto: "",
       valorTabela: "",
-      estoque: "",
       selectedCategory: ""
     }
 
@@ -66,18 +60,9 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
 
-    if (precoCusto == 0) _errors.precoCusto = "Por favor, insira um preço"
-    else if (!isNumber(precoCusto)) _errors.precoCusto = "Preço não é um número"
-    else if (precoCusto < 0) _errors.precoCusto = "Preço não pode ser negativo"
-
-    if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
-    else if (valorTabela < precoCusto) _errors.valorTabela = "Valor de venda não pode ser menor que o preço de custo" 
+    if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"    
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
-    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"
-
-    if (estoque == 0) _errors.estoque = "Por favor, insira um estoque" 
-    else if (!isNumber(estoque)) _errors.estoque = "Estoque não é um número"
-    else if (estoque < 0) _errors.estoque = "Estoque não pode ser negativo"
+    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"    
 
     if (selectedCategory === undefined) _errors.selectedCategory = "Selecione uma categoria"
 
@@ -96,13 +81,11 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
       let validatedData = {
         id: -1,
         nome: nome.trim(),
-        preco_custo: precoCusto,
-        quantidade_estoque: estoque,
         valor_tabela: valorTabela,
-        status: 'ativo',
+        status: 'A',
         categoria_nome: selectedCategory.nome,
-
-        cID: selectedCategory.id        
+        cID: selectedCategory.id,
+        quantidade: 0,        
       }
       
       await api.post('produtos', {
@@ -128,17 +111,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
         {errors.nome ? <ErrorMessage>{errors.nome}</ErrorMessage> : null}
         <Row>
           <Column>
-            <MoneyInput
-              value={precoCusto}
-              onChangeValue={(text: number) => setPrecoCusto(text)}
-              prefix="R$ "
-              delimiter="."
-              separator=","
-              precision={2}
-              placeholder="Preço de custo"
-              label="Preço de custo"
-            />
-          {errors.precoCusto ? <ErrorMessage>{errors.precoCusto}</ErrorMessage> : null}
+            
           </Column>
           <Column >
             <MoneyInput
@@ -156,16 +129,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
         </Row>
         <Row>
           <Column>
-            <MoneyInput
-              value={estoque}
-              onChangeValue={(text: number) => setEstoque(text)}
-              delimiter="."
-              separator=","
-              precision={2}
-              placeholder="Em estoque"
-              label="Estoque"
-            />
-            {errors.estoque ? <ErrorMessage>{errors.estoque}</ErrorMessage> : null}
+            
           </Column>
           <Column>
             <DropDown

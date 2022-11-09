@@ -200,9 +200,9 @@ export default function CreateOrder({ route }: any) {
             {type === "search"
               ? <BuscarProduto products={products} toogleModal={toogleModal} />
               : type === "add" && selectedProduct
-                ? <AddProduto product={selectedProduct} toogleModal={toogleModal} setCartItems={setCartItems} cartItems={cartItems} />
+                ? <AddProduto product={selectedProduct} setProducts={setProducts} toogleModal={toogleModal} setCartItems={setCartItems} />
                 : type === "finalize" && cartItems.length > 0
-                && <FinalizarPedido comandaID={comandaID} cartItems={cartItems} setCartItems={setCartItems} toogleModal={toogleModal} />
+                && <FinalizarPedido comandaID={comandaID} setProducts={setProducts} cartItems={cartItems} setCartItems={setCartItems} toogleModal={toogleModal} />
             }
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>

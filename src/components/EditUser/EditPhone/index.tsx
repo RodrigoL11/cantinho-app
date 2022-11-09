@@ -85,7 +85,7 @@ export default function CreatePhone({ id, toogleForm, setPhones, phones }: Props
         DDI: DDI,
         DDD: DDD,
         num_telefone: numero,
-        status: "ativo"
+        status: "A"
       }
 
       if (phones && selectedPhone) {

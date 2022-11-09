@@ -34,7 +34,6 @@ export interface IComandas {
   id: number
   data_hora_abertura: string
   data_hora_finalizada?: string
-  pedidos_abertos: number
   nome_cliente: string
   num_mesa: string
   status: string
@@ -53,12 +52,12 @@ export interface ICategories {
 export interface IProducts {
   id: number
   nome: string
-  preco_custo: number
-  quantidade_estoque: number
   valor_tabela: number
   status: string
   cID: number
+  quantidade: number
   categoria_nome?: string
+  preco_minimo?: number
 }
 
 export interface ICartItems {
@@ -78,7 +77,6 @@ export interface IOrders {
 export interface IOrdersItens {
   id: number
   quantidade: number
-  preco_custo: number
   valor_tabela: number
   pedidoID: number
   produtoID: number
@@ -90,10 +88,10 @@ export interface IFormatedOrder extends IOrders {
   num_mesa: string
   items: {
     id: number
+    quantidade: number
+    valor_tabela: number
     status: string
     categoria_nome: string
     produto_nome: string
-    quantidade: number
-    valor_tabela: number
   }[]
 }

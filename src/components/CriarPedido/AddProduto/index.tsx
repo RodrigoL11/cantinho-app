@@ -18,22 +18,27 @@ import {
   Stock,
   Title,
 } from './styles'
-import { Keyboard } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 
 interface Props {
   product: IProducts
   toogleModal: () => void
   setCartItems: Dispatch<SetStateAction<ICartItems[]>>;
-  cartItems: ICartItems[];
+  setProducts: Dispatch<SetStateAction<IProducts[]>>;
 }
 
-export default function AddProduto({ product, toogleModal, cartItems, setCartItems }: Props) {
+export default function AddProduto({ product, toogleModal, setCartItems, setProducts }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   const handleSubmit = () => {
     if (quantity === 0) return null;
-    
+    if (quantity > product.quantidade){
+      Alert.alert("Atenção", "Quantidade inserida maior do que a em estoque!")
+
+      return null;
+    }
+
     setCartItems(currItems => {
       if (currItems.find(item => item.product.id === product.id) == null) {
         return [...currItems, { product, quantity: quantity}]
@@ -47,6 +52,17 @@ export default function AddProduto({ product, toogleModal, cartItems, setCartIte
         })
       }
     })
+
+    setProducts(products => {
+      return products.map(item => {
+        if (item.id === product.id) {
+          return { ...item, quantidade: item.quantidade - quantity }
+        } else {
+          return item
+        }
+      })
+    })
+
     toogleModal();
   }
 
@@ -78,7 +94,7 @@ export default function AddProduto({ product, toogleModal, cartItems, setCartIte
       <Card>
         <Title>Adicionar ao pedido</Title>
         <Name>{product.nome}</Name>
-        <Stock>Em estoque: {product.quantidade_estoque}</Stock>
+        <Stock>Em estoque: {product.quantidade}</Stock>
         <Price>R$ {product.valor_tabela.toFixed(2)}</Price>
         <Row>
           <QuantityContainer removeClippedSubviews={true}>

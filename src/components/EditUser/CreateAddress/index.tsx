@@ -111,7 +111,7 @@ export default function CreateAddress({ uID, toogleForm, setAddress }: Props) {
         cidade: cidade,
         estado: estado,
         uID: uID,
-        status: 'ativo',
+        status: 'A',
       }
 
       await api.post('address', {

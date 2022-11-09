@@ -115,7 +115,7 @@ export default function EditAddress({ id, toogleForm, setAddress, address }: Pro
         cep: CEP,
         cidade: cidade,
         estado: estado,
-        status: 'ativo'
+        status: 'A'
       }
 
       if (address && selectedAddress) {

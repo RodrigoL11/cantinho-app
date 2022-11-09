@@ -54,9 +54,15 @@ const sumTotal = (items: any[]) => {
 }
 
 const bgStatus = {
-  'entregue': '#388E3C',
-  'cancelado': '#D32F2F',
-  'ativo': '#FFC107'
+  'E': '#388E3C', //entregue
+  'C': '#D32F2F', //cancelado
+  'A': '#FFC107'  //ativo
+}
+
+const textStatus = {
+  'E': 'Entregue',
+  'C': 'Cancelado',
+  'A': 'Ativo'
 }
 
 export default function Pedidos() {
@@ -110,7 +116,7 @@ export default function Pedidos() {
   const handleSubmit = async (id: number, status: string) => {
     Alert.alert(
       "Atenção",
-      `Tem certeza que deseja ${status === 'cancelado' ? 'cancelar' : 'definir como entregue'} o pedido?`,
+      `Tem certeza que deseja ${status === 'C' ? 'cancelar' : 'definir como entregue'} o pedido?`,
       [
         {
           text: "Sim",
@@ -169,7 +175,7 @@ export default function Pedidos() {
               </Row>
             </View>
             <Status bgColor={bgStatus[pedido.status as keyof typeof bgStatus]}>
-              <StatusLabel>{pedido.status.charAt(0).toUpperCase() + pedido.status.slice(1)}</StatusLabel>
+              <StatusLabel>{textStatus[pedido.status as keyof typeof textStatus]}</StatusLabel>
             </Status>
           </SpacedRow>
           {clicked &&
@@ -186,18 +192,18 @@ export default function Pedidos() {
                   </SpacedRow>
                 </Item>
               )}
-              {pedido.status === 'ativo' ?
+              {pedido.status === 'A' ?
                 <Buttons>
-                  <Button bgColor="#D32F2F" onPress={() => handleSubmit(pedido.id, 'cancelado')}>
+                  <Button bgColor="#D32F2F" onPress={() => handleSubmit(pedido.id, 'C')}>
                     <ButtonLabel>Cancelar</ButtonLabel>
                   </Button>
-                  <Button bgColor="#388E3C" onPress={() => handleSubmit(pedido.id, 'entregue')}>
+                  <Button bgColor="#388E3C" onPress={() => handleSubmit(pedido.id, 'E')}>
                     <ButtonLabel>Finalizar</ButtonLabel>
                   </Button>
                 </Buttons> :
                 pedido.finalized_at &&
                 <View>
-                  <ItemsTitle>{pedido.status.charAt(0).toUpperCase() + pedido.status.slice(1)} às</ItemsTitle>
+                  <ItemsTitle>{textStatus[pedido.status as keyof typeof textStatus]} às</ItemsTitle>
                   <DateContainer style={{ marginTop: -4 }}>
                     <Feather style={{ marginRight: 4 }} name="clock" size={12} />
                     <Label>{formatDate(new Date(pedido.finalized_at))}</Label>

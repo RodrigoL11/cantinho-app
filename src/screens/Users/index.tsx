@@ -80,7 +80,7 @@ export default function Users() {
       <Header title="Usuários" onPress={navigation.goBack} />
       <Content>
         {users.map((user, index) => (
-          user.status === 'ativo' &&
+          user.status === 'A' &&
           <Card key={index}>
             <Row>
               <Nome>{user.nome}</Nome>

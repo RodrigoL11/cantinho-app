@@ -51,7 +51,7 @@ export default function Produtos() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: `Produtos (${products.filter(c => c.status != 'inativo').length})`
+      title: `Produtos (${products.filter(c => c.status != 'I').length})`
     })
   }, [products])
 
@@ -68,7 +68,7 @@ export default function Produtos() {
       />
       <Content>
         {filteredProducts.map((item, index) => {
-          return item.status === 'ativo' && (
+          return item.status === 'A' && (
             <TouchableHighlight
               style={{ marginTop: 1, marginBottom: 1 }}
               activeOpacity={0.8}
@@ -86,7 +86,7 @@ export default function Produtos() {
                     <Category> ({item.categoria_nome})</Category>
                   </Row>
                   <Label>R$ {item.valor_tabela.toFixed(2)}</Label>
-                  <Label>Em estoque: {item.quantidade_estoque}</Label>
+                  <Label>Em estoque: {item.quantidade}</Label>
                 </Column>
                 <Column>
                   <Feather name="chevron-right" size={22} color="#b9b9b9" />

@@ -77,7 +77,7 @@ export default function CreateCategory({ toogleForm, setCategories }: Props) {
         id: -1,
         tipo: selected.nome,
         nome: nome.trim(),
-        status: 'ativo',
+        status: 'A',
       }
 
       await api.post('categorias', {
