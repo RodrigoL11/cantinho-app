@@ -8,13 +8,11 @@ import {
   ProductName,
   ProductPrice,
   Content,
-  Empty,
-  EmptyTitle,
-  EmptySubTitle,
   Separator
 } from './styles'
 import SearchInput from '@components/SearchInput';
 import { TouchableWithoutFeedback } from 'react-native';
+import Empty from '@components/Empty';
 
 interface Props {
   products: IProducts[],
@@ -53,14 +51,15 @@ export default function BuscarProduto({ toogleModal, products }: Props) {
           )}
         </Content>
         :
-        <Empty>
-          <EmptyTitle>
-            {search.length < 3 ? "Nenhuma busca até o\nmomento" : "Produto não\nencontrado"}
-          </EmptyTitle>
-          <EmptySubTitle>
-            {search.length < 3 ? "Faça sua primeira busca aqui" : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
-          </EmptySubTitle>
-        </Empty>}
+        <Empty
+          title={search.length < 3
+            ? "Nenhuma busca até o\nmomento"
+            : "Produto não\nencontrado"}
+          subtitle={search.length < 3
+            ? "Faça sua primeira busca aqui"
+            : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
+        />
+        }
     </Container>
   )
 }

@@ -35,28 +35,6 @@ export const Content = styled.ScrollView`
   
 `
 
-export const Empty = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`
-
-export const EmptyTitle = styled.Text`
-  font-size: 22px;
-  color: ${({theme}) => theme.colors.text_color[800]};
-  font-family: ${({theme}) => theme.fonts.semiBold};
-  text-align: center;
-  margin-bottom: 8px;
-  letter-spacing: 0.7px;
-`
-
-export const EmptySubTitle = styled.Text`
-  font-size: 14px;
-  color: ${({theme}) => theme.colors.text_color[700]};
-  font-family: ${({theme}) => theme.fonts.light};
-  text-align: center;
-`
-
 export const Row = styled.View`
   flex-direction: row;
 `

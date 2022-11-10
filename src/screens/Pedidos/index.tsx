@@ -30,6 +30,7 @@ import api from '@services/api';
 import { IFormatedOrder, IOrders } from '@interfaces/main';
 import { ActivityIndicator, Alert, Keyboard, NativeScrollEvent, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
 import SearchInput from '@components/SearchInput';
+import Empty from '@components/Empty';
 
 interface Pedidos extends IOrders {
   items: any[]
@@ -230,7 +231,7 @@ export default function Pedidos() {
     ? pedidos.filter(item => formatString(item.nome_cliente).includes(formatString(search)) || item.num_mesa === search.trim())
     : pedidos;
 
-    
+
   const loadData = async () => {
     if (isLoading || isFullLoaded) return;
 
@@ -238,9 +239,9 @@ export default function Pedidos() {
     try {
       const response = await api.get(`pedidos/limit=${perPage}&offset=${perPage * page}`)
       const { results } = response.data
-      
-      if (results.length < perPage) setIsFullLoaded(true); 
-      
+
+      if (results.length < perPage) setIsFullLoaded(true);
+
       results.forEach(
         async (result: any) => {
           const itemsResponse = await api.get(`pedidos_itens/${result.id}`)
@@ -278,26 +279,38 @@ export default function Pedidos() {
           placeholder="Busque um pedido..."
           filterIcon={true}
         />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          ref={(ref: ScrollView) => setRef(ref)}
-          keyboardShouldPersistTaps="always"
-          onScroll={({ nativeEvent }) => {
-            nativeEvent.contentOffset.y > 100 ? setShowBackToTop(true) : setShowBackToTop(false);
+        {filteredSearch.length > 0 ?
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            ref={(ref: ScrollView) => setRef(ref)}
+            keyboardShouldPersistTaps="always"
+            onScroll={({ nativeEvent }) => {
+              nativeEvent.contentOffset.y > 100 ? setShowBackToTop(true) : setShowBackToTop(false);
 
-            if (isCloseToBottom(nativeEvent))
-              loadData();            
-          }}
-        >
-          <Content>
-            {filteredSearch.map((pedido, index) => Order(pedido, index, clicked === index))}
-          </Content>
-          {isLoading && !clicked ?
-            <ListLoading>
-              <ActivityIndicator size={25} />
-            </ListLoading>
-            : null}
-        </ScrollView>
+              if (isCloseToBottom(nativeEvent))
+                loadData();
+            }}
+          >
+            <Content>
+              {filteredSearch.map((pedido, index) => Order(pedido, index, clicked === index))}
+            </Content>
+            {isLoading && !clicked ?
+              <ListLoading>
+                <ActivityIndicator size={25} />
+              </ListLoading>
+              : null}
+          </ScrollView>
+          :
+          <Empty
+            title={search.length < 0
+              ? "Não há nenhum pedido\ncadastrado"
+              : "Pedido não encontrado"}
+            subtitle={search.length < 0
+              ? "Crie um pedido primeiro"
+              : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
+          />
+        }
+
         {showBackToTop && !clicked ?
           <BackToTopButton activeOpacity={1} onPress={handleScrollBackToTop}>
             <Feather name="chevron-up" size={24} color="#f4f5f6" />

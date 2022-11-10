@@ -12,11 +12,13 @@ import {
   Content,
   Name,
   Row,
-  Separator,
-  Value,
-  ValueLabel
+  Label,
+  StrongLabel,
 } from './styles'
 import api from '@services/api';
+import { View, TouchableHighlight } from 'react-native';
+import SearchInput from '@components/SearchInput';
+import Empty from '@components/Empty';
 
 interface Product extends IProducts {
   entrada: number
@@ -25,10 +27,11 @@ interface Product extends IProducts {
 
 export default function Estoque() {
   const navigation = useNavigation();
-  const [produtos, setProdutos] = useState<Product[]>([]);
+  const [products, setProdutos] = useState<Product[]>([]);
+  const [search, setSearch] = useState("");
 
   const loadData = async () => {
-    if (produtos.length > 0) return;
+    if (products.length > 0) return;
 
     try {
       const response = await api.get('produtos');
@@ -55,39 +58,69 @@ export default function Estoque() {
     loadData();
   }, [])
 
+  const filteredProducts = search.length > 0
+    ? products.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
+    : products;
+
   const Product = (product: Product, index: number) => {
     return (
-      <Card key={index}>
-        <Name>{product.nome}</Name>
-        <Row>
-          <ValueLabel>Preço de custo: </ValueLabel>
-          <Value>R${product.preco_minimo?.toFixed(2)}</Value>
-        </Row>
-        <Row>
-          <ValueLabel>Valor de venda: </ValueLabel>
-          <Value>R${product.valor_tabela.toFixed(2)}</Value>
-        </Row>
-        <Row style={{marginTop: 5}}>
-          <Row>
-            <Entypo name="triangle-up" size={20} color="#458f5aea" />
-            <Amount type="E">{product.entrada}</Amount>
-          </Row>
-          <Row>
-            <Entypo name="triangle-down" size={20} color="#EC4F3Cea" />
-            <Amount type="S">{product.saida}</Amount>
-          </Row>
-        </Row>
-        {product.id !== produtos[produtos.length - 1].id && <Separator />}
-      </Card>
+      <TouchableHighlight
+        style={{ marginTop: 1, marginBottom: 1 }}
+        activeOpacity={0.9}
+        underlayColor="#000"
+        key={index}
+        onPress={() => { console.log('oi') }}
+      >
+        <Card key={index}>
+          <View>
+            <Name>{product.nome}</Name>
+            <Row>
+              <Label>Preço de custo: </Label>
+              <StrongLabel>R${product.preco_minimo?.toFixed(2)}</StrongLabel>
+            </Row>
+            <Row style={{ marginTop: 5 }}>
+              <Row>
+                <Entypo name="triangle-up" size={17} color="#458f5aea" />
+                <Amount type="E">{product.entrada}</Amount>
+              </Row>
+              <Row>
+                <Entypo name="triangle-down" size={17} color="#EC4F3Cea" />
+                <Amount type="S">{product.saida}</Amount>
+              </Row>
+            </Row>
+          </View>
+          <Entypo name="chevron-right" size={24} color="#c4c4c4" />
+        </Card>
+      </TouchableHighlight>
     )
   }
 
   return (
     <Container>
       <Header title="Estoque" onPress={() => navigation.goBack()} />
-      <Content>
-        {produtos.map(Product)}
-      </Content>
+      <SearchInput
+        value={search}
+        onChangeText={setSearch}
+        placeholder="Buscar produto..."
+      />
+      {filteredProducts.length > 0 ?
+        <Content
+          keyboardShouldPersistTaps="always"
+          showsVerticalScrollIndicator={false}
+        >
+          {filteredProducts.map(Product)}
+        </Content>
+        :
+        <Empty
+          title={search.length < 0
+            ? "Não há nenhum produto\ncadastrado"
+            : "Produto não encontrado"}
+          subtitle={search.length < 0
+            ? "Cadastre um produto primeiro"
+            : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
+        />
+      }
+
     </Container>
   )
 }

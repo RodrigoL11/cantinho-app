@@ -32,13 +32,14 @@ import {
   OptionContainer,
   OptionLabel
 } from "./styles";
+import Empty from "@components/Empty";
 
 export default function Home() {
   const navigation = useNavigation();
   const [search, setSearch] = useState<string>("")
   const [showForms, setShowForms] = useState(false)
   const [comandas, setComandas] = useState<IComandas[]>([])
-  const [comandaID, setComandaID] = useState<number>()  
+  const [comandaID, setComandaID] = useState<number>()
 
   const loadData = async () => {
     try {
@@ -64,7 +65,7 @@ export default function Home() {
   const deleteComanda = (id: number) => {
     const delComanda = comandas.find(c => c.id == id)
 
-    if(!delComanda) return null;
+    if (!delComanda) return null;
 
     Alert.alert(
       "Deletar comanda",
@@ -102,61 +103,73 @@ export default function Home() {
         onChangeText={e => setSearch(e)}
         value={search}
       />
-      <FlatGrid
-        itemDimension={100}
-        data={filteredSearch}
-        style={{ flex: 1 }}
-        spacing={10}
-        renderItem={({ item, index }) => {
-          return (
-            <Card
-              activeOpacity={0.7}
-              key={index}
-              onPress={() => { navigation.navigate("Comanda", { comandaID: item.id }) }}
-              hasPedidos={false}
-            >
-              <Row>
-                <Id>#{item.id}</Id>
-                <Menu>
-                  <MenuTrigger style={{ position: 'absolute', right: -4, top: 2.5 }} >
-                    <Feather name="more-vertical" color={"#a5a5a5"} size={20} />
-                  </MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
-                    <MenuOption onSelect={() => {
-                      setComandaID(item.id);
-                      setShowForms(true);
-                    }}>
-                      <OptionContainer>
-                        <Feather name="edit-2" size={13} />
-                        <OptionLabel>Editar</OptionLabel>
-                      </OptionContainer>
-                    </MenuOption>
-                    <MenuOption onSelect={() => deleteComanda(item.id)}>
-                      <OptionContainer>
-                        <Feather name="trash-2" size={13} />
-                        <OptionLabel>Excluir</OptionLabel>
-                      </OptionContainer>
-                    </MenuOption>
-                    <MenuOption disabled={true}>
-                      <OptionContainer>
-                        <Feather name="clipboard" size={13} />
-                        <OptionLabel>Ver pedidos</OptionLabel>
-                      </OptionContainer>
-                    </MenuOption>
-                  </MenuOptions>
-                </Menu>
-              </Row>
-              <Nome numberOfLines={2}>{item.nome_cliente}</Nome>
-              <Mesa>Mesa: {item.num_mesa}</Mesa>
-              {/* {item.pedidos_abertos > 0 && 
-                <Aviso>
-                  <AvisoLabel>{item.pedidos_abertos}</AvisoLabel>
-                </Aviso>
-              } */}
-            </Card>
-          )
-        }}
-      />
+      {filteredSearch.length > 0 ?
+        <FlatGrid
+          itemDimension={100}
+          data={filteredSearch}
+          style={{ flex: 1 }}
+          spacing={10}
+          renderItem={({ item, index }) => {
+            return (
+              <Card
+                activeOpacity={0.7}
+                key={index}
+                onPress={() => { navigation.navigate("Comanda", { comandaID: item.id }) }}
+                hasPedidos={false}
+              >
+                <Row>
+                  <Id>#{item.id}</Id>
+                  <Menu>
+                    <MenuTrigger style={{ position: 'absolute', right: -4, top: 2.5 }} >
+                      <Feather name="more-vertical" color={"#a5a5a5"} size={20} />
+                    </MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
+                      <MenuOption onSelect={() => {
+                        setComandaID(item.id);
+                        setShowForms(true);
+                      }}>
+                        <OptionContainer>
+                          <Feather name="edit-2" size={13} />
+                          <OptionLabel>Editar</OptionLabel>
+                        </OptionContainer>
+                      </MenuOption>
+                      <MenuOption onSelect={() => deleteComanda(item.id)}>
+                        <OptionContainer>
+                          <Feather name="trash-2" size={13} />
+                          <OptionLabel>Excluir</OptionLabel>
+                        </OptionContainer>
+                      </MenuOption>
+                      <MenuOption disabled={true}>
+                        <OptionContainer>
+                          <Feather name="clipboard" size={13} />
+                          <OptionLabel>Ver pedidos</OptionLabel>
+                        </OptionContainer>
+                      </MenuOption>
+                    </MenuOptions>
+                  </Menu>
+                </Row>
+                <Nome numberOfLines={2}>{item.nome_cliente}</Nome>
+                <Mesa>Mesa: {item.num_mesa}</Mesa>
+                {/* {item.pedidos_abertos > 0 && 
+              <Aviso>
+                <AvisoLabel>{item.pedidos_abertos}</AvisoLabel>
+              </Aviso>
+            } */}
+              </Card>
+            )
+          }}
+        />
+        :
+        <Empty
+          title={search.length < 0
+            ? "Não há nenhuma comanda\nativa"
+            : "Comanda não encontrada"}
+          subtitle={search.length < 0
+            ? "Cadastre uma comanda primeiro"
+            : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
+        />
+      }
+
       <ActionButton name="add" size={40} onPress={() => setShowForms(true)} />
 
       <Modal

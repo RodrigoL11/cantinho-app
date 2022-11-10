@@ -60,9 +60,9 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
 
-    if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"    
+    if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
-    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"    
+    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"
 
     if (selectedCategory === undefined) _errors.selectedCategory = "Selecione uma categoria"
 
@@ -76,7 +76,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
     setErrors(_errors)
 
     if (!hasError) {
-      if(!selectedCategory) return
+      if (!selectedCategory) return
 
       let validatedData = {
         id: -1,
@@ -85,17 +85,17 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
         status: 'A',
         categoria_nome: selectedCategory.nome,
         cID: selectedCategory.id,
-        quantidade: 0,        
+        quantidade: 0,
       }
-      
+
       await api.post('produtos', {
         data: validatedData
       }).then(response => {
-          let newID = response.data.result.insertId;
-          validatedData.id = newID;
-          setProducts(arr => [...arr, validatedData])
-          toogleForm();          
-      })      
+        let newID = response.data.result.insertId;
+        validatedData.id = newID;
+        setProducts(arr => [...arr, validatedData])
+        toogleForm();
+      })
     }
   }
 
@@ -111,9 +111,6 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
         {errors.nome ? <ErrorMessage>{errors.nome}</ErrorMessage> : null}
         <Row>
           <Column>
-            
-          </Column>
-          <Column >
             <MoneyInput
               value={valorTabela}
               onChangeValue={(text: number) => setValorTabela(text)}
@@ -124,22 +121,18 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
               placeholder="Valor de tabela"
               label="Valor de tabela"
             />
-          {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
           </Column>
-        </Row>
-        <Row>
-          <Column>
-            
-          </Column>
-          <Column>
+          <Column >
             <DropDown
               placeholder={selectedCategory?.nome || "Categoria"}
               items={categories}
               onChange={setSelectedCategory}
             />
-            {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
           </Column>
+          {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
+          {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
         </Row>
+
       </Content>
       <Button title="Salvar" onPress={handleSubmit} />
     </Container>

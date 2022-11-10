@@ -21,6 +21,7 @@ import {
   Name,
   Row
 } from './styles'
+import Empty from '@components/Empty';
 
 export default function Produtos() {
   const [products, setProducts] = useState<IProducts[]>([]);
@@ -66,36 +67,47 @@ export default function Produtos() {
         onChangeText={setSearch}
         placeholder={"Buscar produto..."}
       />
-      <Content>
-        {filteredProducts.map((item, index) => {
-          return item.status === 'A' && (
-            <TouchableHighlight
-              style={{ marginTop: 1, marginBottom: 1 }}
-              activeOpacity={0.8}
-              underlayColor="#000"
-              key={index}
-              onPress={() => {
-                setSelected(item);
-                setShow(true);
-              }}
-            >
-              <Card >
-                <Column>
-                  <Row>
-                    <Name>{item.nome}</Name>
-                    <Category> ({item.categoria_nome})</Category>
-                  </Row>
-                  <Label>R$ {item.valor_tabela.toFixed(2)}</Label>
-                  <Label>Em estoque: {item.quantidade}</Label>
-                </Column>
-                <Column>
-                  <Feather name="chevron-right" size={22} color="#b9b9b9" />
-                </Column>
-              </Card>
-            </TouchableHighlight>
-          )
-        })}
-      </Content>
+      {filteredProducts.length > 0 ?
+        <Content>
+          {filteredProducts.map((item, index) => {
+            return item.status === 'A' && (
+              <TouchableHighlight
+                style={{ marginTop: 1, marginBottom: 1 }}
+                activeOpacity={0.8}
+                underlayColor="#000"
+                key={index}
+                onPress={() => {
+                  setSelected(item);
+                  setShow(true);
+                }}
+              >
+                <Card>
+                  <Column>
+                    <Row>
+                      <Name>{item.nome}</Name>
+                      <Category> ({item.categoria_nome})</Category>
+                    </Row>
+                    <Label>Valor de venda: R$ {item.valor_tabela.toFixed(2)}</Label>
+                    <Label>Em estoque: {item.quantidade}</Label>
+                  </Column>
+                  <Column>
+                    <Feather name="chevron-right" size={22} color="#b9b9b9" />
+                  </Column>
+                </Card>
+              </TouchableHighlight>
+            )
+          })}
+        </Content>
+        :
+        <Empty
+          title={search.length < 0
+            ? "Não há nenhum produto\ncadastrado"
+            : "Produto não encontrado"}
+          subtitle={search.length < 0
+            ? "Cadastre um produto primeiro"
+            : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
+        />
+      }
 
       <ActionButton name="add" size={40} onPress={() => {
         setSelected(undefined);

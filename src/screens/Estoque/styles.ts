@@ -9,20 +9,16 @@ export const Container = styled.View`
     background-color: ${({theme}) => theme.colors.background};
 `
 
-export const Content = styled.View`
+export const Content = styled.ScrollView`
     margin: 5px 15px 15px 15px;
 `
 
 export const Card = styled.View`
-    padding: 10px 15px;
+    padding: 12px 16px;
     background-color: ${({theme}) => theme.colors.bgCard};
-`
-
-export const Separator = styled.View`
-    width: 100%;
-    height: 1px;
-    background-color: #dadada;
-    top: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 `
 
 export const Row = styled.View`
@@ -30,35 +26,29 @@ export const Row = styled.View`
     align-items: center;
 `
 
-export const Column = styled.View`
-
-`
-
 export const Name = styled.Text`
     font-family: ${({theme}) => theme.fonts.semiBold};
-    font-size: 16px;
-    color: ${({theme}) => theme.colors.text_color[900]};
-    margin-bottom: 4px;
-`
-
-export const ValueLabel = styled.Text`
-    font-family: ${({theme}) => theme.fonts.regular};
-    color: ${({theme}) => theme.colors.text_color[600]};
-    font-size: 11.5px;
-    line-height: 20px;
-`
-
-export const Value = styled.Text`
-    font-family: ${({theme}) => theme.fonts.medium};
+    font-size: 15px;
     color: ${({theme}) => theme.colors.text_color[800]};
-    font-size: 13px;
-    line-height: 20px;
+`
+
+export const Label = styled.Text`
+    font-family: ${({theme}) => theme.fonts.light};
+    color: ${({theme}) => theme.colors.text_color[600]};
+    font-size: 11px;
+    line-height: 14px;
+`
+
+export const StrongLabel = styled.Text`
+    font-family: ${({theme}) => theme.fonts.regular};
+    color: ${({theme}) => theme.colors.text_color[900]};
+    font-size: 12px;
+    line-height: 14px;
 `
 
 export const Amount = styled.Text<IAmount>`
-    font-family: ${({theme}) => theme.fonts.bold};
-    font-size: 13px;
-    margin-left: 0px;
+    font-family: ${({theme}) => theme.fonts.medium};
+    font-size: 12.5px;
     width: 35px;    
 
     ${(props) =>

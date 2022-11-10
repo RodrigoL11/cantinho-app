@@ -26,7 +26,8 @@ export const Name = styled.Text`
 
 export const Label = styled.Text`
     color: ${({theme}) => theme.colors.text_color[700]};
-    font-family: ${({theme}) => theme.fonts.regular};    
+    font-family: ${({theme}) => theme.fonts.regular}; 
+    font-size: 12px;   
 `
 
 export const Row = styled.View`
@@ -36,3 +37,4 @@ export const Row = styled.View`
 export const Column = styled.View`
 
 `
+
