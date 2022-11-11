@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 
 export const Container = styled.View`
     width: 100%;
-    height: ${56 + (StatusBar.currentHeight || 0)}px;
+    height: ${58 + (StatusBar.currentHeight || 0)}px;
     padding-top: ${StatusBar.currentHeight}px;
     background-color: ${({theme}) => theme.colors.bgCard};
     box-shadow: 10px 5px 5px black;

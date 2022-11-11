@@ -106,6 +106,7 @@ export default function CreateCategory({ toogleForm, setCategories }: Props) {
           placeholder={selected?.nome || "Tipo"}
           items={tipos}
           onChange={setSelected}
+          tipo="Departamento"
         />
         {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
       </Content>

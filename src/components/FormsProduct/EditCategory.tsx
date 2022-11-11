@@ -145,6 +145,7 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
           items={tipos}
           onChange={setSelected}
           itemSelected={selected}
+          tipo="Departamento"
         />
         {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}
       </Content>

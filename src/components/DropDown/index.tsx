@@ -14,17 +14,18 @@ import Header from '@components/Header';
 import SearchInput from '@components/SearchInput';
 
 interface Props {
-  onChange: Dispatch<SetStateAction<any>>,
-  items: any[];
-  placeholder: string;
-  itemSelected?: any;
+  onChange: Dispatch<SetStateAction<any>>
+  items: any[]
+  placeholder: string
+  itemSelected?: any
+  tipo: string
 }
 
 interface CategoryProps {
-  title: string,
-  isFirst: boolean,
-  isSelected: boolean,
-  onPress: (event: any) => void,
+  title: string
+  isFirst: boolean
+  isSelected: boolean
+  onPress: (event: any) => void
 }
 
 const Category = ({ title, isFirst, isSelected, onPress }: CategoryProps) => {
@@ -37,7 +38,7 @@ const Category = ({ title, isFirst, isSelected, onPress }: CategoryProps) => {
   )
 }
 
-export default function DropDown({ onChange, items, placeholder, itemSelected }: Props) {
+export default function DropDown({ onChange, items, placeholder, tipo, itemSelected }: Props) {
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<any>(itemSelected);
@@ -53,7 +54,7 @@ export default function DropDown({ onChange, items, placeholder, itemSelected }:
   return (
     <TouchableWithoutFeedback onPress={() => setShow(true)}>
       <Container>
-        <Placeholder style={placeholder != "Categoria" && {color: "#7a7a80"}}>{placeholder}</Placeholder>
+        <Placeholder style={placeholder != tipo && {color: "#7a7a80"}}>{placeholder}</Placeholder>
         <Feather name="chevron-down" size={24} color="#abababaa" />
 
         <Modal
@@ -62,9 +63,9 @@ export default function DropDown({ onChange, items, placeholder, itemSelected }:
           statusBarTranslucent={true}
         >
           <ModalContainer>
-            <Header title='Categorias' onPress={() => setShow(false)} />
+            <Header title={`${tipo}s`} onPress={() => setShow(false)} />
             <SearchInput
-              placeholder="Busque categoria..."
+              placeholder={`Busque um ${tipo.charAt(0).toLowerCase() + tipo.slice(1)}...`}
               value={search}
               onChangeText={setSearch}
             />

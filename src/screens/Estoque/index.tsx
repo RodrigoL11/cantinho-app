@@ -16,9 +16,10 @@ import {
   StrongLabel,
 } from './styles'
 import api from '@services/api';
-import { View, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight, Modal, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import SearchInput from '@components/SearchInput';
 import Empty from '@components/Empty';
+import Registros from '@components/Estoque/Registros';
 
 interface Product extends IProducts {
   entrada: number
@@ -28,27 +29,17 @@ interface Product extends IProducts {
 export default function Estoque() {
   const navigation = useNavigation();
   const [products, setProdutos] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [search, setSearch] = useState("");
+  const [show, setShow] = useState(false);
 
   const loadData = async () => {
     if (products.length > 0) return;
 
     try {
-      const response = await api.get('produtos');
+      const response = await api.get('estoque');
       const { results } = response.data;
-
-      results.forEach(async (result: IProducts) => {
-        const ES_response = await api.get(`estoque/entrada_saida/${result.id}`)
-        const ES_results = ES_response.data.results;
-        const { entrada, saida } = ES_results[0];
-
-        setProdutos(arr => [...arr, {
-          ...result,
-          entrada: entrada,
-          saida: saida
-        }])
-
-      })
+      setProdutos(results);
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +53,11 @@ export default function Estoque() {
     ? products.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
     : products;
 
+  const toogleModal = (product?: Product) => {
+    setSelectedProduct(product);
+    setShow(!show)
+  }
+
   const Product = (product: Product, index: number) => {
     return (
       <TouchableHighlight
@@ -69,9 +65,9 @@ export default function Estoque() {
         activeOpacity={0.9}
         underlayColor="#000"
         key={index}
-        onPress={() => { console.log('oi') }}
+        onPress={() => { toogleModal(product) }}
       >
-        <Card key={index}>
+        <Card>
           <View>
             <Name>{product.nome}</Name>
             <Row>
@@ -121,6 +117,18 @@ export default function Estoque() {
         />
       }
 
+      <Modal
+        visible={show}
+        onRequestClose={toogleModal}
+        transparent={true}
+        statusBarTranslucent={true}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+            {selectedProduct && <Registros product={selectedProduct} toogleModal={toogleModal} />}
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </Modal>
     </Container>
   )
 }

@@ -174,7 +174,8 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
               placeholder={selected?.nome || product.categoria_nome || "Categoria"}
               items={categories}
               onChange={setSelected}
-              itemSelected={selected}  
+              itemSelected={selected}
+              tipo="Categoria"  
             />
           </Column>
         </Row>

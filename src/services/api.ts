@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-//assistencia: 10.0.0.124
-//casa: 192.168.2.6
-
-const ip = '192.168.2.6'
+const ip = [
+    '192.168.2.6', // casa
+    '10.0.0.124'   // assistencia
+]
 
 const api = axios.create({
-    baseURL: `http://${ip}:1337/api/`
+    baseURL: `http://${ip[1]}:1337/api/`
 })
 
 export default api

@@ -127,6 +127,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
               placeholder={selectedCategory?.nome || "Categoria"}
               items={categories}
               onChange={setSelectedCategory}
+              tipo="Categoria"
             />
           </Column>
           {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}

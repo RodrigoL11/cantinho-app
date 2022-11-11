@@ -54,31 +54,39 @@ export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, 
     let pedidoID = 0;
 
     try {
-      await api.post('pedidos', {
-        data: {
-          uID: authData.id,
-          cID: comandaID
-        }
-      }).then(response => {
-        let newID = response.data.result.insertId;
-        pedidoID = newID;
-      })
-
       _cartItems.forEach(async (item) => {
-        const { product } = item;
-
-        await api.post('pedidos_itens', {
-          data: {
-            quantidade: item.quantity,
-            valor_tabela: product.valor_tabela,
-            produtoID: product.id,
-            pedidoID: pedidoID
-          }
-        })
+        const response = await api.get(`estoque/${item.product.id}`)
+        const { results } = await response.data
+        var sum = results.reduce((prev: number, obj: {quantidade_atual: number}) => prev + obj.quantidade_atual, 0)
+        console.log(sum, item.quantity)
       })
 
-      Alert.alert("Sucesso", "Pedido criado com sucesso")
-      navigation.goBack();
+      // await api.post('pedidos', {
+      //   data: {
+      //     uID: authData.id,
+      //     cID: comandaID
+      //   }
+      // }).then(response => {
+      //   let newID = response.data.result.insertId;
+      //   pedidoID = newID;
+      // })
+
+      // _cartItems.forEach(async (item) => {
+      //   const { product } = item;
+
+      //   await api.post('pedidos_itens', {
+      //     data: {
+      //       quantidade: item.quantity,
+      //       valor_tabela: product.valor_tabela,
+      //       produtoID: product.id,
+      //       pedidoID: pedidoID,
+      //       estoqueID: 1
+      //     }
+      //   })
+      // })
+
+      // Alert.alert("Sucesso", "Pedido criado com sucesso")
+      // navigation.goBack();
     } catch (err) {
       console.error(err)
     }
