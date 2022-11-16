@@ -12,7 +12,7 @@ export const formatDate = (date: Date) => {
 
 export const formatDateToFetch = (date: Date) => {
   //2022-11-14 14:15:55
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} 23:59:59`
 }
 
 export const formatString = (text: string) => { return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() }

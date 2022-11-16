@@ -65,7 +65,7 @@ export default function Pedidos() {
   const navigation = useNavigation();
   const perPage = 10;
 
-  const yesterday = new Date(new Date().setDate(new Date().getDate() - 3));
+  const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
   const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
 
   const [pedidos, setPedidos] = useState<IFormatedOrder[]>([]);
@@ -74,6 +74,7 @@ export default function Pedidos() {
   const [dataSourceCords, setDataSourceCords] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
+  const [numberMesa, setNumberMesa] = useState("");
   const [ref, setRef] = useState<ScrollView>();
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isFullLoaded, setIsFullLoaded] = useState(false);
@@ -227,25 +228,20 @@ export default function Pedidos() {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom;
-  };  
+  };
 
   const loadData = async (reload?: boolean) => {
     if (isLoading || (isFullLoaded && !reload)) return;
 
-    let _page = 0;
-
-    if (reload)
-      setPedidos([]);
-    else
-      _page = page
+    let _page = reload ? 0 : page;
 
     setIsLoading(true);
 
-    try { 
+    try {
       const _search = search.trim().length > 2 ? search : "";
       const _dateFrom = formatDateToFetch(dateFrom || yesterday);
       const _dateTo = formatDateToFetch(dateTo || tomorrow);
-      const response = await api.get(`pedidos/q=${_search}&limit=${perPage}&offset=${perPage * _page}&status=${status || "A"}&dateFrom=${_dateFrom}&dateTo=${_dateTo}`)
+      const response = await api.get(`pedidos/q=${_search}&num_mesa=${numberMesa}&limit=${perPage}&offset=${perPage * _page}&status=${status || "A"}&dateFrom=${_dateFrom}&dateTo=${_dateTo}`)
       const { results } = response.data
 
       if (results.length < perPage) setIsFullLoaded(true);
@@ -254,7 +250,6 @@ export default function Pedidos() {
         async (result: any) => {
           const itemsResponse = await api.get(`pedidos_itens/${result.id}`)
           const itemsResults = itemsResponse.data.results
-          console.log('fetched')
 
           setPedidos(arr => [...arr, {
             ...result,
@@ -270,12 +265,15 @@ export default function Pedidos() {
     }
 
     setIsLoading(false);
-  } 
+  }
 
-  useEffect(() => {    
-    setIsFullLoaded(false);
-    loadData(true);
-  }, [status, dateFrom, dateTo, handleInputQuery])
+  useEffect(() => {
+    if (numberMesa.length > 0 || numberMesa.length === 0) {
+      setIsFullLoaded(false);
+      setPedidos([]);
+      loadData(true);
+    }
+  }, [status, dateFrom, dateTo, handleInputQuery, numberMesa])
 
   console.log('render', pedidos.length);
 
@@ -283,16 +281,34 @@ export default function Pedidos() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
         <Header title="Pedidos" onPress={() => navigation.goBack()} />
-        <SearchInput
-          value={search}
-          onChangeText={text => {
-            setClicked(null);
-            setSearch(text);
-            if(text.length > 2) setHandleInputQuery(text);             
-          }}          
-          placeholder="Busque um pedido..."
-          filterIcon={true}
-        />
+        <SpacedRow>
+          <View style={{ width: '80%' }}>
+            <SearchInput
+              value={search}
+              onChangeText={text => {
+                setClicked(null);
+                setSearch(text);
+                if (text.length > 2) setHandleInputQuery(text);
+                if (text.length <= 2 && handleInputQuery) setHandleInputQuery("");
+              }}
+              placeholder="Busque um pedido..."
+            />
+          </View>
+          <View style={{ width: '18%' }}>
+            <SearchInput
+              hideIcon={true}
+              value={numberMesa}
+              onChangeText={text => {
+                setClicked(null);
+                setNumberMesa(text);
+              }}              
+              placeholder="Mesa"
+              keyboardType='numeric'
+              style={{ paddingLeft: 16, paddingRight: 16 }}
+              maxLength={5}
+            />
+          </View>
+        </SpacedRow>
         <SpacedRow style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 8 }}>
           <StatusFilter
             status={status}

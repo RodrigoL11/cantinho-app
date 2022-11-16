@@ -11,39 +11,29 @@ import { useTheme } from "styled-components";
 
 type Props = TextInputProps & {
   value?: string
-  filterIcon?: boolean
-  onPress?: () => void
+  hideIcon?: boolean
 };
 
-export default function SearchInput({ value, filterIcon, onPress, ...rest }: Props) {
+export default function SearchInput({ value, hideIcon, ...rest }: Props) {
   const theme = useTheme();
 
   return (
     <Container>
-      <IconContainer>
-        <Feather
-          name="search"
-          size={22}
-          color={theme.colors.text_color[600]}
-        />
-      </IconContainer>
+      {!hideIcon ?
+        <IconContainer>
+          <Feather
+            name="search"
+            size={22}
+            color={theme.colors.text_color[600]}
+          />
+        </IconContainer>
+        : null}
 
       <InputText
         {...rest}
         value={value}
       />
 
-      {filterIcon &&
-      <TouchableWithoutFeedback onPress={onPress}>
-      <IconContainer>
-        <MaterialCommunityIcons
-        name="tune"
-        size={24}
-        color={theme.colors.text_color[600]}
-      />
-      </IconContainer>
-      </TouchableWithoutFeedback>
-      }
     </Container>
   );
 }

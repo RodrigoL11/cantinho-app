@@ -4,6 +4,7 @@ export const Container = styled.View`
     flex-direction: row;
     margin-top: 0px;
     margin: 8px 0px;
+    height: 50px;
 
 `
 
