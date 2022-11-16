@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState } from 'react';
 import { Container, PlaceholderLabel, LabeledInput } from './styles';
 import { CurrencyInputProps } from 'react-native-currency-input';
 

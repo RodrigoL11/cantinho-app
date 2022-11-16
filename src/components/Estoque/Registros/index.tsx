@@ -60,7 +60,6 @@ const formatDate = (date: Date) => {
 
 export default function Registros({ toogleModal, product }: Props) {
   const [registros, setRegistros] = useState<Registro[]>([]);
-  const [search, setSearch] = useState("");
 
   const loadData = async () => {
     const response = await api.get(`estoque/registros/${product.id}`);
@@ -110,14 +109,17 @@ export default function Registros({ toogleModal, product }: Props) {
         </View>
         :
         <Empty
-          title={search.length <= 0
+          title={0 <= 0
             ? `Não há nenhum registro de entrada ou saída para\n${product.nome}`
             : "Registro não encontrado"}
-          subtitle={search.length <= 0
+          subtitle={0 <= 0
             ? "Crie um registro de estoque"
-            : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
+            : `Não encontramos nenhum resultado na\nbusca por "${'< :) >'}"`}
         />
       }
+      <ActionButton 
+        
+      />
     </Container>
   )
 }

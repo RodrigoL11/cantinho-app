@@ -37,8 +37,9 @@ export interface IComandas {
   nome_cliente: string
   num_mesa: string
   status: string
-  uID?: number
-  NumberOfOrders?: number
+  uID: number
+  pedidos?: number
+  pedidos_ativos?: number
 }
 
 export interface ICategories {
@@ -74,6 +75,13 @@ export interface IOrders {
   cID: number //comanda
 }
 
+export interface IOrdersByComanda {
+  quantidade: number
+  valor_tabela: number
+  produto_nome: string
+  categoria_nome: string
+}
+
 export interface IOrdersItens {
   id: number
   quantidade: number
@@ -86,8 +94,7 @@ export interface IOrdersItens {
 export interface IFormatedOrder extends IOrders {
   nome_cliente: string
   num_mesa: string
-  items: {
-    id: number
+  items: {    
     quantidade: number
     valor_tabela: number
     status: string

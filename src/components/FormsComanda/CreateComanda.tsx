@@ -11,12 +11,11 @@ import {
   Background,
   Card,
   Title,
-  Label,
   Row,
   Column,
-  Input,
   ErrorMessage
 } from './styles'
+import Input from '@components/Input';
 
 //arrumar isso
 interface Props {
@@ -58,7 +57,7 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
             onPress: async () => {
               const dt = new Date();
               const padL = (nr: number, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
-              const formatedDate = `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(dt.getDate())} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(dt.getSeconds())}`
+              const formatedDate = `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(dt.getDate())} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(dt.getSeconds())}`              
 
               const validatedData = {
                 id: 0,
@@ -67,12 +66,12 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
                 status: "A",
                 num_mesa: mesa.trim(),
                 nome_cliente: nome.trim(),
-                uID: authData?.id
+                uID: authData?.id || 0
               }
 
               await api.post(`comandas`, {
                 data: validatedData
-              }).then(response => {                
+              }).then(response => {
                 let newID = response.data.result.insertId;
                 validatedData.id = newID;
                 setComandas(arr => [...arr, validatedData])
@@ -97,22 +96,21 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
       <Background onPress={toogleVisibility} activeOpacity={1} />
       <Card>
         <Title>Criar comanda</Title>
-
         <Row>
-          <Column size={80}>
-            <Label>Nome</Label>
+          <Column size={76}>
             <Input
               value={nome}
-              onChangeText={e => setNome(e)}
+              placeholder="Nome"
+              onChangeText={setNome}
             />
           </Column>
-          <Column size={15}>
-            <Label>Mesa</Label>
+          <Column size={21}>
             <Input
-              maxLength={4}
               value={mesa}
-              onChangeText={e => setMesa(e)}
+              placeholder="Mesa"
               keyboardType="numeric"
+              maxLength={5}
+              onChangeText={setMesa}
             />
           </Column>
         </Row>
@@ -122,7 +120,6 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
         {error.mesa ? (
           <ErrorMessage>{error.mesa}</ErrorMessage>
         ) : null}
-
         <Button
           onPress={handleSubmit}
           title="Criar"

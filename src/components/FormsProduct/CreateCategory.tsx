@@ -15,8 +15,9 @@ import {
 } from './styles'
 
 interface Props {
-  toogleForm: () => void,
-  setCategories: Dispatch<SetStateAction<ICategories[]>>,
+  toogleForm: () => void
+  categories: ICategories[]
+  setCategories: Dispatch<SetStateAction<ICategories[]>>
 }
 
 const tipos = [
@@ -34,7 +35,7 @@ const tipos = [
   }
 ]
 
-export default function CreateCategory({ toogleForm, setCategories }: Props) {
+export default function CreateCategory({ toogleForm, categories, setCategories }: Props) {
   const [nome, setNome] = useState("");
   const [selected, setSelected] = useState<{ id: number, nome: string }>();
   const [errors, setErrors] = useState({
@@ -44,6 +45,8 @@ export default function CreateCategory({ toogleForm, setCategories }: Props) {
     estoque: "",
     selectedCategory: ""
   });
+
+  const formatString = (text: string) => { return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() }
 
   const handleSubmit = async () => {
     let _errors = {
@@ -58,6 +61,7 @@ export default function CreateCategory({ toogleForm, setCategories }: Props) {
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
+    else if (categories.some(c => formatString(c.nome) === formatString(nome))) _errors.nome = "Já existe uma categoria cadastrada com o mesmo nome"
 
     if (selected === undefined) _errors.selectedCategory = "Selecione um tipo"
 

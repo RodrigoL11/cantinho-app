@@ -15,7 +15,7 @@ export const Content = styled.View`
     padding: 15px 20px;
     height: 250px;
     width: 100%;
-    background-color: ${({theme}) => theme.colors.bgCard};
+    background-color: ${({theme}) => theme.colors.background};
     justify-content: space-between;
 `
 

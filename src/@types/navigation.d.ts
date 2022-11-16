@@ -1,26 +1,32 @@
 export type UserProps = {
-  id: number;
+  id: number
 }
 
 export type ComandaProps = {
-  comandaID: number;
+  comandaID: number
+  pedidos_ativos?: number
+}
+
+export type PagamentoProps = ComandaProps & {
+  total: number
 }
 
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
-      Home: undefined;
-      SignIn: undefined;
-      SignUp: undefined;
-      Comandas: undefined;
-      Comanda: ComandaProps;
-      Users: undefined;
-      User: UserProps;
-      Produtos: undefined;
-      Pedidos: undefined;
-      Relatorios: undefined;
-      Estoque: undefined;
-      CriarPedido: ComandaProps;
+      Home: undefined
+      SignIn: undefined
+      SignUp: undefined
+      Comandas: undefined
+      Comanda: ComandaProps
+      Users: undefined
+      User: UserProps
+      Produtos: undefined
+      Pedidos: undefined
+      Relatorios: undefined
+      Estoque: undefined
+      CriarPedido: ComandaProps
+      Pagamento: PagamentoProps
     }
   }
 }

@@ -96,15 +96,14 @@ export default function Categorias() {
         </Content>
         :
         <Empty
-          title={search.length < 0 
+          title={search.length === 0 
             ? "Não há nenhuma categoria\ncadastrada"
             : "Categoria não encontrada"}
-          subtitle={search.length < 0
+          subtitle={search.length === 0
             ? "Cadastre uma categoria primeiro"
             : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
         />
       }
-
 
       <ActionButton name="add" size={40} onPress={() => {
         setSelected(undefined);
@@ -119,7 +118,7 @@ export default function Categorias() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           {selected
             ? <EditCategory toogleForm={() => setShow(false)} setCategories={setCategories} categories={categories} cID={selected.id} />
-            : <CreateCategory toogleForm={() => setShow(false)} setCategories={setCategories} />}
+            : <CreateCategory toogleForm={() => setShow(false)} setCategories={setCategories} categories={categories} />}
         </TouchableWithoutFeedback>
 
       </Modal>

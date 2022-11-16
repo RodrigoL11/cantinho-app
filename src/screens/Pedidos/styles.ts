@@ -133,7 +133,7 @@ export const BackToTopButton = styled.TouchableOpacity`
     height: 44px;
     width: 44px;
     border-radius: 999px;
-    background-color: ${({theme}) => theme.colors.primary_color}bb;
+    background-color: ${({theme}) => theme.colors.primary_color};
     align-items: center;
     justify-content: center;
     position: absolute;

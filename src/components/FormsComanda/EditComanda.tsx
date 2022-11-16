@@ -9,13 +9,12 @@ import {
   Background,
   Card,
   Title,
-  Label,
   Row,
   Column,
-  Input,
   ErrorMessage
 } from './styles'
 import { IComandas } from '@interfaces/main';
+import Input from '@components/Input';
 
 //arrumar isso
 interface Props {
@@ -28,7 +27,7 @@ interface Props {
 export default function EditComanda({ toogleVisibility, comandas, setComandas, comandaID }: Props) {
   const comanda = comandas.find(c => c.id === comandaID);
 
-  if(!comanda) return null;
+  if (!comanda) return null;
 
   const [nome, setNome] = useState<string>(comanda.nome_cliente);
   const [mesa, setMesa] = useState(comanda.num_mesa);
@@ -65,7 +64,7 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, c
                   num_mesa: mesa,
                   nome_cliente: nome
                 }
-              }).then(response => {                
+              }).then(response => {
                 let newArr = comandas;
                 let index = comandas.indexOf(comanda);
                 newArr[index].nome_cliente = nome.trim();
@@ -92,24 +91,23 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, c
       <Background onPress={toogleVisibility} activeOpacity={1} />
       <Card>
         <Title>Editar comanda</Title>
-        
         <Row>
           <Column size={80}>
-            <Label>Nome</Label>
             <Input
               value={nome}
-              onChangeText={e => setNome(e)}
+              placeholder="Nome"
+              onChangeText={setNome}
             />
           </Column>
           <Column size={15}>
-            <Label>Mesa</Label>
             <Input
-              maxLength={4}
               value={mesa}
-              onChangeText={e => setMesa(e)}
+              placeholder="Mesa"
+              maxLength={5}
               keyboardType="numeric"
+              onChangeText={setMesa}
             />
-          </Column>          
+          </Column>
         </Row>
         {error.nome ? (
           <ErrorMessage>{error.nome}</ErrorMessage>
@@ -117,7 +115,7 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, c
         {error.mesa ? (
           <ErrorMessage>{error.mesa}</ErrorMessage>
         ) : null}
-        
+
         <Button
           onPress={handleSubmit}
           title="Salvar"

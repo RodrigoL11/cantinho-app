@@ -16,6 +16,7 @@ import Estoque from '@screens/Estoque';
 import Categorias from '@screens/Categorias';
 import Header from '@components/Header';
 import CriarPedido from '@screens/CriarPedido';
+import Pagamento from '@screens/Pagamento';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -49,6 +50,7 @@ export function App() {
       <Screen name="Relatorios" component={Relatorios} />
       <Screen name="Estoque" component={Estoque} />
       <Screen name="CriarPedido" component={CriarPedido} />
+      <Screen name="Pagamento" component={Pagamento} />
     </Navigator>
   );
 }

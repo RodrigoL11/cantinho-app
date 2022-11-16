@@ -1,3 +1,4 @@
+import { IOrdersByComanda } from '@interfaces/main';
 import React from 'react';
 
 import {
@@ -16,7 +17,7 @@ import {
 } from './styles'
 
 interface Props {
-  orders: any[]
+  orders: IOrdersByComanda[]
 }
 
 export default function Orders({ orders }: Props) {

@@ -100,10 +100,10 @@ export default function Produtos() {
         </Content>
         :
         <Empty
-          title={search.length < 0
+          title={search.length === 0
             ? "Não há nenhum produto\ncadastrado"
             : "Produto não encontrado"}
-          subtitle={search.length < 0
+          subtitle={search.length === 0
             ? "Cadastre um produto primeiro"
             : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
         />

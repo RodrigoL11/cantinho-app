@@ -28,6 +28,7 @@ import CategoryButton from '@components/CriarPedido/CategoryButton';
 import BuscarProduto from '@components/CriarPedido/BuscarProduto';
 import AddProduto from '@components/CriarPedido/AddProduto';
 import FinalizarPedido from '@components/CriarPedido/FinalizarPedido';
+import Empty from '@components/Empty';
 
 export default function CreateOrder({ route }: any) {
   const [categories, setCategories] = useState<ICategories[]>([]);
@@ -75,7 +76,7 @@ export default function CreateOrder({ route }: any) {
     try {
       const response = await api.get('categorias')
       const { results } = response.data
-      setCategories(results)
+      return results;
     } catch (err) {
       console.error(err)
     }
@@ -85,15 +86,24 @@ export default function CreateOrder({ route }: any) {
     try {
       const response = await api.get('produtos')
       const { results } = response.data
-      setProducts(results)
+      return results;
     } catch (err) {
       console.error(err)
     }
   }
 
+  const fetchData = async () => {
+    const [categories, products] = await Promise.allSettled([
+      loadCategories(),
+      loadProducts()
+    ])
+
+    if (categories.status === 'fulfilled') setCategories(categories.value)
+    if (products.status === 'fulfilled') setProducts(products.value)
+  }
+
   useEffect(() => {
-    loadCategories()
-    loadProducts()
+    fetchData();
   }, [])
 
   const scrollHandler = (scrollToIndex: number) => {
@@ -137,7 +147,7 @@ export default function CreateOrder({ route }: any) {
         { text: "SIM", onPress: () => navigation.goBack() }
       ]);
       return true;
-    } else if(headerButton){
+    } else if (headerButton) {
       navigation.goBack();
     };
   }
@@ -159,25 +169,34 @@ export default function CreateOrder({ route }: any) {
         extraIconName="search"
         extraOnPress={() => toogleModal("search")}
       />
-      <CategoriesContainer
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      >
-        {categories.map((category, index) =>
-          category.NumberOfProducts !== 0 &&
-          <CategoryButton
-            title={category.nome}
-            onPress={() => scrollHandler(index)}
-            key={index}
-          />
-        )}
-      </CategoriesContainer>
+      {products.length > 0 ?
+        <>
+          <CategoriesContainer
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            {categories.map((category, index) =>
+              category.NumberOfProducts !== 0 &&
+              <CategoryButton
+                title={category.nome}
+                onPress={() => scrollHandler(index)}
+                key={index}
+              />
+            )}
+          </CategoriesContainer>
 
-      <Content
-        ref={(ref: any) => setRef(ref)}
-      >
-        {categories.map((category, index) => category.NumberOfProducts !== 0 && CategorySection(category, index))}
-      </Content>
+          <Content
+            ref={(ref: any) => setRef(ref)}
+          >
+            {categories.map((category, index) => category.NumberOfProducts !== 0 && CategorySection(category, index))}
+          </Content>
+        </>
+        :
+        <Empty          
+          title={"Não há nenhum produto\ncadastrado"}
+          subtitle={"Cadastre produtos para poder criar\npedidos"}
+        />
+      }
       {cartItems.length > 0 &&
         <CartContainer activeOpacity={0.85} onPress={() => toogleModal("finalize")}>
           <CartIcon>

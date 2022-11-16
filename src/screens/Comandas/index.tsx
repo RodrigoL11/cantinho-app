@@ -44,9 +44,7 @@ export default function Home() {
   const loadData = async () => {
     try {
       const response = await api.get('comandas');
-
       const { results } = response.data;
-
       setComandas(results)
     } catch (err) {
       console.error(err);
@@ -55,6 +53,11 @@ export default function Home() {
 
   useEffect(() => {
     loadData();
+      const willFocusSubscription = navigation.addListener('focus', () => {
+        loadData();
+    });
+
+    return willFocusSubscription;
   }, []);
 
   const closeForms = () => {
@@ -69,7 +72,7 @@ export default function Home() {
 
     Alert.alert(
       "Deletar comanda",
-      `Tem certeza que deseja excluir a comanda ${delComanda.nome_cliente}?`,
+      `${delComanda.pedidos ? `Há ${delComanda.pedidos} pedido${delComanda.pedidos > 1 ? 's' : ''} vinculado${delComanda.pedidos > 1 ? 's' : ''} a esta comanda! ` : ''}Tem certeza que deseja excluir a comanda ${delComanda.nome_cliente}?`,
       [
         {
           text: "Sim",
@@ -107,6 +110,7 @@ export default function Home() {
         <FlatGrid
           itemDimension={100}
           data={filteredSearch}
+          keyboardShouldPersistTaps="always"
           style={{ flex: 1 }}
           spacing={10}
           renderItem={({ item, index }) => {
@@ -114,8 +118,8 @@ export default function Home() {
               <Card
                 activeOpacity={0.7}
                 key={index}
-                onPress={() => { navigation.navigate("Comanda", { comandaID: item.id }) }}
-                hasPedidos={false}
+                onPress={() => { navigation.navigate("Comanda", { comandaID: item.id, pedidos_ativos: item.pedidos_ativos }) }}
+                hasPedidos={(item.pedidos_ativos || 0) > 0}
               >
                 <Row>
                   <Id>#{item.id}</Id>
@@ -150,21 +154,21 @@ export default function Home() {
                 </Row>
                 <Nome numberOfLines={2}>{item.nome_cliente}</Nome>
                 <Mesa>Mesa: {item.num_mesa}</Mesa>
-                {/* {item.pedidos_abertos > 0 && 
-              <Aviso>
-                <AvisoLabel>{item.pedidos_abertos}</AvisoLabel>
-              </Aviso>
-            } */}
+                {item.pedidos_ativos ?
+                  <Aviso>
+                    <AvisoLabel>{item.pedidos_ativos}</AvisoLabel>
+                  </Aviso>
+                : null}
               </Card>
             )
           }}
         />
         :
         <Empty
-          title={search.length < 0
+          title={search.length === 0
             ? "Não há nenhuma comanda\nativa"
             : "Comanda não encontrada"}
-          subtitle={search.length < 0
+          subtitle={search.length === 0
             ? "Cadastre uma comanda primeiro"
             : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
         />

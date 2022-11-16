@@ -20,15 +20,16 @@ import { View, TouchableHighlight, Modal, Keyboard, KeyboardAvoidingView, Toucha
 import SearchInput from '@components/SearchInput';
 import Empty from '@components/Empty';
 import Registros from '@components/Estoque/Registros';
+import AddForm from '@components/Estoque/AddForm';
 
 interface Product extends IProducts {
   entrada: number
   saida: number
-}
+} 
 
 export default function Estoque() {
   const navigation = useNavigation();
-  const [products, setProdutos] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
@@ -39,7 +40,7 @@ export default function Estoque() {
     try {
       const response = await api.get('estoque');
       const { results } = response.data;
-      setProdutos(results);
+      setProducts(results);
     } catch (error) {
       console.error(error);
     }
@@ -108,10 +109,10 @@ export default function Estoque() {
         </Content>
         :
         <Empty
-          title={search.length < 0
+          title={search.length === 0
             ? "Não há nenhum produto\ncadastrado"
             : "Produto não encontrado"}
-          subtitle={search.length < 0
+          subtitle={search.length === 0
             ? "Cadastre um produto primeiro"
             : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
         />
@@ -125,7 +126,7 @@ export default function Estoque() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-            {selectedProduct && <Registros product={selectedProduct} toogleModal={toogleModal} />}
+            {selectedProduct && <AddForm product={selectedProduct} setProducts={setProducts} toogleModal={toogleModal} />}
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </Modal>

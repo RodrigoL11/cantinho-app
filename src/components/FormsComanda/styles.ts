@@ -17,18 +17,12 @@ export const Background = styled.TouchableOpacity`
 `
 
 export const Card = styled.View`
-    width: 95%;
-    height: 220px;
-    background-color: ${({theme}) => theme.colors.bgCard};
+    width: 95%;    
+    background-color: ${({theme}) => theme.colors.background};
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
-    padding: 20px 20px 0px 20px;
+    padding: 20px 20px 10px 20px;
     justify-content: space-between;
-`
-
-export const Label = styled.Text`
-    color: ${({theme}) => theme.colors.text_color[900]};
-    font-family: ${({theme}) => theme.fonts.semiBold};
 `
 
 export const Column = styled.View<InputProps>`
@@ -38,23 +32,15 @@ export const Column = styled.View<InputProps>`
 export const Row = styled.View`    
     flex-direction: row;
     width: 100%;
-    justify-content: space-between;    
-`
-
-export const Input = styled.TextInput`
-    color: ${({theme}) => theme.colors.text_color[700]};
-    font-family: ${({theme}) => theme.fonts.regular};
-    height: 32px;
-    border-bottom-width: 1px;
-    border-color: #dadada;
-    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 15px;    
 `
 
 export const Title = styled.Text`
     font-size: 23px;
     color: ${({theme}) => theme.colors.text_color[900]};
     font-family: ${({theme}) => theme.fonts.bold};
-    text-align: center;    
+    margin-bottom: 20px;   
 `
 
 export const ErrorMessage = styled.Text`
@@ -62,4 +48,5 @@ export const ErrorMessage = styled.Text`
     font-family: ${({theme}) => theme.fonts.regular};
     font-size: 10.5px;
     letter-spacing: 0.5px;
+    top: -23px;
 `

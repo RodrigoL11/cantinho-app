@@ -30,18 +30,13 @@ import api from '@services/api';
 import { IFormatedOrder, IOrders } from '@interfaces/main';
 import { ActivityIndicator, Alert, Keyboard, NativeScrollEvent, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
 import SearchInput from '@components/SearchInput';
+import StatusFilter from '@components/Filters/Status';
+import DateFilter from '@components/Filters/Date';
 import Empty from '@components/Empty';
+import { formatDateTime, formatDateToFetch, formatString } from '../../utils/main';
 
 interface Pedidos extends IOrders {
   items: any[]
-}
-
-const pad = (n: number) => {
-  return n < 10 ? '0' + n : n;
-}
-
-const formatDate = (date: Date) => {
-  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}h${pad(date.getMinutes())}`
 }
 
 const sumTotal = (items: any[]) => {
@@ -70,15 +65,24 @@ export default function Pedidos() {
   const navigation = useNavigation();
   const perPage = 10;
 
+  const yesterday = new Date(new Date().setDate(new Date().getDate() - 3));
+  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+
   const [pedidos, setPedidos] = useState<IFormatedOrder[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(0);
   const [clicked, setClicked] = useState<number | null>(null);
   const [dataSourceCords, setDataSourceCords] = useState<any[]>([]);
+  const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [ref, setRef] = useState<ScrollView>();
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isFullLoaded, setIsFullLoaded] = useState(false);
+  //filters
+  const [status, setStatus] = useState("A");
+  const [dateFrom, setDateFrom] = useState(yesterday);
+  const [dateTo, setDateTo] = useState(tomorrow);
+  //handle on search input to query
+  const [handleInputQuery, setHandleInputQuery] = useState("");
 
   const toogle = (index: number) => {
     if (clicked == index) {
@@ -157,11 +161,11 @@ export default function Pedidos() {
           dataSourceCords[index] = layout.y;
           setDataSourceCords(dataSourceCords);
         }}>
-        <Card isFirst={filteredSearch[0].id === pedido.id}>
+        <Card style={clicked ? { backgroundColor: '#f0f0f0' } : null} isFirst={pedidos[0].id === pedido.id}>
           <SpacedRow style={{ marginBottom: 8 }}>
             <DateContainer>
               <Feather style={{ marginRight: 4 }} name="clock" size={13} />
-              <HighLabel>{formatDate(new Date(pedido.created_at))}</HighLabel>
+              <HighLabel>{formatDateTime(new Date(pedido.created_at))}</HighLabel>
             </DateContainer>
             <HighLabel>{sumTotal(pedido.items)}</HighLabel>
           </SpacedRow>
@@ -208,7 +212,7 @@ export default function Pedidos() {
                   <ItemsTitle>{textStatus[pedido.status as keyof typeof textStatus]} às</ItemsTitle>
                   <DateContainer style={{ marginTop: -4 }}>
                     <Feather style={{ marginRight: 4 }} name="clock" size={12} />
-                    <Label>{formatDate(new Date(pedido.finalized_at))}</Label>
+                    <Label>{formatDateTime(new Date(pedido.finalized_at))}</Label>
                   </DateContainer>
                 </View>
               }
@@ -223,21 +227,25 @@ export default function Pedidos() {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom;
-  };
+  };  
 
-  const formatString = (text: string) => { return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() }
+  const loadData = async (reload?: boolean) => {
+    if (isLoading || (isFullLoaded && !reload)) return;
 
-  const filteredSearch = search.length > 0
-    ? pedidos.filter(item => formatString(item.nome_cliente).includes(formatString(search)) || item.num_mesa === search.trim())
-    : pedidos;
+    let _page = 0;
 
-
-  const loadData = async () => {
-    if (isLoading || isFullLoaded) return;
+    if (reload)
+      setPedidos([]);
+    else
+      _page = page
 
     setIsLoading(true);
-    try {
-      const response = await api.get(`pedidos/limit=${perPage}&offset=${perPage * page}`)
+
+    try { 
+      const _search = search.trim().length > 2 ? search : "";
+      const _dateFrom = formatDateToFetch(dateFrom || yesterday);
+      const _dateTo = formatDateToFetch(dateTo || tomorrow);
+      const response = await api.get(`pedidos/q=${_search}&limit=${perPage}&offset=${perPage * _page}&status=${status || "A"}&dateFrom=${_dateFrom}&dateTo=${_dateTo}`)
       const { results } = response.data
 
       if (results.length < perPage) setIsFullLoaded(true);
@@ -246,6 +254,7 @@ export default function Pedidos() {
         async (result: any) => {
           const itemsResponse = await api.get(`pedidos_itens/${result.id}`)
           const itemsResults = itemsResponse.data.results
+          console.log('fetched')
 
           setPedidos(arr => [...arr, {
             ...result,
@@ -254,17 +263,21 @@ export default function Pedidos() {
         }
       )
 
-      setPage(page + 1);
+      _page++;
+      setPage(_page);
     } catch (err) {
       console.error(err)
     }
 
     setIsLoading(false);
-  }
+  } 
 
-  useEffect(() => {
-    loadData();
-  }, [])
+  useEffect(() => {    
+    setIsFullLoaded(false);
+    loadData(true);
+  }, [status, dateFrom, dateTo, handleInputQuery])
+
+  console.log('render', pedidos.length);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -275,11 +288,31 @@ export default function Pedidos() {
           onChangeText={text => {
             setClicked(null);
             setSearch(text);
-          }}
+            if(text.length > 2) setHandleInputQuery(text);             
+          }}          
           placeholder="Busque um pedido..."
           filterIcon={true}
         />
-        {filteredSearch.length > 0 ?
+        <SpacedRow style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 8 }}>
+          <StatusFilter
+            status={status}
+            setStatus={setStatus}
+          />
+          <Row>
+            <DateFilter
+              date={dateFrom}
+              setDate={setDateFrom}
+              subTitle="De"
+            />
+            <DateFilter
+              date={dateTo}
+              setDate={setDateTo}
+              subTitle="Até"
+            />
+          </Row>
+        </SpacedRow>
+
+        {pedidos.length > 0 ?
           <ScrollView
             showsVerticalScrollIndicator={false}
             ref={(ref: ScrollView) => setRef(ref)}
@@ -292,7 +325,7 @@ export default function Pedidos() {
             }}
           >
             <Content>
-              {filteredSearch.map((pedido, index) => Order(pedido, index, clicked === index))}
+              {pedidos.map((pedido, index) => Order(pedido, index, clicked === index))}
             </Content>
             {isLoading && !clicked ?
               <ListLoading>
@@ -302,10 +335,10 @@ export default function Pedidos() {
           </ScrollView>
           :
           <Empty
-            title={search.length < 0
+            title={search.length === 0
               ? "Não há nenhum pedido\ncadastrado"
               : "Pedido não encontrado"}
-            subtitle={search.length < 0
+            subtitle={search.length === 0
               ? "Crie um pedido primeiro"
               : `Não encontramos nenhum resultado na\nbusca por "${search}"`}
           />
