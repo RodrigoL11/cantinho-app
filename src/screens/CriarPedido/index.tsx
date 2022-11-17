@@ -74,7 +74,7 @@ export default function CreateOrder({ route }: any) {
 
   const loadCategories = async () => {
     try {
-      const response = await api.get('categorias')
+      const response = await api.get('categorias/status=A')
       const { results } = response.data
       return results;
     } catch (err) {
@@ -84,7 +84,7 @@ export default function CreateOrder({ route }: any) {
 
   const loadProducts = async () => {
     try {
-      const response = await api.get('produtos')
+      const response = await api.get('produtos/status=A')
       const { results } = response.data
       return results;
     } catch (err) {

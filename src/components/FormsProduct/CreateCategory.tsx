@@ -13,6 +13,7 @@ import {
   Content,
   ErrorMessage
 } from './styles'
+import { formatString } from '../../utils/main';
 
 interface Props {
   toogleForm: () => void
@@ -44,9 +45,7 @@ export default function CreateCategory({ toogleForm, categories, setCategories }
     valorTabela: "",
     estoque: "",
     selectedCategory: ""
-  });
-
-  const formatString = (text: string) => { return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() }
+  });  
 
   const handleSubmit = async () => {
     let _errors = {

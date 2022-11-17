@@ -20,6 +20,7 @@ interface Props {
   setCategories: Dispatch<SetStateAction<ICategories[]>>,
   categories: ICategories[],
   cID: number
+  status: string
 }
 
 const tipos = [
@@ -37,7 +38,7 @@ const tipos = [
   }
 ]
 
-export default function EditCategory({ toogleForm, setCategories, categories, cID }: Props) {  
+export default function EditCategory({ status, toogleForm, setCategories, categories, cID }: Props) {  
   const category = categories.filter(c => c.id === cID)[0];  
   const [nome, setNome] = useState(category.nome);
   const [selected, setSelected] = useState<{ id: number, nome: string }>(tipos.filter(t => t.nome === category.tipo)[0]);
@@ -121,7 +122,14 @@ export default function EditCategory({ toogleForm, setCategories, categories, cI
             await api.delete(`categorias/${category.id}`)
               .then(response => {
                 toogleForm();
-                setCategories(arr => arr.filter(item => item.id !== category.id))
+                if (status !== "T") 
+                  setCategories(arr => arr.filter(item => item.id !== category.id))
+                else {                  
+                    let newArr = [...categories];
+                    newArr[categories.indexOf(category)] = {...category, status: "I"};
+                    setCategories(newArr);
+                    toogleForm();                  
+                }
               })
           }
         },

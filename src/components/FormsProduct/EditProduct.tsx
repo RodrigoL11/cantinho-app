@@ -18,15 +18,17 @@ import {
   ErrorMessage
 } from './styles'
 import { Alert } from 'react-native';
+import { formatString } from '../../utils/main';
 
 interface Props {
   toogleForm: () => void,
   setProducts: Dispatch<SetStateAction<IProducts[]>>,
   products: IProducts[],
   pID: number
+  status: string
 }
 
-export default function EditProduct({ toogleForm, setProducts, products, pID }: Props) {
+export default function EditProduct({ status, toogleForm, setProducts, products, pID }: Props) {
   const product = products.filter(p => p.id === pID)[0];
   const [nome, setNome] = useState(product.nome);
   const [valorTabela, setValorTabela] = useState<number>(product.valor_tabela);
@@ -40,7 +42,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
 
   const loadData = async () => {
     try {
-      const reponse = await api.get(`categorias`);
+      const reponse = await api.get(`categorias/status=A`);
       const { results } = reponse.data;
       setSelected(results.find((r: ICategories) => r.id == product.cID));     
       setCategories(results);
@@ -64,6 +66,7 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"    
+    else if (products.some(p => formatString(p.nome) === formatString(nome))) _errors.nome = "Já existe um produto cadastrado com o mesmo nome"
 
     if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
@@ -133,7 +136,14 @@ export default function EditProduct({ toogleForm, setProducts, products, pID }: 
             await api.delete(`produtos/${product.id}`)
               .then(response => {
                 toogleForm();
-                setProducts(arr => arr.filter(item => item.id !== product.id))
+                if (status !== "T") 
+                  setProducts(arr => arr.filter(item => item.id !== product.id))
+                else {                  
+                    let newArr = [...products];
+                    newArr[products.indexOf(product)] = {...product, status: "I"};
+                    setProducts(newArr);
+                    toogleForm();                  
+                }
               })
           }
         },

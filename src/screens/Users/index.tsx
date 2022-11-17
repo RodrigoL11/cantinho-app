@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, TouchableWithoutFeedback } from 'react-native';
 
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
@@ -21,6 +21,9 @@ import {
   Options,
   ContentFooter
 } from './styles'
+import { formatString } from '../../utils/main';
+import SearchInput from '@components/SearchInput';
+import { useAuth } from '@hooks/auth';
 
 interface User extends IUser {
   id: number;
@@ -29,6 +32,9 @@ interface User extends IUser {
 export default function Users() {
   const navigation = useNavigation();
   const [users, setUsers] = useState<User[]>([])
+  const [search, setSearch] = useState("");
+
+  const { authData } = useAuth();
 
   const loadData = async () => {
     try {
@@ -54,6 +60,11 @@ export default function Users() {
     const delUser = users[id]
     const uID = delUser.id
 
+    if (authData?.id === uID) {
+      Alert.alert("Atenção", "Não há permissão para deletar seu próprio usuário!")
+      return;
+    }    
+
     Alert.alert(
       "Deletar usuário",
       `Tem certeza que deseja excluir o usuário ${delUser.nome}?`,
@@ -62,9 +73,17 @@ export default function Users() {
           text: "Sim",
           onPress: async () => {
             await api.delete(`users/${uID}`)
-              .then(response => {
-                setUsers(users.filter(user => user !== delUser))
+            .then(() => {
+              setUsers(users => {
+                return users.map(user => {
+                  if(user.id === uID) {
+                    return { ...user, status: "I"}
+                  } else {
+                    return user;
+                  }
+                })
               })
+            })
           }
         },
         {
@@ -75,20 +94,73 @@ export default function Users() {
     )
   }
 
+  const activeUser = (id: number) => {
+    const delUser = users[id]
+    const uID = delUser.id    
+
+    Alert.alert(
+      "Ativar usuário",
+      `Tem certeza que reativar o usuário ${delUser.nome}?`,
+      [
+        {
+          text: "Sim",
+          onPress: async () => {
+            await api.put(`users/${uID}`, {
+              column: 'status',
+              value: 'A'
+            }).then(() => {
+              setUsers(users => {
+                return users.map(user => {
+                  if(user.id === uID) {
+                    return { ...user, status: "A"}
+                  } else {
+                    return user;
+                  }
+                })
+              })
+            })
+          }
+        },
+        {
+          text: "Cancelar",
+          onPress: () => { return }
+        }
+      ]
+    )
+  }
+
+  const filteredUsers = search.length > 0 
+  ? users.filter(item => formatString(item.nome).includes(formatString(search)))
+  : users
+
   return (
     <Container>
       <Header title="Usuários" onPress={navigation.goBack} />
+      <SearchInput 
+        value={search}
+        onChangeText={setSearch}
+        placeholder="Busque por um usuário..."
+      />
       <Content>
-        {users.map((user, index) => (
-          user.status === 'A' &&
-          <Card key={index}>
+        {filteredUsers.map((user, index) =>
+          <Card key={index} style={user.status === "I" ? { backgroundColor: '#FFCDD2' } : null}>
             <Row>
               <Nome>{user.nome}</Nome>
               <Label style={{ color: '#ccc' }}> | </Label>
               <Label>{user.login}</Label>
               <Options>
-                <Feather onPress={() => navigation.navigate('User', { id: user.id })} name="edit-2" size={20} />
-                <Feather onPress={() => deleteUser(index)} name="trash-2" size={20} />
+                <TouchableWithoutFeedback
+                  onPress={user.status !== "I"
+                    ? () => navigation.navigate('User', { id: user.id })
+                    : () => Alert.alert("Atenção", "Usuário inativado, para editar reative o usuário.")}>
+                  <Feather name="edit" size={18} color="#414141" />
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback                  
+                  onPress={user.status !== "I"
+                    ? () => deleteUser(index)
+                    : () => activeUser(index)}>
+                  <Feather name={user.status !== "I" ? "trash-2" : "refresh-ccw"} size={18} color="#414141" />
+                </TouchableWithoutFeedback>
               </Options>
             </Row>
             <Label>{user.email}</Label>
@@ -98,7 +170,7 @@ export default function Users() {
                 <AdminLabel>Admin</AdminLabel>
               </Admin>) : null}
           </Card>
-        ))}
+        )}
         {users.length > 6 ? (
           <ContentFooter />
         ) : null}

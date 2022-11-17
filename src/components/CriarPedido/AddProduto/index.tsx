@@ -94,7 +94,7 @@ export default function AddProduto({ product, toogleModal, setCartItems, setProd
       <Card>
         <Title>Adicionar ao pedido</Title>
         <Name>{product.nome}</Name>
-        <Stock>Em estoque: {product.quantidade}</Stock>
+        <Stock lowStock={product.quantidade <= 5}>Em estoque: {product.quantidade}</Stock>
         <Price>R$ {product.valor_tabela.toFixed(2)}</Price>
         <Row>
           <QuantityContainer removeClippedSubviews={true}>

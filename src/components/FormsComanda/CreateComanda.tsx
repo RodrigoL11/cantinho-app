@@ -55,13 +55,11 @@ export default function CreateComanda({ toogleVisibility, setComandas }: Props) 
           {
             text: "Sim",
             onPress: async () => {
-              const dt = new Date();
-              const padL = (nr: number, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
-              const formatedDate = `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(dt.getDate())} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(dt.getSeconds())}`              
+              const dt = new Date();                           
 
               const validatedData = {
                 id: 0,
-                data_hora_abertura: formatedDate,
+                data_hora_abertura: dt,
                 pedidos_abertos: 0,
                 status: "A",
                 num_mesa: mesa.trim(),

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, Modal, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, Modal, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'
 
@@ -22,18 +22,22 @@ import {
   Row
 } from './styles'
 import Empty from '@components/Empty';
+import Status from '@components/Filters/Status';
+import ActiveProduct from '@components/FormsProduct/ActiveProduct';
+import { formatString } from '../../utils/main';
 
 export default function Produtos() {
   const [products, setProducts] = useState<IProducts[]>([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState<IProducts | undefined>(undefined)
+  const [status, setStatus] = useState("A");
 
   const navigation = useNavigation();
 
   const loadData = async () => {
     try {
-      const reponse = await api.get(`produtos`);
+      const reponse = await api.get(`produtos/status=${status}`);
       const { results } = reponse.data;
       setProducts(results);
     } catch (error) {
@@ -42,22 +46,22 @@ export default function Produtos() {
   }
 
   useEffect(() => {
-    navigation.addListener(
-      'focus',
-      payload => {
-        loadData();
-      }
-    );
-  }, [])
+    loadData();
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      loadData();
+    });
+
+    return willFocusSubscription;
+  }, [status])
 
   useEffect(() => {
     navigation.setOptions({
-      title: `Produtos (${products.filter(c => c.status != 'I').length})`
+      title: `Produtos (${filteredProducts.length})`
     })
   }, [products])
 
   const filteredProducts = search.length > 0
-    ? products.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
+    ? products.filter(item => formatString(item.nome).includes(formatString(search)))
     : products;
 
   return (
@@ -67,10 +71,25 @@ export default function Produtos() {
         onChangeText={setSearch}
         placeholder={"Buscar produto..."}
       />
+      <View style={{ paddingLeft: 15 }}>
+        <Status
+          status={status}
+          setStatus={setStatus}
+          options={
+            {
+              'A': 'Ativo',
+              'I': 'Inativo',
+              'T': 'Todos'
+            }
+          }
+        />
+      </View>
       {filteredProducts.length > 0 ?
         <Content>
-          {filteredProducts.map((item, index) => {
-            return item.status === 'A' && (
+          {filteredProducts.map((item, index) =>{
+             if ((item.status !== status) && (status !== "T")) return;
+
+             return ( 
               <TouchableHighlight
                 style={{ marginTop: 1, marginBottom: 1 }}
                 activeOpacity={0.8}
@@ -81,7 +100,7 @@ export default function Produtos() {
                   setShow(true);
                 }}
               >
-                <Card>
+                <Card style={item.status === "I" ? {backgroundColor: '#FFEBEE'} : null}>
                   <Column>
                     <Row>
                       <Name>{item.nome}</Name>
@@ -121,8 +140,9 @@ export default function Produtos() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           {selected
-            ? <EditProduct toogleForm={() => setShow(false)} setProducts={setProducts} products={products} pID={selected.id} />
-            : <CreateProduct toogleForm={() => setShow(false)} setProducts={setProducts} />}
+            ?  selected.status === "I" ? <ActiveProduct status={status} toogleForm={() => setShow(false)} setProducts={setProducts} products={products} pID={selected.id}/> 
+            : <EditProduct status={status} toogleForm={() => setShow(false)} setProducts={setProducts} products={products} pID={selected.id} />
+            : <CreateProduct products={products} toogleForm={() => setShow(false)} setProducts={setProducts} />}
         </TouchableWithoutFeedback>
 
       </Modal>

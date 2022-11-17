@@ -9,6 +9,7 @@ import Input from '@components/Input'
 import Button from '@components/Button'
 import MoneyInput from '@components/MoneyInput';
 import DropDown from '@components/DropDown';
+import { formatString } from '../../utils/main';
 
 import {
   Container,
@@ -19,11 +20,12 @@ import {
 } from './styles'
 
 interface Props {
-  toogleForm: () => void,
-  setProducts: Dispatch<SetStateAction<IProducts[]>>,
+  toogleForm: () => void
+  products: IProducts[]
+  setProducts: Dispatch<SetStateAction<IProducts[]>>
 }
 
-export default function CreateProduct({ toogleForm, setProducts }: Props) {
+export default function CreateProduct({ toogleForm, products, setProducts }: Props) {
   const [nome, setNome] = useState("");
   const [valorTabela, setValorTabela] = useState<number>(0);
   const [categories, setCategories] = useState<ICategories[]>([]);
@@ -36,7 +38,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
 
   const loadData = async () => {
     try {
-      const reponse = await api.get(`categorias`);
+      const reponse = await api.get(`categorias/status=A`);
       const { results } = reponse.data;
       setCategories(results);
     } catch (error) {
@@ -59,6 +61,7 @@ export default function CreateProduct({ toogleForm, setProducts }: Props) {
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
+    else if (products.some(p => formatString(p.nome) === formatString(nome))) _errors.nome = "Já existe um produto cadastrado com o mesmo nome"
 
     if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"

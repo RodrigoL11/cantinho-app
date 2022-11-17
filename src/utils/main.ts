@@ -10,8 +10,11 @@ export const formatDate = (date: Date) => {
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`
 }
 
-export const formatDateToFetch = (date: Date) => {
-  //2022-11-14 14:15:55
+export const formatDateFrom = (date: Date) => {  
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} 00:00:00`
+}
+
+export const formatDateTo = (date: Date) => {  
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} 23:59:59`
 }
 

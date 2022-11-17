@@ -7,7 +7,7 @@ const ip = [
 ]
 
 const api = axios.create({
-    baseURL: `https://3b18-45-172-144-32.sa.ngrok.io/api/`
+    baseURL: `http://${ip[0]}:1337/api/`
 })
 
 export default api

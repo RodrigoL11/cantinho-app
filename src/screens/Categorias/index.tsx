@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, Modal, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, Modal, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'
 
@@ -20,18 +20,21 @@ import {
 import EditCategory from '@components/FormsProduct/EditCategory';
 import CreateCategory from '@components/FormsProduct/CreateCategory';
 import Empty from '@components/Empty';
+import Status from '@components/Filters/Status';
+import ActiveCategory from '@components/FormsProduct/ActiveCategory';
 
 export default function Categorias() {
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState<ICategories | undefined>(undefined)
+  const [status, setStatus] = useState("A");
 
   const navigation = useNavigation();
 
   const loadData = async () => {
     try {
-      const reponse = await api.get(`categorias`);
+      const reponse = await api.get(`categorias/status=${status}`);
       const { results } = reponse.data;
       setCategories(results);
     } catch (error) {
@@ -41,18 +44,16 @@ export default function Categorias() {
 
   useEffect(() => {
     loadData();
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      loadData();
+    });
 
-    navigation.addListener(
-      'focus',
-      payload => {
-        loadData();
-      }
-    );
-  }, [])
+    return willFocusSubscription;
+  }, [status])
 
   useEffect(() => {
     navigation.setOptions({
-      title: `Categorias (${categories.filter(c => c.status != 'I').length})`
+      title: `Categorias (${filteredCategories.length})`
     })
   }, [categories])
 
@@ -67,10 +68,24 @@ export default function Categorias() {
         onChangeText={setSearch}
         placeholder={"Buscar categoria..."}
       />
+      <View style={{ paddingLeft: 15 }}>
+        <Status
+          status={status}
+          setStatus={setStatus}
+          options={
+            {
+              'A': 'Ativo',
+              'I': 'Inativo',
+              'T': 'Todos'
+            }
+          }
+        />
+      </View>
       {filteredCategories.length > 0 ?
         <Content>
           {filteredCategories.map((item, index) => {
-            return item.status === 'A' && (
+            if ((item.status !== status) && (status !== "T")) return;
+            return (
               <TouchableHighlight
                 style={{ marginTop: 1, marginBottom: 1 }}
                 activeOpacity={0.8}
@@ -81,7 +96,7 @@ export default function Categorias() {
                   setShow(true);
                 }}
               >
-                <Card >
+                <Card style={item.status === "I" ? {backgroundColor: '#FFEBEE'} : null}>
                   <Column>
                     <Name>{item.nome} ({item.NumberOfProducts || 0})</Name>
                     <Label>{item.tipo}</Label>
@@ -96,7 +111,7 @@ export default function Categorias() {
         </Content>
         :
         <Empty
-          title={search.length === 0 
+          title={search.length === 0
             ? "Não há nenhuma categoria\ncadastrada"
             : "Categoria não encontrada"}
           subtitle={search.length === 0
@@ -117,7 +132,8 @@ export default function Categorias() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           {selected
-            ? <EditCategory toogleForm={() => setShow(false)} setCategories={setCategories} categories={categories} cID={selected.id} />
+            ? selected.status === "I" ? <ActiveCategory status={status} toogleForm={() => setShow(false)} setCategories={setCategories} categories={categories} cID={selected.id} />
+              : <EditCategory status={status} toogleForm={() => setShow(false)} setCategories={setCategories} categories={categories} cID={selected.id} />
             : <CreateCategory toogleForm={() => setShow(false)} setCategories={setCategories} categories={categories} />}
         </TouchableWithoutFeedback>
 

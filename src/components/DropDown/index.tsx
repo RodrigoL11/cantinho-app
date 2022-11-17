@@ -19,6 +19,7 @@ interface Props {
   placeholder: string
   itemSelected?: any
   tipo: string
+  disabled?: boolean
 }
 
 interface CategoryProps {
@@ -38,7 +39,7 @@ const Category = ({ title, isFirst, isSelected, onPress }: CategoryProps) => {
   )
 }
 
-export default function DropDown({ onChange, items, placeholder, tipo, itemSelected }: Props) {
+export default function DropDown({ onChange, items, disabled, placeholder, tipo, itemSelected }: Props) {
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<any>(itemSelected);
@@ -52,7 +53,7 @@ export default function DropDown({ onChange, items, placeholder, tipo, itemSelec
     : items;
 
   return (
-    <TouchableWithoutFeedback onPress={() => setShow(true)}>
+    <TouchableWithoutFeedback disabled={disabled} onPress={() => setShow(true)}>
       <Container>
         <Placeholder style={placeholder != tipo && {color: "#7a7a80"}}>{placeholder}</Placeholder>
         <Feather name="chevron-down" size={24} color="#abababaa" />

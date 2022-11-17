@@ -6,7 +6,7 @@ export const Container = styled.View`
 `
 
 export const Content = styled.ScrollView`
-    
+    padding-top: 12px;
 `
 
 export const Card = styled.View`

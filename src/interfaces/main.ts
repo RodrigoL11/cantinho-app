@@ -32,8 +32,8 @@ export interface IAddress {
 
 export interface IComandas {
   id: number
-  data_hora_abertura: string
-  data_hora_finalizada?: string
+  data_hora_abertura: Date
+  data_hora_finalizada?: Date
   nome_cliente: string
   num_mesa: string
   status: string

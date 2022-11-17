@@ -33,7 +33,7 @@ import SearchInput from '@components/SearchInput';
 import StatusFilter from '@components/Filters/Status';
 import DateFilter from '@components/Filters/Date';
 import Empty from '@components/Empty';
-import { formatDateTime, formatDateToFetch, formatString } from '../../utils/main';
+import { formatDateFrom, formatDateTime, formatDateTo } from '../../utils/main';
 
 interface Pedidos extends IOrders {
   items: any[]
@@ -239,8 +239,8 @@ export default function Pedidos() {
 
     try {
       const _search = search.trim().length > 2 ? search : "";
-      const _dateFrom = formatDateToFetch(dateFrom || yesterday);
-      const _dateTo = formatDateToFetch(dateTo || tomorrow);
+      const _dateFrom = formatDateFrom(dateFrom || yesterday);
+      const _dateTo = formatDateTo(dateTo || tomorrow);
       const response = await api.get(`pedidos/q=${_search}&num_mesa=${numberMesa}&limit=${perPage}&offset=${perPage * _page}&status=${status || "A"}&dateFrom=${_dateFrom}&dateTo=${_dateTo}`)
       const { results } = response.data
 
@@ -268,14 +268,10 @@ export default function Pedidos() {
   }
 
   useEffect(() => {
-    if (numberMesa.length > 0 || numberMesa.length === 0) {
       setIsFullLoaded(false);
       setPedidos([]);
-      loadData(true);
-    }
-  }, [status, dateFrom, dateTo, handleInputQuery, numberMesa])
-
-  console.log('render', pedidos.length);
+      loadData(true);    
+  }, [status, dateFrom, dateTo, handleInputQuery, numberMesa])  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -301,7 +297,7 @@ export default function Pedidos() {
               onChangeText={text => {
                 setClicked(null);
                 setNumberMesa(text);
-              }}              
+              }}
               placeholder="Mesa"
               keyboardType='numeric'
               style={{ paddingLeft: 16, paddingRight: 16 }}
@@ -313,6 +309,14 @@ export default function Pedidos() {
           <StatusFilter
             status={status}
             setStatus={setStatus}
+            options={
+              {
+                'A': 'Ativo',
+                'E': 'Entregue',
+                'C': 'Cancelado',
+                'T': 'Todos'
+              }
+            }
           />
           <Row>
             <DateFilter

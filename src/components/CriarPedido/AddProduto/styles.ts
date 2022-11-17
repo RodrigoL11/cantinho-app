@@ -1,4 +1,8 @@
-import styled from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
+
+interface IStock {
+  lowStock: boolean
+}
 
 export const Container = styled.View`
     width: 100%;
@@ -15,7 +19,7 @@ export const Background = styled.TouchableOpacity`
 
 export const Card = styled.View`
     width: 100%;
-    background-color: ${({theme}) => theme.colors.bgCard};
+    background-color: ${({ theme }) => theme.colors.bgCard};
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     padding: 20px;
@@ -23,29 +27,35 @@ export const Card = styled.View`
 
 export const Title = styled.Text`
   font-size: 20px;
-  color: ${({theme}) => theme.colors.text_color[900]};
-  font-family: ${({theme}) => theme.fonts.bold}; 
+  color: ${({ theme }) => theme.colors.text_color[900]};
+  font-family: ${({ theme }) => theme.fonts.bold}; 
   margin-bottom: 20px;
 `
 
 export const Name = styled.Text`
   font-size: 16px;
-  color: ${({theme}) => theme.colors.text_color[700]};
-  font-family: ${({theme}) => theme.fonts.semiBold}; 
+  color: ${({ theme }) => theme.colors.text_color[700]};
+  font-family: ${({ theme }) => theme.fonts.semiBold}; 
 `
 
 export const Price = styled.Text`
-  color: ${({theme}) => theme.colors.text_color[700]};
-  font-family: ${({theme}) => theme.fonts.semiBold};
+  color: ${({ theme }) => theme.colors.text_color[700]};
+  font-family: ${({ theme }) => theme.fonts.semiBold};
   font-size: 16px;
   margin-bottom: 20px;
 `
 
-export const Stock = styled.Text`
-  font-size: 11.5px;
-  color: ${({theme}) => theme.colors.text_color[600]};
-  font-family: ${({theme}) => theme.fonts.light};
+export const Stock = styled.Text<IStock>`
+  font-size: 11.5px;  
   margin-bottom: 10px;
+  ${(props) => props.lowStock
+    ? css`
+  color: #B00020;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  ` : css`
+  color: ${({ theme }) => theme.colors.text_color[600]};
+  font-family: ${({ theme }) => theme.fonts.light};  
+  ` };
 `
 
 export const Row = styled.View`    
@@ -83,12 +93,12 @@ export const AddButton = styled.TouchableOpacity`
 export const AddButtonLabel = styled.Text`
   color: #fff;
   margin: 0px 7px;
-  font-family: ${({theme}) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.medium};
 `
 
 export const Quantity = styled.TextInput`
   margin: 0px 8px;
-  color: ${({theme}) => theme.colors.text_color[800]};
-  font-family: ${({theme}) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text_color[800]};
+  font-family: ${({ theme }) => theme.fonts.medium};
   text-align: center;
 `
