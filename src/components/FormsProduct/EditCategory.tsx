@@ -59,8 +59,7 @@ export default function EditCategory({ status, toogleForm, setCategories, catego
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
-    else if (formatString(nome) === formatString(category.nome)) _errors.nome = "Nome idêntico ao antigo, insira um diferente"
-    else if (categories.some(c => formatString(c.nome) === formatString(nome))) _errors.nome = "Já existe uma categoria cadastrada com o mesmo nome"
+    else if (categories.some(c => formatString(c.nome) === formatString(nome) && formatString(c.nome) !== formatString(category.nome))) _errors.nome = "Já existe uma categoria cadastrada com o mesmo nome"
 
     if (selected === undefined) _errors.selected = "Selecione um tipo"
 
@@ -72,6 +71,11 @@ export default function EditCategory({ status, toogleForm, setCategories, catego
     })
 
     setErrors(_errors)
+
+    if (formatString(category.nome) === formatString(nome) && category.tipo === selected.nome) {
+      Alert.alert("Atenção", "Nenhum campo foi alterado para que a categoria seja editada");
+      return;
+    }
 
     if (!hasError) {
       if (!selected) return

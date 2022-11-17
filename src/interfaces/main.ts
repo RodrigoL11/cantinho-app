@@ -76,6 +76,7 @@ export interface IOrders {
 }
 
 export interface IOrdersByComanda {
+  status: string
   quantidade: number
   valor_tabela: number
   produto_nome: string

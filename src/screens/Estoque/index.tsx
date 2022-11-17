@@ -19,8 +19,9 @@ import api from '@services/api';
 import { View, TouchableHighlight, Modal, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import SearchInput from '@components/SearchInput';
 import Empty from '@components/Empty';
-import Registros from '@components/Estoque/Registros';
 import AddForm from '@components/Estoque/AddForm';
+import DateFilter from '@components/Filters/Date';
+import { formatDateFrom, formatDateTo } from '../../utils/main';
 
 interface Product extends IProducts {
   entrada: number
@@ -33,12 +34,12 @@ export default function Estoque() {
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(false);
+  const [dateFrom, setDateFrom] = useState(new Date());
+  const [dateTo, setDateTo] = useState(new Date());
 
   const loadData = async () => {
-    if (products.length > 0) return;
-
     try {
-      const response = await api.get('estoque');
+      const response = await api.get(`estoque/dateFrom=${formatDateFrom(dateFrom)}&dateTo=${formatDateTo(dateTo)}`);
       const { results } = response.data;
       setProducts(results);
     } catch (error) {
@@ -48,7 +49,7 @@ export default function Estoque() {
 
   useEffect(() => {
     loadData();
-  }, [])
+  }, [dateFrom, dateTo])
 
   const filteredProducts = search.length > 0
     ? products.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
@@ -67,7 +68,7 @@ export default function Estoque() {
         underlayColor="#000"
         key={index}
         onPress={() => { toogleModal(product) }}
-      >
+      >        
         <Card>
           <View>
             <Name>{product.nome}</Name>
@@ -100,6 +101,18 @@ export default function Estoque() {
         onChangeText={setSearch}
         placeholder="Buscar produto..."
       />
+      <Row style={{paddingBottom: 6}}>
+        <DateFilter 
+          date={dateFrom}
+          setDate={setDateFrom}
+          subTitle="De"
+        />
+        <DateFilter 
+          date={dateTo}
+          setDate={setDateTo}
+          subTitle="Até"
+        />    
+      </Row>
       {filteredProducts.length > 0 ?
         <Content
           keyboardShouldPersistTaps="always"

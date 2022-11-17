@@ -14,6 +14,7 @@ import {
   ErrorMessage
 } from './styles'
 import { formatString } from '../../utils/main';
+import { Alert } from 'react-native';
 
 interface Props {
   toogleForm: () => void
@@ -45,7 +46,7 @@ export default function CreateCategory({ toogleForm, categories, setCategories }
     valorTabela: "",
     estoque: "",
     selectedCategory: ""
-  });  
+  });
 
   const handleSubmit = async () => {
     let _errors = {
@@ -76,21 +77,36 @@ export default function CreateCategory({ toogleForm, categories, setCategories }
     if (!hasError) {
       if (!selected) return
 
-      let validatedData: ICategories = {
-        id: -1,
-        tipo: selected.nome,
-        nome: nome.trim(),
-        status: 'A',
-      }
+      Alert.alert(
+        "Criar categoria",
+        `Tem certeza que deseja criar a categoria ${nome}?`,
+        [
+          {
+            text: "Sim",
+            onPress: async () => {
+              let validatedData: ICategories = {
+                id: -1,
+                tipo: selected.nome,
+                nome: nome.trim(),
+                status: 'A',
+              }
 
-      await api.post('categorias', {
-        data: validatedData
-      }).then(response => {
-        let newID = response.data.result.insertId;
-        validatedData.id = newID;
-        setCategories(arr => [...arr, validatedData])
-        toogleForm();
-      })
+              await api.post('categorias', {
+                data: validatedData
+              }).then(response => {
+                let newID = response.data.result.insertId;
+                validatedData.id = newID;
+                setCategories(arr => [...arr, validatedData])
+                toogleForm();
+              })
+            }
+          },
+          {
+            text: "CANCELAR",
+            onPress: () => { return }
+          }
+        ]
+      )
     }
   }
 

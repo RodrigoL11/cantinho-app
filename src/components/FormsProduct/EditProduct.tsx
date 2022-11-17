@@ -66,7 +66,7 @@ export default function EditProduct({ status, toogleForm, setProducts, products,
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
     else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"    
-    else if (products.some(p => formatString(p.nome) === formatString(nome))) _errors.nome = "Já existe um produto cadastrado com o mesmo nome"
+    else if (products.some(p => formatString(p.nome) === formatString(nome) && formatString(nome) !== formatString(product.nome))) _errors.nome = "Já existe um produto cadastrado com o mesmo nome"
 
     if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
@@ -83,6 +83,12 @@ export default function EditProduct({ status, toogleForm, setProducts, products,
     })
 
     setErrors(_errors)
+
+
+    if ((formatString(nome) === formatString(product.nome)) && (selected?.nome === product.categoria_nome) && (product.valor_tabela === valorTabela)){
+      Alert.alert("Atenção", "Nenhum campo foi alterado para que o produto seja editado");
+      return;
+    }
 
     if (!hasError) {
       if (!selected) return

@@ -17,7 +17,7 @@ import { Alert } from "react-native";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
-  const { comandaID, pedidos_ativos } = route.params;
+  const { comandaID } = route.params;
   const [pedidos, setPedidos] = useState<IOrdersByComanda[]>([]);
 
   const loadData = async () => {
@@ -25,7 +25,7 @@ export default function Comanda({ route }: any) {
       const response = await api.get(`pedidos/comanda_id/${comandaID}`)
       const { results } = response.data;
       setPedidos(results);
-      console.log(results)
+      console.log(results.filter(p => p.status === "A").length);
     } catch (err) {
       console.error(err)
     }
@@ -72,8 +72,9 @@ export default function Comanda({ route }: any) {
         onPress={() => {
           if (pedidos.length === 0)
             Alert.alert("Atenção", "Não há nenhum pedido vinculado a comanda para ser feito o pagamento.")
-          else if (pedidos_ativos > 0)
-            Alert.alert("Atenção", `Há ${pedidos_ativos} pedido${pedidos_ativos > 1 ? 's' : ''} vinculado${pedidos_ativos > 1 ? 's' : ''} a comanda aguardando serem entregues.`)
+          else if (pedidos.find(p => p.status === "A")){            
+            Alert.alert("Atenção", `Há ${1} pedido${3 > 1 ? 's' : ''} vinculado${3 > 1 ? 's' : ''} a comanda aguardando serem entregues.`)
+          }
           else {
             var total = pedidos.reduce((prev: number, obj) => prev + (obj.quantidade * obj.valor_tabela), 0)
             navigation.navigate("Pagamento", { comandaID: comandaID, total: total })

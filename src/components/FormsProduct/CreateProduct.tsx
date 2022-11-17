@@ -18,6 +18,7 @@ import {
   Column,
   ErrorMessage
 } from './styles'
+import { Alert } from 'react-native';
 
 interface Props {
   toogleForm: () => void
@@ -81,24 +82,39 @@ export default function CreateProduct({ toogleForm, products, setProducts }: Pro
     if (!hasError) {
       if (!selectedCategory) return
 
-      let validatedData = {
-        id: -1,
-        nome: nome.trim(),
-        valor_tabela: valorTabela,
-        status: 'A',
-        categoria_nome: selectedCategory.nome,
-        cID: selectedCategory.id,
-        quantidade: 0,
-      }
+      Alert.alert(
+        "Criar produto",
+        `Tem certeza que deseja criar o produto ${nome}?`,
+        [
+          {
+            text: "Sim",
+            onPress: async () => {
+              let validatedData = {
+                id: -1,
+                nome: nome.trim(),
+                valor_tabela: valorTabela,
+                status: 'A',
+                categoria_nome: selectedCategory.nome,
+                cID: selectedCategory.id,
+                quantidade: 0,
+              }
 
-      await api.post('produtos', {
-        data: validatedData
-      }).then(response => {
-        let newID = response.data.result.insertId;
-        validatedData.id = newID;
-        setProducts(arr => [...arr, validatedData])
-        toogleForm();
-      })
+              await api.post('produtos', {
+                data: validatedData
+              }).then(response => {
+                let newID = response.data.result.insertId;
+                validatedData.id = newID;
+                setProducts(arr => [...arr, validatedData])
+                toogleForm();
+              })
+            }
+          },
+          {
+            text: "CANCELAR",
+            onPress: () => { return }
+          }
+        ]
+      )
     }
   }
 
@@ -133,9 +149,9 @@ export default function CreateProduct({ toogleForm, products, setProducts }: Pro
               tipo="Categoria"
             />
           </Column>
-          {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
-          {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
         </Row>
+        {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
+        {errors.selectedCategory ? <ErrorMessage>{errors.selectedCategory}</ErrorMessage> : null}
 
       </Content>
       <Button title="Salvar" onPress={handleSubmit} />

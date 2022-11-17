@@ -60,15 +60,15 @@ export default function Home() {
   const [ref, setRef] = useState<any>();
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  const handleScrollBackToTop = () => {
-    if (!ref) return null;
+  // const handleScrollBackToTop = () => {
+  //   if (!ref) return null;
 
-    ref.scrollToLocation({
-      x: 0,
-      y: 0,
-      animated: true
-    })
-  }
+  //   ref.scrollToLocation({
+  //     x: 0,
+  //     y: 0,
+  //     animated: true
+  //   })
+  // }
 
   const loadData = async (reload?: boolean) => {
     if (loading || (isFullLoaded && !reload)) return;
@@ -189,8 +189,6 @@ export default function Home() {
       <Header
         title={`Comandas (${comandas.length})`}
         onPress={navigation.goBack}
-        extraIconName="add"
-        extraOnPress={() => setShowForms(true)}
       />
       <Row>
         <View style={{ width: '80%' }}>
@@ -218,7 +216,7 @@ export default function Home() {
           />
         </View>
       </Row>
-      <Row style={{paddingLeft: 15, paddingRight: 15, paddingBottom: 12}}>
+      <Row style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 12 }}>
         <Status
           status={status}
           setStatus={setStatus}
@@ -246,7 +244,7 @@ export default function Home() {
       </Row>
       {comandas.length > 0 ?
         <FlatGrid
-          ref={(ref: any) => setRef(ref)}
+          ref={setRef}
           itemDimension={100}
           data={comandas}
           keyboardShouldPersistTaps="always"
@@ -257,7 +255,7 @@ export default function Home() {
           onEndReachedThreshold={0.1}
           ListFooterComponent={<Loading load={loading} />}
           onScroll={({ nativeEvent }) => {
-            nativeEvent.contentOffset.y > 100 ? setShowBackToTop(true) : setShowBackToTop(false);            
+            nativeEvent.contentOffset.y > 100 ? setShowBackToTop(true) : setShowBackToTop(false);
           }}
         />
         :
@@ -265,7 +263,18 @@ export default function Home() {
           title={`Não há nenhuma comanda\npara os filtros aplicados`}
           subtitle={"Altere os filtros ou crie uma nova"}
         />
-      }      
+      }
+      <ActionButton 
+        name="add"
+        size={40}
+        onPress={() => setShowForms(true)}
+      />
+
+      {/* {!showBackToTop ?
+        <BackToTopButton activeOpacity={1} onPress={handleScrollBackToTop}>
+          <Feather name="chevron-up" size={24} color="#f4f5f6" />
+        </BackToTopButton>
+        : null} */}
 
       <Modal
         transparent={true}
