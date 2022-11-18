@@ -124,7 +124,19 @@ export default function Home() {
           onPress: async () => {
             await api.delete(`comandas/${delComanda.id}`)
               .then(response => {
-                setComandas(comandas.filter(comanda => comanda !== delComanda))
+                if(status !== "T")
+                  setComandas(comandas.filter(comanda => comanda !== delComanda))
+                else {
+                  setComandas(comandas => {
+                    return comandas.map(comanda => {
+                      if(comanda.id === delComanda.id) {
+                        return { ...comanda, status: "I"}
+                      } else {
+                        return comanda;
+                      }
+                    })
+                  })
+                }
               })
           }
         },
@@ -141,10 +153,9 @@ export default function Home() {
       <Card
         activeOpacity={0.7}
         key={index}
-        onPress={() => { navigation.navigate("Comanda", { comandaID: comanda.id, pedidos_ativos: comanda.pedidos_ativos }) }}
+        onPress={() => { navigation.navigate("Comanda", { comandaID: comanda.id, disabled: comanda.status !== "A" }) }}
         hasPedidos={(comanda.pedidos_ativos || 0) > 0}
-        status={comanda.status}
-        disabled={comanda.status !== "A"}
+        status={comanda.status}        
       >
         <Row>
           <DateLabel style={{ top: -2 }}>{formatDate(new Date(comanda.data_hora_abertura))}</DateLabel>

@@ -51,7 +51,7 @@ export const Stock = styled.Text<IStock>`
   ${(props) => props.lowStock
     ? css`
   color: #B00020;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.bold};
   ` : css`
   color: ${({ theme }) => theme.colors.text_color[600]};
   font-family: ${({ theme }) => theme.fonts.light};  

@@ -17,7 +17,7 @@ import { Alert } from "react-native";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
-  const { comandaID } = route.params;
+  const { comandaID, disabled } = route.params;
   const [pedidos, setPedidos] = useState<IOrdersByComanda[]>([]);
 
   const loadData = async () => {
@@ -25,7 +25,6 @@ export default function Comanda({ route }: any) {
       const response = await api.get(`pedidos/comanda_id/${comandaID}`)
       const { results } = response.data;
       setPedidos(results);
-      console.log(results.filter(p => p.status === "A").length);
     } catch (err) {
       console.error(err)
     }
@@ -39,6 +38,8 @@ export default function Comanda({ route }: any) {
 
     return willFocusSubscription;
   }, [])
+
+  const pedidos_ativos = pedidos.reduce((prev, obj) => prev + obj.pedidos_ativos, 0);
 
   return (
     <Container>
@@ -59,28 +60,31 @@ export default function Comanda({ route }: any) {
           subtitle={`Crie um pedido novo para a comanda`}
         />
       }
-
-      <Button
-        style={{ marginBottom: 0 }}
-        title="Criar pedido"
-        onPress={() => navigation.navigate("CriarPedido", { comandaID: comandaID })}
-      />
-      <Button
-        style={{ marginBottom: 0 }}
-        title="Finalizar comanda"
-        reverse={true}
-        onPress={() => {
-          if (pedidos.length === 0)
-            Alert.alert("Atenção", "Não há nenhum pedido vinculado a comanda para ser feito o pagamento.")
-          else if (pedidos.find(p => p.status === "A")){            
-            Alert.alert("Atenção", `Há ${1} pedido${3 > 1 ? 's' : ''} vinculado${3 > 1 ? 's' : ''} a comanda aguardando serem entregues.`)
-          }
-          else {
-            var total = pedidos.reduce((prev: number, obj) => prev + (obj.quantidade * obj.valor_tabela), 0)
-            navigation.navigate("Pagamento", { comandaID: comandaID, total: total })
-          }
-        }}
-      />
+      {!disabled ?
+        <>
+          <Button
+            style={{ marginBottom: 0 }}
+            title="Criar pedido"
+            onPress={() => navigation.navigate("CriarPedido", { comandaID: comandaID })}
+          />
+          <Button
+            style={{ marginBottom: 0 }}
+            title="Finalizar comanda"
+            reverse={true}
+            onPress={() => {
+              if (pedidos.length === 0)
+                Alert.alert("Atenção", "Não há nenhum pedido vinculado a comanda para ser feito o pagamento.")
+              else if (pedidos_ativos > 0) {
+                Alert.alert("Atenção", `Há ${pedidos_ativos} pedido${pedidos_ativos > 1 ? 's' : ''} vinculado${pedidos_ativos > 1 ? 's' : ''} a comanda aguardando ser${pedidos_ativos > 1 ? 'em' : ''} entregue${pedidos_ativos > 1 ? 's' : ''}.`)
+              }
+              else {
+                var total = pedidos.reduce((prev: number, obj) => prev + (obj.quantidade * obj.valor_tabela), 0)
+                navigation.navigate("Pagamento", { comandaID: comandaID, total: total })
+              }
+            }}
+          />
+        </>
+        : null}
     </Container>
   );
 }

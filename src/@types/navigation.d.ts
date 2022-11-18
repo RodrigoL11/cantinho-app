@@ -2,12 +2,17 @@ export type UserProps = {
   id: number
 }
 
-export type ComandaProps = {
+type ComandaProps = {
   comandaID: number
-  pedidos_ativos?: number
+  disabled: boolean  
 }
 
-export type PagamentoProps = ComandaProps & {
+type CriarPedidoProps = {
+  comandaID: number
+}
+
+type PagamentoProps = {
+  comandaID: number
   total: number
 }
 
@@ -25,7 +30,7 @@ export declare global {
       Pedidos: undefined
       Relatorios: undefined
       Estoque: undefined
-      CriarPedido: ComandaProps
+      CriarPedido: CriarPedidoProps
       Pagamento: PagamentoProps
     }
   }

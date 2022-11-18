@@ -10,7 +10,7 @@ export const Container = styled.View`
 `
 
 export const Content = styled.ScrollView`
-    margin: 5px 15px 15px 15px;
+    padding: 5px 15px 15px 15px;
 `
 
 export const Card = styled.View`
