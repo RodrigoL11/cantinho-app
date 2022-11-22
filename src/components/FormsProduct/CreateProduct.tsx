@@ -18,7 +18,7 @@ import {
   Column,
   ErrorMessage
 } from './styles'
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 interface Props {
   toogleForm: () => void
@@ -58,15 +58,16 @@ export default function CreateProduct({ toogleForm, products, setProducts }: Pro
       selectedCategory: ""
     }
 
-    if (nome.length === 0) _errors.nome = "Por favor, insira um nome"
+    if (nome.length === 0) _errors.nome = "Por favor, insira um nome"     
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
-    else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
     else if (products.some(p => formatString(p.nome) === formatString(nome))) _errors.nome = "Já existe um produto cadastrado com o mesmo nome"
 
     if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
     else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"
+    else if (valorTabela > 10000) _errors.valorTabela = "Valor de tabela não pode ser maior que 10 mil"
 
     if (selectedCategory === undefined) _errors.selectedCategory = "Selecione uma categoria"
 
@@ -125,7 +126,7 @@ export default function CreateProduct({ toogleForm, products, setProducts }: Pro
         <Input
           onChangeText={setNome}
           value={nome}
-          placeholder="Insira o nome"
+          placeholder="Insira o nome"          
         />
         {errors.nome ? <ErrorMessage>{errors.nome}</ErrorMessage> : null}
         <Row>

@@ -65,6 +65,7 @@ export default function AddForm({ product, setProducts, toogleModal }: Props) {
     if (quantity == 0) _errors.quantity = "Por favor, insira uma quantidade"
     else if (!Number(quantity)) _errors.quantity = "Quantidade não é um número"
     else if (quantity < 0) _errors.quantity = "Quantidade não pode ser negativo"
+    else if (quantity > 100000) _errors.quantity = "Quantidade não pode ser maior que 100 mil"
 
     if (precoCusto == 0) _errors.preco = "Por favor, insira um preço de custo"
     else if (!Number(precoCusto)) _errors.preco = "Preço de custo não é um número"

@@ -65,13 +65,14 @@ export default function EditProduct({ status, toogleForm, setProducts, products,
     if (nome.length === 0) _errors.nome = "Por favor, insira um nome"
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
-    else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"    
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"    
     else if (products.some(p => formatString(p.nome) === formatString(nome) && formatString(nome) !== formatString(product.nome))) _errors.nome = "Já existe um produto cadastrado com o mesmo nome"
 
     if (valorTabela == 0) _errors.valorTabela = "Por favor, insira um valor de tabela"
     else if (!isNumber(valorTabela)) _errors.valorTabela = "Valor de tabela não é um número"
-    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"    
-    else if (valorTabela < (product.preco_minimo || 0)) _errors.valorTabela = `Valor inferior ao preço de custo (R$${product.preco_minimo?.toFixed(2)})`
+    else if (valorTabela < 0) _errors.valorTabela = "Valor de tabela não pode ser negativo"
+    else if (valorTabela > 10000) _errors.valorTabela = "Valor de tabela não pode ser maior que 10 mil"    
+    else if (valorTabela <= (product.preco_minimo || 0)) _errors.valorTabela = `Valor inferior ou igual ao preço de custo (R$${product.preco_minimo?.toFixed(2)})`
 
     if (selected === undefined) _errors.selected = "Selecione uma categoria"
 

@@ -31,7 +31,7 @@ export default function EditName({ user, setUser, toogleForm, uID }: Props) {
     if (text.length === 0) errorMsg = "Por favor, insira o nome"
     else if (text.length < 3) errorMsg = "Nome muito curto. O nome pode ter no mínimo 3 caracteres"
     else if (text.length > 50) errorMsg = "Nome muito longo. O nome pode ter no máximo 50 caracteres"
-    else if (!/^[A-Za-z\s]*$/.test(text)) errorMsg = "Nome pode conter apenas letras"
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(text)) errorMsg = "Nome não pode conter caracteres especiais"
 
     if (errorMsg === "" && user) {
       setError("")

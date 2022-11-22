@@ -49,7 +49,7 @@ export const StrongLabel = styled.Text`
 export const Amount = styled.Text<IAmount>`
     font-family: ${({theme}) => theme.fonts.medium};
     font-size: 12.5px;
-    width: 35px;    
+    margin-right: 10px;      
 
     ${(props) =>
         props.type === 'E' 

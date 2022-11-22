@@ -43,7 +43,7 @@ export default function Relatorios() {
 
   const Item = (item: any, index: number) => {
     return (
-      <Card style={item === data[0] ? { borderWidth: 0 } : null}>
+      <Card key={index} style={item === data[0] ? { borderWidth: 0 } : null}>
         <StrongLabel>{item.nome}</StrongLabel>
         <Row>
           <Label>Quantidade vendida: </Label>

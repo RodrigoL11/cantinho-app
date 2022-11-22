@@ -60,7 +60,7 @@ export default function CreateCategory({ toogleForm, categories, setCategories }
     if (nome.length === 0) _errors.nome = "Por favor, insira um nome"
     else if (nome.length < 3) _errors.nome = "Nome muito curto"
     else if (nome.length > 50) _errors.nome = "Nome muito grande"
-    else if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(nome)) _errors.nome = "Nome não pode conter caracteres especiais"
     else if (categories.some(c => formatString(c.nome) === formatString(nome))) _errors.nome = "Já existe uma categoria cadastrada com o mesmo nome"
 
     if (selected === undefined) _errors.selectedCategory = "Selecione um tipo"

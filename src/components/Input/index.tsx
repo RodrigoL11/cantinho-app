@@ -8,6 +8,7 @@ import {
   InputText,
   SecurityContainer,
 } from "./styles";
+import { Platform } from "react-native";
 
 export type InputProps = MaskInputProps & {
   icon?: keyof typeof Feather.glyphMap;
@@ -45,6 +46,7 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
         onBlur={handleInputBlur}
         isFocused={isFocused}
         value={value}
+        keyboardType={Platform.OS == 'ios' ? "ascii-capable": "visible-password"}
         {...rest}
       />
 

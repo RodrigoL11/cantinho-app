@@ -122,7 +122,7 @@ export default function AddProduto({ product, toogleModal, setCartItems, setProd
           </QuantityContainer>
           <Column>
             <AddButton activeOpacity={0.75} onPress={handleSubmit}>
-              <AddButtonLabel>Adiciconar</AddButtonLabel>
+              <AddButtonLabel>Adicionar</AddButtonLabel>
               <AddButtonLabel>R$ {(quantity * product.valor_tabela).toFixed(2)}</AddButtonLabel>
             </AddButton>
           </Column>

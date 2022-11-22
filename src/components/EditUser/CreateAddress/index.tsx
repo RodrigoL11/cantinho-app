@@ -79,15 +79,20 @@ export default function CreateAddress({ uID, toogleForm, setAddress }: Props) {
       newErrors.logradouro = "Por favor, insira o nome da rua"
     else if (logradouro.trim().length < 3)
       newErrors.logradouro = "Nome da rua muito curto. O nome da rua precisa ter no mínimo 3 caracteres"
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(logradouro))
+      newErrors.logradouro = "Nome da rua não pode conter caracteres especiais"
 
     if (bairro.trim().length === 0)
       newErrors.bairro = "Por favor, insira o nome do bairro"
     else if (bairro.trim().length < 3)
       newErrors.bairro = "Nome do bairro muito curto. O nome do bairro precisa ter no mínimo 3 caracteres"
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(bairro))
+      newErrors.bairro = "Nome do bairro não pode conter caracteres especiais"
 
     if (numero.trim().length === 0)
       newErrors.numero = "Por favor, insira o número da rua"
-
+    else if (!Number(numero))
+      newErrors.numero = "Por favor, insira apenas números"
 
     if (CEP.trim().length != 8)
       newErrors.CEP = "Número do CEP precisa ter 8 caracteres"

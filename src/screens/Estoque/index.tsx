@@ -76,7 +76,7 @@ export default function Estoque() {
               <Label>Preço de custo: </Label>
               <StrongLabel>R${product.preco_minimo?.toFixed(2)}</StrongLabel>
             </Row>
-            <Row style={{ marginTop: 5 }}>
+            <Row style={{ marginTop: 5 }}>              
               <Row>
                 <Entypo name="triangle-up" size={17} color="#458f5aea" />
                 <Amount type="E">{product.entrada}</Amount>

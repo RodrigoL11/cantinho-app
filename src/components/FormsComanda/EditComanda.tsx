@@ -45,6 +45,7 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, c
     if (nome.trim() === '') errorMsg.nome = "Por favor, insira o nome do cliente."
     else if (nome.trim().length < 3) errorMsg.nome = "Nome precisa ter no mínimo 3 letras."
     else if (nome.trim().length > 50) errorMsg.nome = "Nome pode ter máximo 50 letras."
+    else if (!/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(nome)) errorMsg.nome = "Nome não pode conter caracteres especiais"
 
     if (mesa.trim() === '') errorMsg.mesa = "Por favor, insira o número da mesa."
     else if (mesa.trim().length > 4) errorMsg.mesa = "Número inserido muito grande."
@@ -92,19 +93,19 @@ export default function EditComanda({ toogleVisibility, comandas, setComandas, c
       <Card>
         <Title>Editar comanda</Title>
         <Row>
-          <Column size={80}>
+          <Column size={76}>
             <Input
               value={nome}
               placeholder="Nome"
               onChangeText={setNome}
             />
           </Column>
-          <Column size={15}>
+          <Column size={21}>
             <Input
               value={mesa}
               placeholder="Mesa"
-              maxLength={5}
               keyboardType="numeric"
+              maxLength={5}
               onChangeText={setMesa}
             />
           </Column>
