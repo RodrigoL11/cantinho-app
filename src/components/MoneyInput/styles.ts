@@ -8,10 +8,8 @@ interface PlaceholderLabelProps {
 
 export const Container = styled.View<PlaceholderLabelProps>`
   height: 56px;
-  border-bottom-width: 1px;
   padding: 0;
-  border-bottom-color: #ffffff80;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
   justify-content: center;
   margin-bottom: 8px;
 
@@ -37,7 +35,7 @@ export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
     ` : css`
       transform: translateY(0px);
       font-size: 14px;
-      color: #ababab;
+      color: ${({theme}) => theme.colors.text_color[500]};
       font-family: ${({theme}) => theme.fonts.light};
   `}
 `;

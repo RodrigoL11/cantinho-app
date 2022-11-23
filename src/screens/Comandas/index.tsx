@@ -210,7 +210,7 @@ export default function Home() {
               if (text.length > 2) setHandleInputQuery(text);
               if (text.length <= 2 && handleInputQuery) setHandleInputQuery("");
             }}
-            placeholder="Busque um pedido..."
+            placeholder="Busque uma comanda..."
           />
         </View>
         <View style={{ width: '18%' }}>

@@ -15,6 +15,7 @@ import {
   ErrorMessage
 } from './styles'
 import api from '@services/api';
+import { themes, useTheme } from '@hooks/theme';
 
 interface Props {
   uID: number,
@@ -54,6 +55,9 @@ const states = {
 }
 
 export default function CreateAddress({ uID, toogleForm, setAddress }: Props) {
+  const { theme } = useTheme();
+  const disabledColor = themes[theme].colors.bgCard_selected;
+
   const [logradouro, setLogradouro] = useState("");
   const [bairro, setBairro] = useState("");
   const [numero, setNumero] = useState("");
@@ -210,13 +214,13 @@ export default function CreateAddress({ uID, toogleForm, setAddress }: Props) {
           </>
         ) : null}
         <Input
-          style={{ backgroundColor: "#ececec" }}
+          style={{ backgroundColor: disabledColor }}
           value={cidade}
           placeholder="Cidade"
           editable={false}
         />
         <Input
-          style={{ backgroundColor: "#ececec" }}
+          style={{ backgroundColor: disabledColor }}
           value={estado}
           placeholder="Estado"
           editable={false}

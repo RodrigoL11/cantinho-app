@@ -7,7 +7,7 @@ const ip = [
 ]
 
 const api = axios.create({
-    baseURL: `http://${ip[2]}:1337/api/`
+    baseURL: `http://${ip[0]}:1337/api/`
 })
 
 export default api

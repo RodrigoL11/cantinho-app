@@ -17,20 +17,21 @@ export const Content = styled.View`
 export const Row = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;  
+  background-color: ${({theme}) => theme.colors.bgCard};
 `
 
 export const Column = styled.View<IColumn>`
-  width: ${(props) => props.width}%;
-  background-color: #fff;
+  min-width: ${(props) => props.width}%;
+  background-color: ${({theme}) => theme.colors.bgCard};
   padding: 5px 0;
 `
 
 export const Input = styled(MaskedInput)`
   height: 37px;
-  font-size: 15px;
+  font-size: 14px;
   color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
+  background-color: ${({theme}) => theme.colors.bgCard};
 `
 
 export const Label = styled.Text`

@@ -1,7 +1,8 @@
 import React from "react";
-import { Alert, TouchableWithoutFeedback } from "react-native";
+import { Alert, Switch, TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "@hooks/auth";
+import { ThemeType, useTheme } from "@hooks/theme";
 import { Ionicons, Feather } from "@expo/vector-icons";
 
 import {
@@ -17,6 +18,7 @@ import {
   CardTitle,
   CardIcon
 } from "./styles";
+
 
 export default function Home() {
   const navigator = useNavigation();
@@ -38,17 +40,21 @@ export default function Home() {
     return true;
   };
 
+  const { toogleTheme, theme } = useTheme();
+  const isDarkMode =  theme === 'dark';
+
   return (
     <Container>
       <IconContainer>
         <TouchableWithoutFeedback onPress={() => SignOut()}>
           <Ionicons name="ios-exit-outline" size={32} color="#222" />
         </TouchableWithoutFeedback>
-      </IconContainer>
+      </IconContainer>      
       <Row>
         <Title>Olá, </Title>
         <Name>{authData?.name.split(' ')[0]}</Name>
         <Emoji>👋</Emoji>
+        <Switch value={isDarkMode} onValueChange={toogleTheme} />
       </Row>
       <SubTitle>Seja bem vindo ao Cantinho Management</SubTitle>
       <Content>

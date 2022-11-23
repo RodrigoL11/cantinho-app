@@ -24,7 +24,7 @@ export const Label = styled.Text`
 
 export const Section = styled.View`
     padding: 7px 20px;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.colors.bgCard};
     justify-content: center;
 `
 
@@ -35,7 +35,7 @@ export const SectionSeparator = styled.View`
 `
 
 export const AddButtonContainer = styled.TouchableOpacity`
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.colors.bgCard};
     flex-direction: row;
     align-items: center;
     justify-content: center;

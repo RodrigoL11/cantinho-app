@@ -16,7 +16,7 @@ export const Container = styled.View`
 `
 
 export const Placeholder = styled.Text`
-  color: #ababab;
+  color: ${({theme}) => theme.colors.text_color[900]};
   font-family: ${({theme}) => theme.fonts.light};
 `
 
@@ -30,22 +30,22 @@ export const CategoryContainer = styled.View<CategoryProps>`
   justify-content: center;
   padding: 0px 15px;
   border-top-width: ${({isFirst}) => isFirst ? 0 : 0.6}px;
-  border-color: #ccc;
+  border-color: ${({theme}) => theme.colors.border_color};
 
   ${(props) =>
       props.isSelected
         ? css`
-      background-color: #dfdfdf;
+      background-color: ${({theme}) => theme.colors.bgCard_selected};
       margin: -1.2px 0px;      
     ` : css`
-      background-color: #FFF;
+      background-color: ${({theme}) => theme.colors.bgCard};
   `}
 `
 
 export const Title = styled.Text`
-  color: ${({theme}) => theme.colors.text_color[700]};
+  color: ${({theme}) => theme.colors.text_color[600]};
   font-size: 14px;
-  font-family: ${({theme}) => theme.fonts.semiBold};
+  font-family: ${({theme}) => theme.fonts.medium};
 `
 
 export const Content = styled.View`

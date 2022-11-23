@@ -7,15 +7,17 @@ import {
   IconContainer,
   InputText,
 } from "./styles";
-import { useTheme } from "styled-components";
+
+import { themes, useTheme } from "@hooks/theme";
 
 type Props = TextInputProps & {
   value?: string
   hideIcon?: boolean
 };
 
-export default function SearchInput({ value, hideIcon, ...rest }: Props) {
-  const theme = useTheme();
+export default function SearchInput({ value, hideIcon, ...rest }: Props) {  
+  const { theme } = useTheme();
+  const color = themes[theme].colors.text_color[500];
 
   return (
     <Container>
@@ -24,7 +26,7 @@ export default function SearchInput({ value, hideIcon, ...rest }: Props) {
           <Feather
             name="search"
             size={22}
-            color={theme.colors.text_color[600]}
+            color={color}
           />
         </IconContainer>
         : null}
@@ -32,6 +34,7 @@ export default function SearchInput({ value, hideIcon, ...rest }: Props) {
       <InputText
         {...rest}
         value={value}
+        placeholderTextColor={color}        
       />
 
     </Container>

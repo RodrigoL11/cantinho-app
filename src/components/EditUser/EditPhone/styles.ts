@@ -17,22 +17,21 @@ export const Content = styled.View`
 export const Row = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
+  background-color: ${({theme}) => theme.colors.bgCard};
 `
 
 export const Column = styled.View<IColumn>`
-  width: ${(props) => props.width}%;
-  background-color: #fff;
+  min-width: ${(props) => props.width}%;
+  background-color: ${({theme}) => theme.colors.bgCard};
   padding: 5px 0;
 `
 
 export const Input = styled(MaskedInput)`
   height: 37px;
-  font-size: 15px;
+  font-size: 14px;
   color: ${({theme}) => theme.colors.text_color[700]};
   font-family: ${({theme}) => theme.fonts.regular};
+  background-color: ${({theme}) => theme.colors.bgCard};
 `
 
 export const Label = styled.Text`
@@ -48,7 +47,6 @@ export const ErrorMessage = styled.Text`
   padding: 8px;
   background-color: #fce6e5;
   color: #ee6d66;
-  font-family: ${({theme}) => theme.fonts.semiBold};
-  top: -8px;
+  font-family: ${({theme}) => theme.fonts.semiBold};  
   font-size: 12px;
 `

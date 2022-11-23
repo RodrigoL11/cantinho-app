@@ -17,6 +17,7 @@ import Categorias from '@screens/Categorias';
 import Header from '@components/Header';
 import CriarPedido from '@screens/CriarPedido';
 import Pagamento from '@screens/Pagamento';
+import { themes, useTheme } from '@hooks/theme';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -24,13 +25,16 @@ const Tab = createMaterialTopTabNavigator();
 
 function ProdutosTabs() {
   const navigation = useNavigation();
+  const { theme } = useTheme();
+  const bgTab = themes[theme].colors.bgCard;
+  const lblTab = themes[theme].colors.text_color[900];
 
   return (
     <>
       <Header title='Produtos' onPress={navigation.goBack} />
-      <Tab.Navigator>
-        <Tab.Screen name="ProdutosTab" component={Produtos} />
-        <Tab.Screen name="CategoriasTab" component={Categorias} />
+      <Tab.Navigator >
+        <Tab.Screen options={{tabBarLabelStyle: {color: lblTab}, tabBarStyle: {backgroundColor: bgTab}}} name="ProdutosTab" component={Produtos} />
+        <Tab.Screen options={{tabBarLabelStyle: {color: lblTab}, tabBarStyle: {backgroundColor: bgTab}}} name="CategoriasTab" component={Categorias} />
       </Tab.Navigator>
     </>
   )

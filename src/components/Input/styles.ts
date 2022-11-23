@@ -16,7 +16,7 @@ export const IconContainer = styled.View<Props>`
   justify-content: center;
   align-items: center;
   margin-right: 2px;
-  background-color: #ffffff;
+  background-color: ${({theme}) => theme.colors.bgCard};
 
   ${({ isFocused }) =>
     isFocused &&
@@ -28,8 +28,8 @@ export const IconContainer = styled.View<Props>`
 
 export const InputText = styled(MaskInput)<Props>`
   flex: 1;
-  background-color: #ffffff;
-  color: ${({theme}) => theme.colors.text_color[700]};
+  background-color: ${({theme}) => theme.colors.bgCard};
+  color: ${({theme}) => theme.colors.text_color[900]};
   padding: 0 15px;
   font-family: ${({theme}) => theme.fonts.regular};
 
@@ -46,7 +46,7 @@ export const SecurityContainer = styled.TouchableOpacity<Props>`
   width: 55px;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
 
   ${({ isFocused }) =>
     isFocused &&

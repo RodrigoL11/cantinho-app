@@ -16,6 +16,7 @@ import {
 } from './styles'
 import api from '@services/api';
 import { Alert } from 'react-native';
+import { useTheme, themes } from '@hooks/theme';
 
 interface Props {
   id: number,
@@ -56,6 +57,8 @@ const states = {
 
 export default function EditAddress({ id, toogleForm, setAddress, address }: Props) {
   const selectedAddress = address?.find(item => item.id === id)
+  const { theme } = useTheme();
+  const disabledColor = themes[theme].colors.bgCard_selected;
 
   const [logradouro, setLogradouro] = useState(selectedAddress?.logradouro || "");
   const [bairro, setBairro] = useState(selectedAddress?.bairro || "");
@@ -257,13 +260,13 @@ export default function EditAddress({ id, toogleForm, setAddress, address }: Pro
           </>
         ) : null}
         <Input
-          style={{ backgroundColor: "#ececec" }}
+          style={{ backgroundColor: disabledColor }}
           value={cidade}
           placeholder="Cidade"
           editable={false}
         />
         <Input
-          style={{ backgroundColor: "#ececec" }}
+          style={{ backgroundColor: disabledColor }}
           value={estado}
           placeholder="Estado"
           editable={false}

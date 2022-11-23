@@ -9,7 +9,7 @@ export const Container = styled.TouchableOpacity<Props>`
   padding: 19px;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => (props) => props.reverse ? "#fff" : theme.colors.primary_color};
+  background-color: ${({ theme }) => (props) => props.reverse ? theme.colors.bgCard : theme.colors.primary_color};
   margin-bottom: 8px;
 `
 

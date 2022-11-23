@@ -12,6 +12,7 @@ import {
 import { Modal, TouchableWithoutFeedback } from 'react-native';
 import Header from '@components/Header';
 import SearchInput from '@components/SearchInput';
+import { themes, useTheme } from '@hooks/theme';
 
 interface Props {
   onChange: Dispatch<SetStateAction<any>>
@@ -43,6 +44,8 @@ export default function DropDown({ onChange, items, disabled, placeholder, tipo,
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<any>(itemSelected);
+  const { theme } = useTheme();
+  const color = themes[theme].colors.text_color[500];
 
   useEffect(() => {
     setSelected(itemSelected)
@@ -55,8 +58,8 @@ export default function DropDown({ onChange, items, disabled, placeholder, tipo,
   return (
     <TouchableWithoutFeedback disabled={disabled} onPress={() => setShow(true)}>
       <Container>
-        <Placeholder style={placeholder != tipo && {color: "#7a7a80"}}>{placeholder}</Placeholder>
-        <Feather name="chevron-down" size={24} color="#abababaa" />
+        <Placeholder style={placeholder !== tipo && {color: color}}>{placeholder}</Placeholder>
+        <Feather name="chevron-down" size={24} color={color} />
 
         <Modal
           visible={show}

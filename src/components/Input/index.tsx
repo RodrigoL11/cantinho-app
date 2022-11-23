@@ -9,6 +9,7 @@ import {
   SecurityContainer,
 } from "./styles";
 import { Platform } from "react-native";
+import { themes, useTheme } from "@hooks/theme";
 
 export type InputProps = MaskInputProps & {
   icon?: keyof typeof Feather.glyphMap;
@@ -21,6 +22,8 @@ export type InputProps = MaskInputProps & {
 export default function Input({ icon, value, type, isVisible, setVisible, ...rest }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+  const { theme } = useTheme();
+  const color = themes[theme].colors.text_color[500];
 
   function handleInputFocus() {
     setIsFocused(true);
@@ -37,7 +40,7 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
         <Feather
           name={icon}
           size={24}
-          color={isFocused || isFilled ? "#DC1637" : "#AEAEB3"}
+          color={isFocused || isFilled ? "#DC1637" : color}
         />
       </IconContainer>) : null}
 
@@ -45,6 +48,7 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         isFocused={isFocused}
+        placeholderTextColor={color}
         value={value}
         keyboardType={Platform.OS == 'ios' ? "ascii-capable": "visible-password"}
         {...rest}
@@ -59,7 +63,7 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
           <Feather
             name={isVisible ? "eye" : "eye-off"}
             size={24}
-            color={"#AEAEB3"}
+            color={color}
           />
         </SecurityContainer>
       ) : null}

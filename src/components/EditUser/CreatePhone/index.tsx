@@ -16,6 +16,7 @@ import {
   ErrorMessage
 } from "./styles";
 import { View } from "react-native";
+import { themes, useTheme } from "@hooks/theme";
 
 interface Props {
   uID: number;
@@ -27,6 +28,9 @@ interface Props {
 const phoneMask = [/\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
 
 export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
+  const { theme } = useTheme();
+  const color = themes[theme].colors.text_color[600];
+
   const [countryCode, setCountryCode] = useState<CountryCode>("BR");
   const [DDD, setDDD] = useState("16");
   const [DDI, setDDI] = useState("55");
@@ -96,33 +100,41 @@ export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
       <Content>
         <Label>Preencha todos campos</Label>
         <Row>
-          <Column style={{ alignItems: "center" }} width={23}>
-            <CountryPicker
-              theme={{ flagSizeButton: 27, fontSize: 14.5 }}
-              countryCode={countryCode}
-              withCallingCodeButton
-              withFilter
-              withFlag
-              withAlphaFilter
-              withCallingCode
-              withEmoji
-              onSelect={(obj) => {
-                setDDI(obj.callingCode[0]);
-                setCountryCode(obj.cca2);
-              }}
-            />
-          </Column>
-          <Column style={{ alignItems: "center" }} width={10}>
+          <Row>
+            <Column style={{ alignItems: "center" }} width={20}>
+              <CountryPicker
+                theme={{ flagSizeButton: 27, fontSize: 14.5 }}
+                countryCode={countryCode}
+                withFilter
+                withFlag
+                withAlphaFilter
+                withCallingCode
+                withEmoji
+                onSelect={(obj) => {
+                  setDDI(obj.callingCode[0]);
+                  setCountryCode(obj.cca2);
+                }}
+              />
+            </Column>
             <Input
-              style={{ textAlign: "center" }}
+              style={{ textAlign: "center", left: -15, fontSize: 14 }}
+              value={DDI}
+              placeholderTextColor={color}
+              editable={false}
+            />
+          </Row>
+          <Column width={12}>
+            <Input
+              style={{ textAlign: "center", left: -13, fontSize: 14 }}
               value={DDD}
               onChangeText={setDDD}
               maxLength={2}
               placeholder={"DDD"}
+              placeholderTextColor={color}
               keyboardType="numeric"
             />
           </Column>
-          <Column style={{ paddingLeft: 5 }} width={67}>
+          <Column style={{ left: -15 }} width={65}>
             <Input
               value={numero}
               onChangeText={(masked, unmasked) => setNumero(unmasked)}
@@ -130,6 +142,7 @@ export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
               maxLength={15}
               placeholder={"Insira seu número"}
               keyboardType="numeric"
+              placeholderTextColor={color}
             />
           </Column>
         </Row>

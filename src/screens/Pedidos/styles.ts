@@ -19,13 +19,14 @@ export const Container = styled.View`
 
 export const Content = styled.View`
     margin: 5px 15px 15px 15px;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.colors.background};
     border-radius: 7px;
 `
 
 export const Card = styled.View<ICard>`
     border-top-width: ${({isFirst}) => isFirst ? 0 : 0.5}px;
     border-color: #ccc;
+    background-color: ${({ theme }) => theme.colors.bgCard};
     padding: 10px 15px;
 `
 

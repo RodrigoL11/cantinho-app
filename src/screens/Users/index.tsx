@@ -24,6 +24,7 @@ import {
 import { formatString } from '../../utils/main';
 import SearchInput from '@components/SearchInput';
 import { useAuth } from '@hooks/auth';
+import { themes, useTheme } from '@hooks/theme';
 
 interface User extends IUser {
   id: number;
@@ -33,6 +34,8 @@ export default function Users() {
   const navigation = useNavigation();
   const [users, setUsers] = useState<User[]>([])
   const [search, setSearch] = useState("");
+  const { theme } = useTheme();
+  const color = themes[theme].colors.text_color[700];
 
   const { authData } = useAuth();
 
@@ -146,20 +149,20 @@ export default function Users() {
           <Card key={index} style={user.status === "I" ? { backgroundColor: '#FFCDD2' } : null}>
             <Row>
               <Nome>{user.nome}</Nome>
-              <Label style={{ color: '#ccc' }}> | </Label>
+              <Label> | </Label>
               <Label>{user.login}</Label>
               <Options>
                 <TouchableWithoutFeedback
                   onPress={user.status !== "I"
-                    ? () => navigation.navigate('User', { id: user.id })
+                    ? () => navigation.navigate('User', { id: user.id })  
                     : () => Alert.alert("Atenção", "Usuário inativado, para editar reative o usuário.")}>
-                  <Feather name="edit" size={18} color="#414141" />
+                  <Feather name="edit" size={18} color={color} />
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback                  
                   onPress={user.status !== "I"
                     ? () => deleteUser(index)
                     : () => activeUser(index)}>
-                  <Feather name={user.status !== "I" ? "trash-2" : "refresh-ccw"} size={18} color="#414141" />
+                  <Feather name={user.status !== "I" ? "trash-2" : "refresh-ccw"} size={18} color={color} />
                 </TouchableWithoutFeedback>
               </Options>
             </Row>

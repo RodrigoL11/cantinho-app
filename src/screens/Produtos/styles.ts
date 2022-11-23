@@ -12,7 +12,7 @@ export const Content = styled.ScrollView`
 
 export const Card = styled.View`
     flex-direction: row;
-    background-color: #fff;
+    background-color: ${({theme}) => theme.colors.bgCard};
     padding: 5px 15px;
     justify-content: space-between;
     align-items: center;
