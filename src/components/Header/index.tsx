@@ -24,7 +24,7 @@ export default function Header({ title, onPress, extraIconName, extraOnPress }: 
   return (
     <Container style={Platform.OS === 'ios' ? styles.boxShadowiOS : styles.boxShadowAndroid}>
       <Row>
-        <TouchableWithoutFeedback onPress={() => { console.log('oi') }}>
+        <TouchableWithoutFeedback style={{padding: 13}} onPress={() => { console.log('oi') }}>
           <Icon>
             <Ionicons name="ios-arrow-back-outline" onPress={onPress} size={24} color={theme.colors.text_color[600]} />
           </Icon>

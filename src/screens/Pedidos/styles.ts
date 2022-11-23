@@ -49,6 +49,7 @@ export const DateContainer = styled.View`
 export const HighLabel = styled.Text`
     color: ${({theme}) => theme.colors.text_color[900]};
     font-family: ${({theme}) => theme.fonts.medium};
+    line-height: 16px;    
 `
 
 export const Label = styled.Text`
@@ -56,6 +57,8 @@ export const Label = styled.Text`
     font-family: ${({theme}) => theme.fonts.regular};
     flex: 1;
     text-align: left;
+    font-size: 13px;
+    line-height: 16px;
 `
 
 export const Status = styled.View<IStatus>`

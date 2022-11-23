@@ -2,8 +2,8 @@ import React from "react";
 import { Alert, Switch, TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "@hooks/auth";
-import { ThemeType, useTheme } from "@hooks/theme";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { themes, useTheme } from "@hooks/theme";
+import { Feather } from "@expo/vector-icons";
 
 import {
   Container,
@@ -16,14 +16,14 @@ import {
   Content,
   Card,
   CardTitle,
-  CardIcon
+  CardIcon,
 } from "./styles";
-
 
 export default function Home() {
   const navigator = useNavigation();
-  const { signOut } = useAuth();
-  const { authData } = useAuth();
+  const { signOut, authData } = useAuth();
+  const { toogleTheme, theme } = useTheme();
+  const iconColor = themes[theme].colors.text_color[700];
 
   const SignOut = () => {
     Alert.alert("Adeus", "Deseja realmente sair da conta?", [
@@ -40,21 +40,33 @@ export default function Home() {
     return true;
   };
 
-  const { toogleTheme, theme } = useTheme();
-  const isDarkMode =  theme === 'dark';
+  const isDarkMode = theme === 'dark';
+  const moonColor = isDarkMode ? "#FEFCD7" : "#576ad3"
+  const sunColor = isDarkMode ? "#FFD600" : "#ecb613";
 
   return (
     <Container>
-      <IconContainer>
+      <Row style={{ justifyContent: 'space-between' }}>
         <TouchableWithoutFeedback onPress={() => SignOut()}>
-          <Ionicons name="ios-exit-outline" size={32} color="#222" />
+          <IconContainer>
+            <Feather name="chevron-left" size={24} color={iconColor} />
+          </IconContainer>
         </TouchableWithoutFeedback>
-      </IconContainer>      
-      <Row>
+        <Row>
+          <Feather name="sun" color={sunColor} size={19} />
+          <Switch value={isDarkMode} onValueChange={toogleTheme}
+            thumbColor={isDarkMode ? "#c5c3a4" : "#d4b203"}
+            trackColor={{
+              false: '#FFD600',
+              true: '#FEFCD7'
+            }} />
+          <Feather name="moon" color={moonColor} size={19} />
+        </Row>
+      </Row>
+      <Row style={{ marginTop: 30 }}>
         <Title>Olá, </Title>
         <Name>{authData?.name.split(' ')[0]}</Name>
         <Emoji>👋</Emoji>
-        <Switch value={isDarkMode} onValueChange={toogleTheme} />
       </Row>
       <SubTitle>Seja bem vindo ao Cantinho Management</SubTitle>
       <Content>

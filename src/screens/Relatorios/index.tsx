@@ -16,7 +16,7 @@ import {
 } from './styles'
 import DateFilter from '@components/Filters/Date';
 import api from '@services/api';
-import { formatDateFrom, formatDateTo } from '../../utils/main';
+import { formatCurrency, formatDateFrom, formatDateTo } from '../../utils/main';
 import Empty from '@components/Empty';
 
 export default function Relatorios() {
@@ -51,11 +51,11 @@ export default function Relatorios() {
         </Row>
         <Row>
           <Label>Receita total: </Label>
-          <StrongLabel>R${(item.receita * item.quantidade).toFixed(2)}</StrongLabel>
+          <StrongLabel>{formatCurrency(item.receita * item.quantidade)}</StrongLabel>
         </Row>
         <Row>
           <Label>Lucro total: </Label>
-          <StrongLabel>R${(item.lucro * item.quantidade).toFixed(2)}</StrongLabel>
+          <StrongLabel>{formatCurrency(item.lucro * item.quantidade)}</StrongLabel>
         </Row>
       </Card>
     )
@@ -65,7 +65,7 @@ export default function Relatorios() {
     <Container>
       <Header title="Relátorios" onPress={() => navigation.goBack()} />
       <Title>Lucro total</Title>
-      <ProfitTotal>R$ {lucroTotal.toFixed(2)}</ProfitTotal>
+      <ProfitTotal>{formatCurrency(lucroTotal)}</ProfitTotal>
       <Row style={{ marginBottom: 10 }}>
         <DateFilter
           date={dateFrom}

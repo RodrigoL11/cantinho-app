@@ -1,6 +1,7 @@
 import fonts from '../fonts/manrope'
 
 export default {
+  title: 'light',
   ...fonts,
   colors: {
     background: "#f4f5f6",

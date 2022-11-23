@@ -22,6 +22,7 @@ import {
 } from './styles'
 import api from '@services/api';
 import { useAuth } from '@hooks/auth';
+import { formatCurrency } from '@utils/main';
 
 export default function Pagamento({ route }: any) {
   const { comandaID, total } = route.params;
@@ -141,12 +142,12 @@ export default function Pagamento({ route }: any) {
           <Separator />
           <SpacedRow style={{ marginTop: 6 }}>
             <TotalLabel>Total</TotalLabel>
-            <TotalLabel>R${sum.toFixed(2)}</TotalLabel>
+            <TotalLabel>{formatCurrency(sum)}</TotalLabel>
           </SpacedRow>
           {sum > _total ?
             <SpacedRow>
               <Label>Troco</Label>
-              <Label>R${(sum - _total).toFixed(2)}</Label>
+              <Label>{formatCurrency(sum - _total)}</Label>
             </SpacedRow>
             : null}
         </Card>
@@ -154,17 +155,17 @@ export default function Pagamento({ route }: any) {
         <Card>
           <SpacedRow>
             <Label>Subtotal</Label>
-            <Label>R${total.toFixed(2)}</Label>
+            <Label>{formatCurrency(total)}</Label>
           </SpacedRow>
           <TouchableWithoutFeedback onPress={() => setHasBudget(!hasBudget)}>
             <SpacedRow>
               <Label style={!hasBudget ? { color: '#d20026' } : null}>Taxa de serviço</Label>
-              <Label style={!hasBudget ? { color: '#d20026', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : null}>R${(total * 0.1).toFixed(2)}</Label>
+              <Label style={!hasBudget ? { color: '#d20026', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : null}>{formatCurrency(total * 0.1)}</Label>
             </SpacedRow>
           </TouchableWithoutFeedback>
           <SpacedRow style={{ marginTop: 6 }}>
             <TotalLabel>Total</TotalLabel>
-            <TotalLabel>R${_total.toFixed(2)}</TotalLabel>
+            <TotalLabel>{formatCurrency(_total)}</TotalLabel>
           </SpacedRow>
         </Card>
         <SubTitle>Outros</SubTitle>
@@ -197,7 +198,7 @@ export default function Pagamento({ route }: any) {
           </SpacedRow>
           <SpacedRow>
             <Label>Valor para cada</Label>
-            <Label>R${roundUp((_total / shareIn), 2)}</Label>
+            <Label>{formatCurrency(roundUp((_total / shareIn), 2))}</Label>
           </SpacedRow>
         </Card>
       </Content>

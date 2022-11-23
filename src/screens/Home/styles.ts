@@ -11,14 +11,15 @@ export const Container = styled.View`
 `
 
 export const IconContainer = styled.View`
-    position: absolute;
-    right: 24px;
-    top: 30px;
+    height: 36px;
+    width: 36px;
+    align-items: center;
+    justify-content: center;
 `
 
 export const Row = styled.View`
     flex-direction: row;
-    margin-top: 40px;
+    align-items: center;
 `
 
 export const Title = styled.Text`
@@ -42,8 +43,8 @@ export const Emoji = styled.Text`
 
 export const SubTitle = styled.Text`
   font-size: 14px;
-  font-family: ${({theme}) => theme.fonts.light};
-  color: ${({ theme }) => theme.colors.text_color[700]};
+  font-family: ${({theme}) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text_color[600]};
   margin-top: 5px;
   margin-bottom: 34px;
 `

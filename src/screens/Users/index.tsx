@@ -136,6 +136,8 @@ export default function Users() {
   ? users.filter(item => formatString(item.nome).includes(formatString(search)))
   : users
 
+  const inactiveUserColor = theme === 'dark' ? "#b71c1c" : "#ffc4c5"
+
   return (
     <Container>
       <Header title="Usuários" onPress={navigation.goBack} />
@@ -146,7 +148,7 @@ export default function Users() {
       />
       <Content>
         {filteredUsers.map((user, index) =>
-          <Card key={index} style={user.status === "I" ? { backgroundColor: '#FFCDD2' } : null}>
+          <Card key={index} style={user.status === "I" ? { backgroundColor: inactiveUserColor } : null}>
             <Row>
               <Nome>{user.nome}</Nome>
               <Label> | </Label>

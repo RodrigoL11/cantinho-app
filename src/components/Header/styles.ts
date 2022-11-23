@@ -17,9 +17,11 @@ export const Row = styled.View`
 `
 
 export const Icon = styled.TouchableOpacity`
-    height: 24px;
+    height: 36px;
     width: 24px;
     align-self: center;
+    align-items: center;
+    justify-content: center;
     top: 1px;
 `
 

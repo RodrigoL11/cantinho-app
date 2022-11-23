@@ -19,6 +19,7 @@ import {
   Title,
 } from './styles'
 import { Alert, Keyboard } from 'react-native';
+import { formatCurrency } from '@utils/main';
 
 interface Props {
   product: IProducts
@@ -95,7 +96,7 @@ export default function AddProduto({ product, toogleModal, setCartItems, setProd
         <Title>Adicionar ao pedido</Title>
         <Name>{product.nome}</Name>
         <Stock lowStock={product.quantidade <= 5}>Em estoque: {product.quantidade}</Stock>
-        <Price>R$ {product.valor_tabela.toFixed(2)}</Price>
+        <Price>{formatCurrency(product.valor_tabela)}</Price>
         <Row>
           <QuantityContainer removeClippedSubviews={true}>
             <QuantityButton activeOpacity={0.75} onPress={() => {
@@ -123,7 +124,7 @@ export default function AddProduto({ product, toogleModal, setCartItems, setProd
           <Column>
             <AddButton activeOpacity={0.75} onPress={handleSubmit}>
               <AddButtonLabel>Adicionar</AddButtonLabel>
-              <AddButtonLabel>R$ {(quantity * product.valor_tabela).toFixed(2)}</AddButtonLabel>
+              <AddButtonLabel>{formatCurrency(quantity * product.valor_tabela)}</AddButtonLabel>
             </AddButton>
           </Column>
         </Row>

@@ -11,7 +11,7 @@ export const Row = styled.View`
 
 export const CategoriesContainer = styled.ScrollView`
   padding: 0px 15px;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.  colors.bgCard};
   min-height: 50px;
   flex: 0;
 `
@@ -27,19 +27,19 @@ export const Section = styled.View`
 export const ProductSeparator = styled.View`
   height: 0.5px;
   width: 100%;
-  background-color: #dadada;
+  background-color: ${({theme}) => theme.colors.border_color};
   top: 8px;
 `
 
 export const CategoryLabel = styled.Text`
-  padding: 15px;
+  padding: 15px 15px 6px 15px;
   color: ${({theme}) => theme.colors.text_color[900]};
   font-family: ${({theme}) => theme.fonts.bold};
   font-size: 12px;
 `
 
 export const ProductContainer = styled.View`
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
   padding: 8px 15px;
 `
 
@@ -83,7 +83,7 @@ export const CartItemsQuantityContainer = styled.View`
 
 export const CartItemsQuantityLabel = styled.Text`
   font-size: 9px;
-  color: ${({theme}) => theme.colors.text_color[700]};
+  color: #424242;
   font-family: ${({theme}) => theme.fonts.bold};
 `
 

@@ -13,6 +13,7 @@ import {
 import SearchInput from '@components/SearchInput';
 import { TouchableWithoutFeedback } from 'react-native';
 import Empty from '@components/Empty';
+import { formatCurrency } from '@utils/main';
 
 interface Props {
   products: IProducts[],
@@ -44,7 +45,7 @@ export default function BuscarProduto({ toogleModal, products }: Props) {
             <TouchableWithoutFeedback key={index} onPress={() => toogleModal("search-add", product)}>
               <ProductContainer>
                 <ProductName>{product.nome}</ProductName>
-                <ProductPrice>R$ {product.valor_tabela.toFixed(2)}</ProductPrice>
+                <ProductPrice>{formatCurrency(product.valor_tabela)}</ProductPrice>
                 {filteredProducts[filteredProducts.length - 1] !== product && <Separator />}
               </ProductContainer>
             </TouchableWithoutFeedback>

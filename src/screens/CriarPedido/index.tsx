@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, BackHandler, Keyboard, KeyboardAvoidingView, Modal, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import Header from '@components/Header';
-import { useNavigation, RouteProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 
 import {
@@ -29,6 +29,7 @@ import BuscarProduto from '@components/CriarPedido/BuscarProduto';
 import AddProduto from '@components/CriarPedido/AddProduto';
 import FinalizarPedido from '@components/CriarPedido/FinalizarPedido';
 import Empty from '@components/Empty';
+import { formatCurrency } from '@utils/main';
 
 export default function CreateOrder({ route }: any) {
   const [categories, setCategories] = useState<ICategories[]>([]);
@@ -63,7 +64,7 @@ export default function CreateOrder({ route }: any) {
           <TouchableWithoutFeedback key={index} onPress={() => toogleModal('add', product)} >
             <ProductContainer>
               <ProductName>{product.nome}</ProductName>
-              <ProductPrice>R$ {product.valor_tabela.toFixed(2)}</ProductPrice>
+              <ProductPrice>{formatCurrency(product.valor_tabela)}</ProductPrice>
               {_products[_products.length - 1] !== product && <ProductSeparator />}
             </ProductContainer>
           </TouchableWithoutFeedback>

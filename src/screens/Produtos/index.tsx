@@ -24,7 +24,8 @@ import {
 import Empty from '@components/Empty';
 import Status from '@components/Filters/Status';
 import ActiveProduct from '@components/FormsProduct/ActiveProduct';
-import { formatString } from '../../utils/main';
+import { formatCurrency, formatString } from '../../utils/main';
+import { themes, useTheme } from '@hooks/theme';
 
 export default function Produtos() {
   const [products, setProducts] = useState<IProducts[]>([]);
@@ -34,6 +35,7 @@ export default function Produtos() {
   const [status, setStatus] = useState("A");
 
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   const loadData = async () => {
     try {
@@ -63,6 +65,8 @@ export default function Produtos() {
   const filteredProducts = search.length > 0
     ? products.filter(item => formatString(item.nome).includes(formatString(search)))
     : products;
+
+  const inactiveProductColor = theme === 'dark' ? "#b71c1c" : "#ffc4c5"
 
   return (
     <Container>
@@ -100,17 +104,17 @@ export default function Produtos() {
                   setShow(true);
                 }}
               >
-                <Card style={item.status === "I" ? {backgroundColor: '#FFEBEE'} : null}>
+                <Card style={item.status === "I" ? {backgroundColor: inactiveProductColor} : null}>
                   <Column>
                     <Row>
-                      <Name>{item.nome}</Name>
+                      <Name style={theme === 'dark' && item.status === "I" ? {color: "#ffffff"} : null}>{item.nome}</Name>
                       <Category> ({item.categoria_nome})</Category>
                     </Row>
-                    <Label>Valor de venda: R$ {item.valor_tabela.toFixed(2)}</Label>
+                    <Label>Valor de venda: {formatCurrency(item.valor_tabela)}</Label>
                     <Label>Em estoque: {item.quantidade}</Label>
                   </Column>
                   <Column>
-                    <Feather name="chevron-right" size={22} color="#b9b9b9" />
+                    <Feather name="chevron-right" size={22} color={themes[theme].colors.text_color[600]} />
                   </Column>
                 </Card>
               </TouchableHighlight>

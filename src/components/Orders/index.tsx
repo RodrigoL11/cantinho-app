@@ -1,4 +1,6 @@
+import Empty from '@components/Empty';
 import { IOrdersByComanda } from '@interfaces/main';
+import { formatCurrency } from '@utils/main';
 import React from 'react';
 
 import {
@@ -12,7 +14,6 @@ import {
   Total,
   Category,
   Row,
-  Empty,
   TotalContainer,
 } from './styles'
 
@@ -27,7 +28,7 @@ export default function Orders({ orders }: Props) {
     <Container>
       <Title>Produdos pedidos</Title>
 
-      {orders.length > 0 ? orders.map((order, index) => {
+      {orders.map((order, index) => {
         total += order.valor_tabela * order.quantidade;
 
         return (
@@ -39,13 +40,13 @@ export default function Orders({ orders }: Props) {
               </Row>
               <Quantity>x{order.quantidade}</Quantity>
             </Column>
-            <Value>RS {order.valor_tabela.toFixed(2)}</Value>
+            <Value>{formatCurrency(order.valor_tabela)}</Value>
           </OrderContainer>
         )
-      }) : <Empty>Não há nenhum pedido</Empty>}
+      })}
       <TotalContainer>
         <Total>Total</Total>
-        <Total>R$ {total.toFixed(2)}</Total>
+        <Total>{formatCurrency(total)}</Total>
       </TotalContainer>
     </Container>
   )

@@ -21,7 +21,7 @@ import SearchInput from '@components/SearchInput';
 import Empty from '@components/Empty';
 import AddForm from '@components/Estoque/AddForm';
 import DateFilter from '@components/Filters/Date';
-import { formatDateFrom, formatDateTo } from '../../utils/main';
+import { formatCurrency, formatDateFrom, formatDateTo } from '../../utils/main';
 
 interface Product extends IProducts {
   entrada: number
@@ -74,7 +74,7 @@ export default function Estoque() {
             <Name>{product.nome}</Name>
             <Row>
               <Label>Preço de custo: </Label>
-              <StrongLabel>R${product.preco_minimo?.toFixed(2)}</StrongLabel>
+              <StrongLabel>{formatCurrency(product.preco_minimo)}</StrongLabel>
             </Row>
             <Row style={{ marginTop: 5 }}>              
               <Row>

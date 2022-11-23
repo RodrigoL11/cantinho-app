@@ -33,7 +33,8 @@ import SearchInput from '@components/SearchInput';
 import StatusFilter from '@components/Filters/Status';
 import DateFilter from '@components/Filters/Date';
 import Empty from '@components/Empty';
-import { formatDateFrom, formatDateTime, formatDateTo } from '../../utils/main';
+import { formatCurrency, formatDateFrom, formatDateTime, formatDateTo } from '../../utils/main';
+import { themes, useTheme } from '@hooks/theme';
 
 interface Pedidos extends IOrders {
   items: any[]
@@ -46,7 +47,7 @@ const sumTotal = (items: any[]) => {
     total += item.quantidade * item.valor_tabela
   })
 
-  return `R$${total.toFixed(2)}`;
+  return formatCurrency(total);
 }
 
 const bgStatus = {
@@ -63,6 +64,10 @@ const textStatus = {
 
 export default function Pedidos() {
   const navigation = useNavigation();
+  const { theme } = useTheme();
+  const iconColor = themes[theme].colors.text_color[700];
+  const selectedColor = themes[theme].colors.bgCard_selected;
+
   const perPage = 10;
 
   const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
@@ -162,10 +167,10 @@ export default function Pedidos() {
           dataSourceCords[index] = layout.y;
           setDataSourceCords(dataSourceCords);
         }}>
-        <Card style={clicked ? { backgroundColor: '#f0f0f0' } : null} isFirst={pedidos[0].id === pedido.id}>
+        <Card style={clicked ? { backgroundColor: selectedColor } : null} isFirst={pedidos[0].id === pedido.id}>
           <SpacedRow style={{ marginBottom: 8 }}>
             <DateContainer>
-              <Feather style={{ marginRight: 4 }} name="clock" size={13} />
+              <Feather style={{ marginRight: 4, top: -1 }} name="clock" size={13} color={iconColor} />
               <HighLabel>{formatDateTime(new Date(pedido.created_at))}</HighLabel>
             </DateContainer>
             <HighLabel>{sumTotal(pedido.items)}</HighLabel>
@@ -195,7 +200,7 @@ export default function Pedidos() {
                       <ItemLabel>{item.quantidade}× {item.produto_nome}</ItemLabel>
                       <CategoryLabel>({item.categoria_nome})</CategoryLabel>
                     </Row>
-                    <ItemLabel>R$ {(item.quantidade * item.valor_tabela).toFixed(2)}</ItemLabel>
+                    <ItemLabel>{formatCurrency(item.quantidade * item.valor_tabela)}</ItemLabel>
                   </SpacedRow>
                 </Item>
               )}

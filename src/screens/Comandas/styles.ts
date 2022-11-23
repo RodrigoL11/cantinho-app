@@ -20,12 +20,10 @@ export const Card = styled.TouchableOpacity<ICard>`
   ${(props) =>
     props.status === "I"
       ? css`
-        background-color: #FF8A80;
-        border-color: #F44336;
+        background-color: ${({theme}) => theme.title === 'dark' ? "#d40000" : "#FF8A80"};
     ` : props.status === "F"
         ? css`
-    background-color: #B9F6CA;
-    border-color: #00E676;
+        background-color: ${({theme}) => theme.title === 'dark' ? "#00af4e" : "#B9F6CA"};
     ` : css`
     background-color: ${({ theme }) => theme.colors.bgCard};
     `
@@ -47,7 +45,7 @@ export const Row = styled.View`
 
 export const DateLabel = styled.Text`
   font-size: 10px;
-  color: ${({ theme }) => theme.colors.text_color[600]};
+  color: ${({ theme }) => theme.colors.text_color[800]};
   font-family: ${({ theme }) => theme.fonts.regular};
 `
 
@@ -60,7 +58,7 @@ export const Nome = styled.Text`
 
 export const Mesa = styled.Text`
   font-size: 11px;
-  color: ${({ theme }) => theme.colors.text_color[700]};
+  color: ${({ theme }) => theme.colors.text_color[800]};
   font-family: ${({ theme }) => theme.fonts.medium};
 `
 
@@ -84,6 +82,7 @@ export const AvisoLabel = styled.Text`
 export const OptionContainer = styled.View`
   align-items: center;
   flex-direction: row;
+  padding: 0 10px;
 `
 
 export const OptionLabel = styled.Text`
@@ -98,7 +97,7 @@ export const BackToTopButton = styled.TouchableOpacity`
     height: 44px;
     width: 44px;
     border-radius: 999px;
-    background-color: ${({theme}) => theme.colors.primary_color};
+    background-color: ${({ theme }) => theme.colors.primary_color};
     align-items: center;
     justify-content: center;
     position: absolute;

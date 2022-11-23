@@ -22,6 +22,7 @@ import CreateCategory from '@components/FormsProduct/CreateCategory';
 import Empty from '@components/Empty';
 import Status from '@components/Filters/Status';
 import ActiveCategory from '@components/FormsProduct/ActiveCategory';
+import { themes, useTheme } from '@hooks/theme';
 
 export default function Categorias() {
   const [categories, setCategories] = useState<ICategories[]>([]);
@@ -31,6 +32,7 @@ export default function Categorias() {
   const [status, setStatus] = useState("A");
 
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   const loadData = async () => {
     try {
@@ -60,6 +62,8 @@ export default function Categorias() {
   const filteredCategories = search.length > 0
     ? categories.filter(item => item.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(search.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()))
     : categories;
+
+  const inactiveCategorieColor = theme === 'dark' ? "#b71c1c" : "#ffc4c5"
 
   return (
     <Container>
@@ -96,13 +100,13 @@ export default function Categorias() {
                   setShow(true);
                 }}
               >
-                <Card style={item.status === "I" ? {backgroundColor: '#FFEBEE'} : null}>
+                <Card style={item.status === "I" ? {backgroundColor: inactiveCategorieColor} : null}>
                   <Column>
-                    <Name>{item.nome} ({item.NumberOfProducts || 0})</Name>
+                    <Name style={theme === 'dark' && item.status === "I" ? {color: "#ffffff"} : null}>{item.nome} ({item.NumberOfProducts || 0})</Name>
                     <Label>{item.tipo}</Label>
                   </Column>
                   <Column>
-                    <Feather name="chevron-right" size={22} color="#b9b9b9" />
+                    <Feather name="chevron-right" size={22} color={themes[theme].colors.text_color[600]} />
                   </Column>
                 </Card>
               </TouchableHighlight>

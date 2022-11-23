@@ -37,9 +37,12 @@ import Status from "@components/Filters/Status";
 import DateFilter from "@components/Filters/Date";
 import { formatDate, formatDateFrom, formatDateTo } from "../../utils/main";
 import { Loading } from "@components/Loading";
+import { themes, useTheme } from "@hooks/theme";
 
 export default function Home() {
   const navigation = useNavigation();
+  const { theme } = useTheme();
+
   const perPage = 20;
   const [page, setPage] = useState(0);
 
@@ -57,18 +60,7 @@ export default function Home() {
   const [handleInputQuery, setHandleInputQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [isFullLoaded, setIsFullLoaded] = useState(false);
-  const [ref, setRef] = useState<any>();
-  const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // const handleScrollBackToTop = () => {
-  //   if (!ref) return null;
-
-  //   ref.scrollToLocation({
-  //     x: 0,
-  //     y: 0,
-  //     animated: true
-  //   })
-  // }
 
   const loadData = async (reload?: boolean) => {
     if (loading || (isFullLoaded && !reload)) return;
@@ -162,21 +154,21 @@ export default function Home() {
           {comanda.status !== "A" ? null :
             <Menu>
               <MenuTrigger style={{ right: -4 }}>
-                <Feather name="more-vertical" color={"#a5a5a5"} size={20} />
+                <Feather name="more-vertical" color={themes[theme].colors.text_color[700]} size={20} />
               </MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ padding: 4, maxWidth: 140, marginTop: -2 }}>
+              <MenuOptions optionsContainerStyle={{ padding: 4, width: 'auto', marginTop: -2, backgroundColor: themes[theme].colors.bgCard }}>
                 <MenuOption onSelect={() => {
                   setComandaID(comanda.id);
                   setShowForms(true);
                 }}>
                   <OptionContainer>
-                    <Feather name="edit-2" size={13} />
+                    <Feather name="edit-2" size={13} color={themes[theme].colors.text_color[700]} />
                     <OptionLabel>Editar</OptionLabel>
                   </OptionContainer>
                 </MenuOption>
                 <MenuOption onSelect={() => deleteComanda(comanda.id)}>
                   <OptionContainer>
-                    <Feather name="trash-2" size={13} />
+                    <Feather name="trash-2" size={13} color={themes[theme].colors.text_color[700]} />
                     <OptionLabel>Excluir</OptionLabel>
                   </OptionContainer>
                 </MenuOption>
@@ -255,7 +247,6 @@ export default function Home() {
       </Row>
       {comandas.length > 0 ?
         <FlatGrid
-          ref={setRef}
           itemDimension={100}
           data={comandas}
           keyboardShouldPersistTaps="always"
@@ -265,9 +256,7 @@ export default function Home() {
           onEndReached={() => loadData()}
           onEndReachedThreshold={0.1}
           ListFooterComponent={<Loading load={loading} />}
-          onScroll={({ nativeEvent }) => {
-            nativeEvent.contentOffset.y > 100 ? setShowBackToTop(true) : setShowBackToTop(false);
-          }}
+          
         />
         :
         <Empty
@@ -280,12 +269,6 @@ export default function Home() {
         size={40}
         onPress={() => setShowForms(true)}
       />
-
-      {/* {!showBackToTop ?
-        <BackToTopButton activeOpacity={1} onPress={handleScrollBackToTop}>
-          <Feather name="chevron-up" size={24} color="#f4f5f6" />
-        </BackToTopButton>
-        : null} */}
 
       <Modal
         transparent={true}

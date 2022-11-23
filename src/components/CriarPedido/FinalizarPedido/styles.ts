@@ -8,12 +8,12 @@ export const Container = styled.View`
 export const Content = styled.View`
   padding: 15px;
   margin: 30px 0;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
 `
 
 export const Footer = styled.View`
   padding: 15px;
-  background-color: #fff;
+  background-color: ${({theme}) => theme.colors.bgCard};
 `
 
 export const ButtonContainer = styled.TouchableOpacity`
@@ -55,8 +55,8 @@ export const Card = styled.View`
 `
 
 export const Separator = styled.View`
-  height: 0.5px;
-  background-color: #eee;
+  height: 0.6px;
+  background-color: ${({theme}) => theme.colors.border_color};
   width: 100%;
 `
 
@@ -79,7 +79,6 @@ export const Total = styled.Text`
 `
 
 export const AddButtonContainer = styled.TouchableOpacity`
-  background-color: #fff;
   border-color: ${({ theme }) => theme.colors.primary_color};
   border-width: 1px;
   border-radius: 7px;

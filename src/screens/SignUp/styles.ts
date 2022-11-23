@@ -41,8 +41,8 @@ export const Section = styled.Text`
 export const ErrorMessage = styled.Text`
   width: 100%;
   padding: 4.5px 8px;
-  background-color: #fce6e5;
-  color: #ee6d66;
+  background-color: ${({theme}) => theme.title === 'dark' ? "#b70000" : "#fce6e5"};
+  color: ${({theme}) => theme.title === 'dark' ? "#fff" : "#ee6d66"};
   font-family: ${({theme}) => theme.fonts.semiBold};
   top: -8px;
   font-size: 11.5px;

@@ -25,6 +25,8 @@ import { Alert, ScrollView, View } from 'react-native';
 import api from '@services/api';
 import { useAuth } from '@hooks/auth';
 import { useNavigation } from '@react-navigation/native';
+import { themes, useTheme } from '@hooks/theme';
+import { formatCurrency } from '@utils/main';
 
 interface Props {
   setCartItems: Dispatch<SetStateAction<ICartItems[]>>
@@ -38,6 +40,8 @@ export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, 
   const [_cartItems, _setCartItems] = useState<ICartItems[]>(cartItems);
   const { authData } = useAuth();
   const navigation = useNavigation();
+  const { theme } = useTheme();
+  const color = themes[theme].colors.text_color[500];
 
   const sumCartTotal = () => {
     let total = 0;
@@ -46,7 +50,7 @@ export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, 
       total += item.product.valor_tabela * item.quantity
     })
 
-    return `R$ ${total.toFixed(2)}`
+    return formatCurrency(total)
   }
 
   const handleSubmit = async () => {
@@ -170,8 +174,8 @@ export default function FinalizarPedido({ toogleModal, cartItems, setCartItems, 
               <Card>
                 <Text>{item.quantity}× {item.product.nome}</Text>
                 <Column>
-                  <Text style={{ marginRight: 5 }}>R$ {(item.quantity * item.product.valor_tabela).toFixed(2)}</Text>
-                  <Ionicons name="trash-outline" onPress={() => handleRemove(item.product.id)} size={17} />
+                  <Text style={{ marginRight: 5 }}>{formatCurrency(item.quantity * item.product.valor_tabela)}</Text>
+                  <Ionicons name="trash-outline" color={color} onPress={() => handleRemove(item.product.id)} size={17} />
                 </Column>
               </Card>
               {_cartItems[_cartItems.length - 1] !== item && <Separator />}
