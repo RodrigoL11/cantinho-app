@@ -1,4 +1,7 @@
 import React from "react";
+
+import * as NavigationBar from "expo-navigation-bar";
+
 import { Alert, Switch, TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "@hooks/auth";
@@ -44,6 +47,9 @@ export default function Home() {
   const moonColor = isDarkMode ? "#FEFCD7" : "#576ad3"
   const sunColor = isDarkMode ? "#FFD600" : "#ecb613";
 
+  NavigationBar.setBackgroundColorAsync(themes[theme].colors.bgCard)
+  NavigationBar.setButtonStyleAsync(isDarkMode ? "light" : "dark")
+  
   return (
     <Container>
       <Row style={{ justifyContent: 'space-between' }}>
@@ -92,9 +98,9 @@ export default function Home() {
           <CardIcon>
             <Feather name="bar-chart" size={60} color="#fff" />
           </CardIcon>
-          <CardTitle>Relátorios</CardTitle>
+          <CardTitle>Relatórios</CardTitle>
         </Card>
-        <Card activeOpacity={0.45} onPress={() => navigator.navigate("Estoque")}>
+        <Card activeOpacity={0.45} onPress={() => navigator.navigate("Estoque")} token={authData?.token} disabled={authData?.token == "user" ? true : false}>
           <CardIcon>
             <Feather name="database" size={60} color="#fff" />
           </CardIcon>

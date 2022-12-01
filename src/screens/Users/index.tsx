@@ -64,13 +64,18 @@ export default function Users() {
     const uID = delUser.id
 
     if (authData?.id === uID) {
-      Alert.alert("Atenção", "Não há permissão para deletar seu próprio usuário!")
+      Alert.alert("Atenção", "Não há permissão para inativar seu próprio usuário!")
+      return;
+    }
+
+    if (delUser.token !== "user" && authData?.token !== "master") {
+      Alert.alert("Atenção", "Não há permissão para inativar usuários master ou administradores!")
       return;
     }    
 
     Alert.alert(
-      "Deletar usuário",
-      `Tem certeza que deseja excluir o usuário ${delUser.nome}?`,
+      "Inativar usuário",
+      `Tem certeza que deseja inativar o usuário ${delUser.nome}?`,
       [
         {
           text: "Sim",
@@ -170,9 +175,9 @@ export default function Users() {
             </Row>
             <Label>{user.email}</Label>
             <Label>{user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</Label>
-            {user.token == "admin" ? (
+            {user.token !== "user" ? (
               <Admin>
-                <AdminLabel>Admin</AdminLabel>
+                <AdminLabel>{user.token.charAt(0).toUpperCase() + user.token.slice(1)}</AdminLabel>
               </Admin>) : null}
           </Card>
         )}

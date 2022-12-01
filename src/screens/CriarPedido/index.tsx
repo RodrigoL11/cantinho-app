@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, BackHandler, Keyboard, KeyboardAvoidingView, Modal, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Alert, BackHandler, Keyboard, KeyboardAvoidingView, Modal, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
 import Header from '@components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
@@ -176,6 +176,7 @@ export default function CreateOrder({ route }: any) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
+            <View style={{ flexDirection: "row", paddingRight: 10, paddingLeft: 10}}>
             {categories.map((category, index) =>
               category.NumberOfProducts !== 0 &&
               <CategoryButton
@@ -184,6 +185,7 @@ export default function CreateOrder({ route }: any) {
                 key={index}
               />
             )}
+            </View>
           </CategoriesContainer>
 
           <Content
@@ -213,8 +215,8 @@ export default function CreateOrder({ route }: any) {
         visible={show}
         onRequestClose={() => toogleModal()}
         transparent={true}
-        statusBarTranslucent={true}
-      >
+        statusBarTranslucent={true}             
+      >        
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
             {type === "search"

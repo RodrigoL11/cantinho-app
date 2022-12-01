@@ -25,7 +25,8 @@ interface Props {
   phones: IPhone[] | undefined;
 }
 
-const phoneMask = [/\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
+const phoneMask = [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/, /\d/];
+const phoneMask2 = [/\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
 
 export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
   const { theme } = useTheme();
@@ -60,7 +61,7 @@ export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
 
     if (numero.trim().length === 0)
       newErrors.numero = "Por favor, insira um número de telefone"
-    else if ((numero.trim().length != 9 || numero.trim()[0] !== "9") && DDI === "55")
+    else if ((numero.trim().length < 8) && DDI === "55")
       newErrors.numero = "Insira um número de telefone válido"
     else if (numero.trim().length < 5)
       newErrors.numero = "Número muito curto"
@@ -138,7 +139,7 @@ export default function CreatePhone({ uID, toogleForm, setPhones }: Props) {
             <Input
               value={numero}
               onChangeText={(masked, unmasked) => setNumero(unmasked)}
-              mask={DDI === "55" ? phoneMask : undefined}
+              mask={DDI !== "55" ? undefined : numero.length > 8 ? phoneMask2 : phoneMask}
               maxLength={15}
               placeholder={"Insira seu número"}
               keyboardType="numeric"

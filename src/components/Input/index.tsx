@@ -50,7 +50,7 @@ export default function Input({ icon, value, type, isVisible, setVisible, ...res
         isFocused={isFocused}
         placeholderTextColor={color}
         value={value}
-        keyboardType={Platform.OS == 'ios' ? "ascii-capable": "visible-password"}
+        secureTextEntry={isVisible}                
         {...rest}
       />
 

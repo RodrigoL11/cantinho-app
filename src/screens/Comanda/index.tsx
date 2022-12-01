@@ -14,10 +14,12 @@ import { IOrdersByComanda } from "@interfaces/main";
 import Button from "@components/Button";
 import Empty from "@components/Empty";
 import { Alert } from "react-native";
+import { useAuth } from "@hooks/auth";
 
 export default function Comanda({ route }: any) {
   const navigation = useNavigation();
   const { comandaID, disabled } = route.params;
+  const { authData } = useAuth();
   const [pedidos, setPedidos] = useState<IOrdersByComanda[]>([]);
 
   const loadData = async () => {
@@ -39,7 +41,7 @@ export default function Comanda({ route }: any) {
     return willFocusSubscription;
   }, [])
 
-  const pedidos_ativos = pedidos.reduce((prev, obj) => prev + obj.pedidos_ativos, 0);
+  const pedidos_ativos = pedidos[pedidos.length - 1]?.pedidos_ativos + 1 || 0;
 
   return (
     <Container>
@@ -72,7 +74,9 @@ export default function Comanda({ route }: any) {
             title="Finalizar comanda"
             reverse={true}
             onPress={() => {
-              if (pedidos.length === 0)
+              if (authData?.token === 'user')
+                Alert.alert("Atenção", "Somente usuários master ou administradores tem permissão para essa ação.")
+              else if (pedidos.length === 0)
                 Alert.alert("Atenção", "Não há nenhum pedido vinculado a comanda para ser feito o pagamento.")
               else if (pedidos_ativos > 0) {
                 Alert.alert("Atenção", `Há ${pedidos_ativos} pedido${pedidos_ativos > 1 ? 's' : ''} vinculado${pedidos_ativos > 1 ? 's' : ''} a comanda aguardando ser${pedidos_ativos > 1 ? 'em' : ''} entregue${pedidos_ativos > 1 ? 's' : ''}.`)

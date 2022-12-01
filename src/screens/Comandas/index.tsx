@@ -108,8 +108,8 @@ export default function Home() {
     if (!delComanda) return null;
 
     Alert.alert(
-      "Deletar comanda",
-      `${delComanda.pedidos ? `Há ${delComanda.pedidos} pedido${delComanda.pedidos > 1 ? 's' : ''} vinculado${delComanda.pedidos > 1 ? 's' : ''} a esta comanda! ` : ''}Tem certeza que deseja excluir a comanda ${delComanda.nome_cliente}?`,
+      "Cancelar comanda",
+      `${delComanda.pedidos ? `Há ${delComanda.pedidos} pedido${delComanda.pedidos > 1 ? 's' : ''} vinculado${delComanda.pedidos > 1 ? 's' : ''} a esta comanda! ` : ''}Tem certeza que deseja cancelar a comanda ${delComanda.nome_cliente}?`,
       [
         {
           text: "Sim",
@@ -147,7 +147,8 @@ export default function Home() {
         key={index}
         onPress={() => { navigation.navigate("Comanda", { comandaID: comanda.id, disabled: comanda.status !== "A" }) }}
         hasPedidos={(comanda.pedidos_ativos || 0) > 0}
-        status={comanda.status}        
+        status={comanda.status}
+        disabled={comanda.status === "I"}        
       >
         <Row>
           <DateLabel style={{ top: -2 }}>{formatDate(new Date(comanda.data_hora_abertura))}</DateLabel>
@@ -169,7 +170,7 @@ export default function Home() {
                 <MenuOption onSelect={() => deleteComanda(comanda.id)}>
                   <OptionContainer>
                     <Feather name="trash-2" size={13} color={themes[theme].colors.text_color[700]} />
-                    <OptionLabel>Excluir</OptionLabel>
+                    <OptionLabel>Cancelar</OptionLabel>
                   </OptionContainer>
                 </MenuOption>
               </MenuOptions>

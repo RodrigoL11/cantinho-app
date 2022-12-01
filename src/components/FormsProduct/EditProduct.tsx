@@ -134,8 +134,8 @@ export default function EditProduct({ status, toogleForm, setProducts, products,
 
   const handleDelete = async () => {
     Alert.alert(
-      "Deletar produto",
-      `Tem certeza que deseja excluir o produto ${product.nome}?`,
+      "Inativar produto",
+      `Tem certeza que deseja inativar o produto ${product.nome}?`,
       [
         {
           text: "Sim",
@@ -199,7 +199,7 @@ export default function EditProduct({ status, toogleForm, setProducts, products,
         {errors.valorTabela ? <ErrorMessage>{errors.valorTabela}</ErrorMessage> : null}
         {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}        
       </Content>
-      <Button title="Excluir produto" reverse={true} onPress={handleDelete} />
+      <Button title="Inativar produto" reverse={true} onPress={handleDelete} />
       <Button title="Salvar" onPress={handleSubmit} />
     </Container>
   )

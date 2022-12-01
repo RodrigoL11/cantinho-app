@@ -110,7 +110,7 @@ export const DataContainer = styled.TouchableOpacity<AddressProps>`
     justify-content: center;
     border-bottom-width: ${(props) => props.last ? 0 : 0.5}px;
     height: ${(props) => props.height}px;
-    border-color: #999;
+    border-color: #888;
 `
 
 export const DataLabel = styled.Text`

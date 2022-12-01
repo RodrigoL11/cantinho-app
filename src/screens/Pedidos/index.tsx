@@ -217,7 +217,7 @@ export default function Pedidos() {
                 <View>
                   <ItemsTitle>{textStatus[pedido.status as keyof typeof textStatus]} às</ItemsTitle>
                   <DateContainer style={{ marginTop: -4 }}>
-                    <Feather style={{ marginRight: 4 }} name="clock" size={12} />
+                    <Feather style={{ marginRight: 4 }} name="clock" size={12} color={iconColor} />
                     <Label>{formatDateTime(new Date(pedido.finalized_at))}</Label>
                   </DateContainer>
                 </View>
@@ -275,7 +275,8 @@ export default function Pedidos() {
   useEffect(() => {
       setIsFullLoaded(false);
       setPedidos([]);
-      loadData(true);    
+      loadData(true);
+      setClicked(null);    
   }, [status, dateFrom, dateTo, handleInputQuery, numberMesa])  
 
   return (
@@ -371,7 +372,7 @@ export default function Pedidos() {
 
         {showBackToTop && !clicked ?
           <BackToTopButton activeOpacity={1} onPress={handleScrollBackToTop}>
-            <Feather name="chevron-up" size={24} color="#f4f5f6" />
+            <Feather name="chevron-up" size={22} color="#f4f5f6" />
           </BackToTopButton>
           : null}
       </Container>

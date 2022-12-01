@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Modal, TouchableWithoutFeedback, View } from 'react-native'
+import { Alert, Keyboard, KeyboardAvoidingView, Modal, TouchableWithoutFeedback, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
@@ -36,6 +36,7 @@ import {
   Items,
   SectionSeparator
 } from './styles'
+import { useAuth } from '@hooks/auth'
 
 interface INoDataText {
   text: string
@@ -77,6 +78,7 @@ const Item = ({ label, text, last, onPress }: ItemProps) => {
 
 export default function User({ route }: any) {
   const { id } = route.params;
+  const { authData } = useAuth();
   const navigation = useNavigation();
 
   const [user, setUser] = useState<IUser>();
@@ -89,6 +91,71 @@ export default function User({ route }: any) {
 
   function toogleEditForm() {
     setShowForm(!showForm)
+  }
+
+  const toogleToken = () => {
+    if (user?.token === 'admin') {
+      Alert.alert(
+        'Atenção',
+        `Tem certeza que deseja remover o token de admin do usuário ${user.nome.split(' ')[0]}`,
+        [
+          {
+            text: 'SIM',
+            onPress: async () => {
+              await api.put(`users/${user.id}`, {
+                column: 'token',
+                value: 'user'
+              }).then(response => {
+                setUser(
+                  {
+                    ...user,
+                    token: 'user'
+                  }
+                )
+              })
+            }
+          },
+          {
+            text: 'Cancelar',
+            onPress: () => { return null },
+            style: "cancel"
+          }
+        ]
+      )
+    } else if (user?.token === 'user') {
+      Alert.alert(
+        'Atenção',
+        `Tem certeza que deseja adicionar o token de admin para o usuário ${user.nome.split(' ')[0]}`,
+        [
+          {
+            text: 'SIM',
+            onPress: async () => {
+              await api.put(`users/${user.id}`, {
+                column: 'token',
+                value: 'admin'
+              }).then(response => {
+                setUser(
+                  {
+                    ...user,
+                    token: 'admin'
+                  }
+                )
+              })
+            }
+          },
+          {
+            text: 'Cancelar',
+            onPress: () => { return null },
+            style: "cancel"
+          }
+        ]
+      )
+    } else {
+      Alert.alert(
+        "Error",
+        "Aconteceu um erro inesperado, recarregue a página por favor"
+      )
+    }
   }
 
   const loadData = async () => {
@@ -154,12 +221,19 @@ export default function User({ route }: any) {
               setType("edit-email")
             }}
           />
-          <Item label="Alterar senha" last={true}
+          <Item label="Alterar senha" last={authData?.token === 'master' && user?.id !== authData.id ? false : true}
             onPress={() => {
               toogleEditForm();
               setType("edit-password")
             }}
           />
+          {authData?.token === 'master' && user?.id !== authData.id ?
+            <Item last={true} label={user?.token === 'admin' ? "Remover admin" : "Tornar admin"}
+              onPress={toogleToken}
+            />
+            : null
+          }
+
         </Items>
         <Label>Endereço</Label>
         <Section>
@@ -193,7 +267,7 @@ export default function User({ route }: any) {
           <AddButton>
             <Feather name="plus" color="#DC1637" size={18} />
           </AddButton>
-          <AddButtonLabel>Adicionar um Novo Endereço</AddButtonLabel>
+          <AddButtonLabel>Adicionar um novo endereço</AddButtonLabel>
         </AddButtonContainer>
 
         <Label>Telefone</Label>
@@ -207,7 +281,7 @@ export default function User({ route }: any) {
                 setType("edit-phone");
                 toogleEditForm();
               }}>
-              <DataLabel>+{item.DDI} {item.DDI == "55" ? `(${item.DDD})` : item.DDD} {item.DDI === "55" ? item.num_telefone.replace(/(\d{5})/, "$1-") : item.num_telefone}</DataLabel>
+              <DataLabel>+{item.DDI} {item.DDI == "55" ? `(${item.DDD || ""})` : item.DDD} {item.DDI !== "55" ? item.num_telefone : item.num_telefone.length === 9 ? item.num_telefone.replace(/(\d{5})/, "$1-") : item.num_telefone.replace(/(\d{4})/, "$1-")}</DataLabel>
             </DataContainer>
           )}
         </Section>
@@ -219,7 +293,7 @@ export default function User({ route }: any) {
           <AddButton>
             <Feather name="plus" color="#DC1637" size={18} />
           </AddButton>
-          <AddButtonLabel>Adicionar um Novo Telefone</AddButtonLabel>
+          <AddButtonLabel>Adicionar um novo telefone</AddButtonLabel>
         </AddButtonContainer>
 
       </Content>

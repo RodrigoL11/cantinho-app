@@ -117,8 +117,8 @@ export default function EditCategory({ status, toogleForm, setCategories, catego
 
   const handleDelete = async () => {
     Alert.alert(
-      "Deletar produto",
-      `Tem certeza que deseja excluir a categoria ${category.nome}?`,
+      "Inativar categoria",
+      `Tem certeza que deseja inativar a categoria ${category.nome}?`,
       [
         {
           text: "Sim",
@@ -165,7 +165,7 @@ export default function EditCategory({ status, toogleForm, setCategories, catego
         />
         {errors.selected ? <ErrorMessage>{errors.selected}</ErrorMessage> : null}
       </Content>
-      <Button reverse={true} title="Excluir categoria" onPress={handleDelete} />
+      <Button reverse={true} title="Inativar categoria" onPress={handleDelete} />
       <Button title="Salvar" onPress={handleSubmit} />
     </Container>
   )

@@ -40,7 +40,7 @@ export default function SignIn() {
           <View style={{ marginTop: 16 }}>
             <Button
               onPress={() => signIn(login, password).catch((error) => {
-                Alert.alert(error.message, 'Tente novamente')
+                Alert.alert("Erro", error.message)
               })}
               title="Entrar"
             />

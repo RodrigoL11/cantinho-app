@@ -18,7 +18,7 @@ import {
 
 import { Loading } from "@components/Loading";
 
-export default function App() {
+export default function App() {  
   const [fontsLoaded] = useFonts({
     Manrope_300Light,
     Manrope_400Regular,

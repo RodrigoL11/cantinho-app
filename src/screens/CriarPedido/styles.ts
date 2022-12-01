@@ -9,8 +9,7 @@ export const Row = styled.View`
   flex-direction: row;
 `
 
-export const CategoriesContainer = styled.ScrollView`
-  padding: 0px 15px;
+export const CategoriesContainer = styled.ScrollView`    
   background-color: ${({theme}) => theme.  colors.bgCard};
   min-height: 50px;
   flex: 0;

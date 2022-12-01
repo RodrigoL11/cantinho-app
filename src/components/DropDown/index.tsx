@@ -58,7 +58,7 @@ export default function DropDown({ onChange, items, disabled, placeholder, tipo,
   return (
     <TouchableWithoutFeedback disabled={disabled} onPress={() => setShow(true)}>
       <Container>
-        <Placeholder style={placeholder !== tipo && {color: color}}>{placeholder}</Placeholder>
+        <Placeholder style={placeholder === tipo && {color: color}}>{placeholder}</Placeholder>
         <Feather name="chevron-down" size={24} color={color} />
 
         <Modal

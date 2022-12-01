@@ -163,7 +163,13 @@ export default function SignUp() {
           icon="user"
           value={name}
           placeholder="Nome"
-          onChangeText={setName}
+          onChangeText={text => {
+            setName(text)
+            if (errors.name) setErrors({
+              ...errors,
+              name: ''
+            })
+          }}
         />
         {errors.name ? (
           <ErrorMessage>{errors.name}</ErrorMessage>
@@ -174,7 +180,13 @@ export default function SignUp() {
           value={CPF}
           placeholder="CPF"
           keyboardType="numeric"
-          onChangeText={(masked, unmasked) => setCPF(unmasked)}
+          onChangeText={(masked, unmasked) => {
+            setCPF(unmasked)
+            if (errors.cpf) setErrors({
+              ...errors,
+              cpf: ''
+            })
+          }}
           mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
         />
         {errors.cpf ? (
@@ -185,7 +197,14 @@ export default function SignUp() {
           icon="mail"
           value={email}
           placeholder="E-mail"
-          onChangeText={text => setEmail(text.replace(/\s/g, ''))}
+          onChangeText={text => {
+            setEmail(text.replace(/\s/g, ''))
+            if (errors.confirmEmail || errors.email) setErrors({
+              ...errors,
+              confirmEmail: '',
+              email: ''
+            })
+          }}
         />
         {errors.email ? (
           <ErrorMessage>{errors.email}</ErrorMessage>
@@ -195,7 +214,14 @@ export default function SignUp() {
           icon="mail"
           value={confirmEmail}
           placeholder="Confirme o e-mail"
-          onChangeText={text => setConfirmEmail(text.replace(/\s/g, ''))}
+          onChangeText={text => {
+            setConfirmEmail(text.replace(/\s/g, ''))
+            if (errors.confirmEmail || errors.email) setErrors({
+              ...errors,
+              confirmEmail: '',
+              email: ''
+            })
+          }}
         />
         {errors.confirmEmail ? (
           <ErrorMessage>{errors.confirmEmail}</ErrorMessage>
@@ -204,7 +230,13 @@ export default function SignUp() {
         <Input
           icon="user"
           value={login}
-          onChangeText={text => setLogin(text.replace(/\s/g, ''))}
+          onChangeText={text => {
+            setLogin(text.replace(/\s/g, ''))
+            if (errors.login) setErrors({
+              ...errors,
+              login: ''
+            })
+          }}
           placeholder="Login"
         />
         {errors.login ? (
@@ -216,7 +248,14 @@ export default function SignUp() {
           value={password}
           placeholder="Senha"
           type="password"
-          onChangeText={text => setPassword(text.replace(/\s/g, ''))}
+          onChangeText={text => {
+            setPassword(text.replace(/\s/g, ''))
+            if (errors.password || errors.confirmPassword) setErrors({
+              ...errors,
+              confirmPassword: '',
+              password: ''
+            })
+          }}
           secureTextEntry={secureText}
           isVisible={secureText}
           setVisible={setSecureText}
@@ -229,8 +268,15 @@ export default function SignUp() {
           icon="lock"
           value={confirmPassword}
           placeholder="Confirme a senha"
-          onChangeText={text => setConfirmPassword(text.replace(/\s/g, ''))}
-          secureTextEntry={secureText}
+          onChangeText={text => {
+            setConfirmPassword(text.replace(/\s/g, ''))
+            if (errors.password || errors.confirmPassword) setErrors({
+              ...errors,
+              confirmPassword: '',
+              password: ''
+            })
+          }}
+          isVisible={secureText}
         />
         {errors.confirmPassword ? (
           <ErrorMessage>{errors.confirmPassword}</ErrorMessage>

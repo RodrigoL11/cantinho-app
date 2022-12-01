@@ -20,6 +20,7 @@ import {
   Row,
   Icon,
 } from './styles'
+
 import api from '@services/api';
 import { useAuth } from '@hooks/auth';
 import { formatCurrency } from '@utils/main';
@@ -71,7 +72,7 @@ export default function Pagamento({ route }: any) {
       },
       {
         text: "SIM",
-        style: "default", 
+        style: "default",
         onPress: async () => {
           if (!authData) return;
 
@@ -89,131 +90,134 @@ export default function Pagamento({ route }: any) {
           }
           )
         }
-      } 
+      }
     ]);
   }
 
   const sum = pix + card + money;
   const _total = total + (hasBudget ? (total * 0.1) : 0)
+
   return (
-    <Container>
-      <Header
-        title="Pagamento"
-        onPress={navigation.goBack}
-      />
-      <Content>
-        <SubTitle>Formas de pagamento</SubTitle>
-        <Card>
-          <SpacedRow>
-            <PaymentLabel>Pix</PaymentLabel>
-            <Input
-              value={pix || 0}
-              onChangeValue={(text: number) => setPix(text)}
-              prefix="R$ "
-              delimiter="."
-              separator=","
-              precision={2}
-            />
-          </SpacedRow>
-          <Separator />
-          <SpacedRow>
-            <PaymentLabel>Cartão</PaymentLabel>
-            <Input
-              value={card || 0}
-              onChangeValue={(text: number) => setCard(text)}
-              prefix="R$ "
-              delimiter="."
-              separator=","
-              precision={2}
-            />
-          </SpacedRow>
-          <Separator />
-          <SpacedRow>
-            <PaymentLabel>Dinheiro</PaymentLabel>
-            <Input
-              value={money || 0}
-              onChangeValue={(text: number) => setMoney(text)}
-              prefix="R$ "
-              delimiter="."
-              separator=","
-              precision={2}
-            />
-          </SpacedRow>
-          <Separator />
-          <SpacedRow style={{ marginTop: 6 }}>
-            <TotalLabel>Total</TotalLabel>
-            <TotalLabel>{formatCurrency(sum)}</TotalLabel>
-          </SpacedRow>
-          {sum > _total ?
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Container>
+        <Header
+          title="Pagamento"
+          onPress={navigation.goBack}
+        />
+        <Content>
+          <SubTitle>Formas de pagamento</SubTitle>
+          <Card>
             <SpacedRow>
-              <Label>Troco</Label>
-              <Label>{formatCurrency(sum - _total)}</Label>
+              <PaymentLabel>Pix</PaymentLabel>
+              <Input
+                value={pix || 0}
+                onChangeValue={(text: number) => setPix(text)}
+                prefix="R$ "
+                delimiter="."
+                separator=","
+                precision={2}
+              />
             </SpacedRow>
-            : null}
-        </Card>
-        <SubTitle>Resumo do pedido</SubTitle>
-        <Card>
-          <SpacedRow>
-            <Label>Subtotal</Label>
-            <Label>{formatCurrency(total)}</Label>
-          </SpacedRow>
-          <TouchableWithoutFeedback onPress={() => setHasBudget(!hasBudget)}>
+            <Separator />
             <SpacedRow>
-              <Label style={!hasBudget ? { color: '#d20026' } : null}>Taxa de serviço</Label>
-              <Label style={!hasBudget ? { color: '#d20026', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : null}>{formatCurrency(total * 0.1)}</Label>
+              <PaymentLabel>Cartão</PaymentLabel>
+              <Input
+                value={card || 0}
+                onChangeValue={(text: number) => setCard(text)}
+                prefix="R$ "
+                delimiter="."
+                separator=","
+                precision={2}
+              />
             </SpacedRow>
-          </TouchableWithoutFeedback>
-          <SpacedRow style={{ marginTop: 6 }}>
-            <TotalLabel>Total</TotalLabel>
-            <TotalLabel>{formatCurrency(_total)}</TotalLabel>
-          </SpacedRow>
-        </Card>
-        <SubTitle>Outros</SubTitle>
-        <Card>
-          <SpacedRow>
-            <PaymentLabel>Dividir por quantas pessoas?</PaymentLabel>
-            <Row>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  if (shareIn === 1) return null;
-                  setShareIn(shareIn - 1)
-                }}
-              >
-                <Icon>
-                  <Ionicons name="chevron-down" size={17} color="#757575" />
-                </Icon>
-              </TouchableWithoutFeedback>
-              <Label style={{ marginLeft: 6, marginRight: 6 }}>{shareIn}</Label>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  if (shareIn >= 99) return null;
-                  setShareIn(shareIn + 1)
-                }}
-              >
-                <Icon>
-                  <Ionicons name="chevron-up" size={17} color="#757575" />
-                </Icon>
-              </TouchableWithoutFeedback>
-            </Row>
-          </SpacedRow>
-          <SpacedRow>
-            <Label>Valor para cada</Label>
-            <Label>{formatCurrency(roundUp((_total / shareIn), 2))}</Label>
-          </SpacedRow>
-        </Card>
-      </Content>
-      <Footer>
-        {isKeyboardVisible ? null :
-          <Button
-            title="Finalizar pagamento"
-            onPress={handleSubmit}
-            disabled={sum < _total ? true : false}
-            style={sum < _total
-              ? { backgroundColor: '#cecece', marginBottom: 0 }
-              : { marginBottom: 0 }}
-          />
-        }
-      </Footer>
-    </Container>
+            <Separator />
+            <SpacedRow>
+              <PaymentLabel>Dinheiro</PaymentLabel>
+              <Input
+                value={money || 0}
+                onChangeValue={(text: number) => setMoney(text)}
+                prefix="R$ "
+                delimiter="."
+                separator=","
+                precision={2}
+              />
+            </SpacedRow>
+            <Separator />
+            <SpacedRow style={{ marginTop: 6 }}>
+              <TotalLabel>Total</TotalLabel>
+              <TotalLabel>{formatCurrency(sum)}</TotalLabel>
+            </SpacedRow>
+            {sum > 0 && sum !== _total ?
+              <SpacedRow>
+                <Label>{sum > _total ? "Excesso" : "Falta"}</Label>
+                <Label>{formatCurrency(sum > _total ? sum - _total : _total - sum)}</Label>
+              </SpacedRow>
+              : null}
+          </Card>
+          <SubTitle>Resumo do pedido</SubTitle>
+          <Card>
+            <SpacedRow>
+              <Label>Subtotal</Label>
+              <Label>{formatCurrency(total)}</Label>
+            </SpacedRow>
+            <TouchableWithoutFeedback onPress={() => setHasBudget(!hasBudget)}>
+              <SpacedRow>
+                <Label style={!hasBudget ? { color: '#d20026' } : null}>Taxa de serviço</Label>
+                <Label style={!hasBudget ? { color: '#d20026', textDecorationLine: 'line-through', textDecorationStyle: 'solid' } : null}>{formatCurrency(total * 0.1)}</Label>
+              </SpacedRow>
+            </TouchableWithoutFeedback>
+            <SpacedRow style={{ marginTop: 6 }}>
+              <TotalLabel>Total</TotalLabel>
+              <TotalLabel>{formatCurrency(_total)}</TotalLabel>
+            </SpacedRow>
+          </Card>
+          <SubTitle>Outros</SubTitle>
+          <Card>
+            <SpacedRow>
+              <PaymentLabel>Dividir por quantas pessoas?</PaymentLabel>
+              <Row>
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    if (shareIn === 1) return null;
+                    setShareIn(shareIn - 1)
+                  }}
+                >
+                  <Icon>
+                    <Ionicons name="chevron-down" size={17} color="#757575" />
+                  </Icon>
+                </TouchableWithoutFeedback>
+                <Label style={{ marginLeft: 6, marginRight: 6 }}>{shareIn}</Label>
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    if (shareIn >= 99) return null;
+                    setShareIn(shareIn + 1)
+                  }}
+                >
+                  <Icon>
+                    <Ionicons name="chevron-up" size={17} color="#757575" />
+                  </Icon>
+                </TouchableWithoutFeedback>
+              </Row>
+            </SpacedRow>
+            <SpacedRow>
+              <Label>Valor para cada</Label>
+              <Label>{formatCurrency(roundUp((_total / shareIn), 2))}</Label>
+            </SpacedRow>
+          </Card>
+        </Content>
+        <Footer>
+          {isKeyboardVisible ? null :
+            <Button
+              title="Finalizar pagamento"
+              onPress={handleSubmit}
+              disabled={sum !== _total}
+              style={sum !== _total
+                ? { backgroundColor: '#cecece', marginBottom: 0 }
+                : { marginBottom: 0 }}
+            />
+          }
+        </Footer>
+      </Container>
+    </TouchableWithoutFeedback>
   )
 }

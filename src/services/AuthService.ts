@@ -11,14 +11,18 @@ async function signIn(login: string, password: string): Promise<AuthData> {
             const user = results.find((element: IUser) => element.login.trim().toLowerCase() === login.trim().toLowerCase());
 
             if (user?.senha === password.trim()) {
-                resolve({
-                    id: user.id,
-                    token: user.token,
-                    email: user.email,
-                    name: user.nome,
-                })
+                if (user?.status !== 'I') {
+                    resolve({
+                        id: user.id,
+                        token: user.token,
+                        email: user.email,
+                        name: user.nome,
+                    })
+                } else {
+                    reject(new Error('Usuário inativado, verifique com o administrador se seu usário está bloqueada'));
+                }
             } else {
-                reject(new Error('Credenciais Inválidas'));
+                reject(new Error('Credenciais inválidas, verifique o login e a senha para tentar novamente'));
             }
         }, 500);
     });

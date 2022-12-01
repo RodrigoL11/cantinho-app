@@ -134,13 +134,13 @@ export const ListLoading = styled.View`
 `
 
 export const BackToTopButton = styled.TouchableOpacity`
-    height: 44px;
-    width: 44px;
+    height: 40px;
+    width: 40px;
     border-radius: 999px;
     background-color: ${({theme}) => theme.colors.primary_color};
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    bottom: 15px;
+    right: 15px;
 `

@@ -63,7 +63,7 @@ export default function Relatorios() {
 
   return (
     <Container>
-      <Header title="Relátorios" onPress={() => navigation.goBack()} />
+      <Header title="Relatórios" onPress={() => navigation.goBack()} />
       <Title>Lucro total</Title>
       <ProfitTotal>{formatCurrency(lucroTotal)}</ProfitTotal>
       <Row style={{ marginBottom: 10 }}>
@@ -80,7 +80,7 @@ export default function Relatorios() {
       </Row>
       {data.length > 0 ?
         <>
-          <SubTitle>Lucro por produto em ordem decrescente</SubTitle>
+          <SubTitle>Lucro por produto</SubTitle>
           <Content>
             {data.map(Item)}
           </Content>
